@@ -16,20 +16,6 @@ const NAV = [
   { href: "/about", key: "about" },
 ] as const;
 
-/** Brand wordmark: name over the domain, with an accented ".dev". */
-function Wordmark() {
-  return (
-    <span className="flex flex-col leading-none">
-      <span className="text-[13px] font-semibold tracking-tight">
-        {site.name}
-      </span>
-      <span className="mono mt-1 text-[11px] text-muted-foreground">
-        omercelik<span className="text-brand-accent">.dev</span>
-      </span>
-    </span>
-  );
-}
-
 export function Header() {
   const t = useTranslations("nav");
   const pathname = usePathname();
@@ -53,9 +39,13 @@ export function Header() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <Container className="flex h-15 items-center gap-4 py-3.5">
-        <Link href="/" aria-label={site.name} className="flex-none">
-          <Wordmark />
+      <Container className="flex h-16 items-center gap-4">
+        <Link
+          href="/"
+          aria-label={site.domain}
+          className="mono flex-none text-[16px] font-semibold tracking-tight"
+        >
+          omercelik<span className="text-brand-accent">.dev</span>
         </Link>
 
         <nav className="ms-6 hidden items-center gap-7 md:flex">
@@ -75,7 +65,10 @@ export function Header() {
         </nav>
 
         <div className="ms-auto flex items-center gap-2">
-          <Link href="/contact" className={`${buttonClass("outline", "sm")} hidden sm:inline-flex`}>
+          <Link
+            href="/contact"
+            className={`${buttonClass("outline")} hidden sm:inline-flex`}
+          >
             {t("contact")}
           </Link>
           <LangSwitcher />

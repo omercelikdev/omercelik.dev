@@ -9,7 +9,7 @@ export function WorkRow({ product }: { product: Product }) {
       href={product.url}
       target="_blank"
       rel="noreferrer noopener"
-      className="group grid grid-cols-[1fr_auto] items-center gap-6 border-b border-border py-6 transition-[padding] duration-200 hover:ps-3"
+      className="group grid grid-cols-[1fr_auto] items-center gap-6 border-b border-border py-6"
     >
       <div className="flex flex-col gap-1.5">
         <span className="flex items-center gap-2 text-[15px] font-medium">

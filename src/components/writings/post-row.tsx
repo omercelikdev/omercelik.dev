@@ -15,7 +15,7 @@ export function PostRow({ post }: { post: WritingMeta }) {
   return (
     <Link
       href={`/writings/${post.slug}`}
-      className="group flex items-baseline justify-between gap-6 border-b border-border py-5 transition-[padding] duration-200 hover:ps-3"
+      className="group flex items-baseline justify-between gap-6 border-b border-border py-5"
     >
       <span className="flex flex-col gap-1">
         <span className="text-[15px] transition-colors group-hover:text-brand-accent">

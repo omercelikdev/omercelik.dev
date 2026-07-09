@@ -74,11 +74,10 @@ export function Footer() {
         </nav>
       </Container>
 
-      <Container className="flex flex-col gap-2 border-t border-border py-6 text-[12px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+      <Container className="border-t border-border py-6 text-[12px] text-muted-foreground">
         <span className="mono">
           © {year} {site.name}
         </span>
-        <span className="mono">{t("builtWith")}</span>
       </Container>
     </footer>
   );
