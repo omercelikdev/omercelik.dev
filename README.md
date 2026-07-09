@@ -18,6 +18,9 @@ Built with **Next.js 16** (App Router), **React 19**, **Tailwind CSS v4**,
 - **Writing** — MDX files in `content/writings/`. Frontmatter drives the title,
   date, language badge, tags and reading time. Code is highlighted with Shiki
   (dual light/dark theme).
+- **Contact** — dependency-free: the form composes a pre-filled message in the
+  visitor's mail client (no backend, no email service). Swap in an API route +
+  provider later if you want server-side sending.
 
 ## Develop
 
