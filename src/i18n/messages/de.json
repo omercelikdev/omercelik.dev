@@ -92,6 +92,11 @@
     "error": "Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib mir direkt.",
     "orReach": "Oder erreiche mich direkt"
   },
+  "cta": {
+    "title": "Haben Sie ein Projekt im Sinn?",
+    "subtitle": "Ich bin offen für Beratung, Kooperationen und den gemeinsamen Aufbau von etwas Neuem.",
+    "button": "Ein Gespräch beginnen"
+  },
   "footer": {
     "tagline": "Unabhängiger Ingenieur. KI-getriebene, spezifikationsgetriebene Architektur und Produkte, offen entwickelt.",
     "pages": "Seiten",

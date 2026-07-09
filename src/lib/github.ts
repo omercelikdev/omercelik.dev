@@ -7,11 +7,15 @@ export interface Product {
   description: string | null;
   url: string;
   homepage: string | null;
+  /** GitHub's auto-generated social preview image — used as the card cover. */
+  cover: string;
   stars: number;
   forks: number;
   language: string | null;
   topics: string[];
+  createdAt: string;
   updatedAt: string;
+  year: number;
   archived: boolean;
   accent: ProductAccent;
   featured: boolean;
@@ -27,6 +31,7 @@ interface GitHubRepo {
   forks_count: number;
   language: string | null;
   topics?: string[];
+  created_at: string;
   updated_at: string;
   archived: boolean;
   fork: boolean;
@@ -75,11 +80,14 @@ function toProduct(
     description: overrides?.highlight ?? repo.description,
     url: repo.html_url,
     homepage: repo.homepage,
+    cover: `https://opengraph.githubassets.com/1/${repo.full_name}`,
     stars: repo.stargazers_count,
     forks: repo.forks_count,
     language: repo.language,
     topics: repo.topics ?? [],
+    createdAt: repo.created_at,
     updatedAt: repo.updated_at,
+    year: new Date(repo.created_at).getUTCFullYear(),
     archived: repo.archived,
     accent: overrides?.accent ?? DEFAULT_ACCENT,
     featured: overrides?.featured ?? false,

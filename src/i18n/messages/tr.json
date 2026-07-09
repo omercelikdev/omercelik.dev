@@ -92,6 +92,11 @@
     "error": "Bir şeyler ters gitti. Lütfen tekrar deneyin ya da doğrudan bana e-posta gönderin.",
     "orReach": "Ya da bana doğrudan ulaşın"
   },
+  "cta": {
+    "title": "Aklınızda bir proje mi var?",
+    "subtitle": "Danışmanlık, iş birlikleri ve birlikte yeni bir şeyler inşa etmeye açığım.",
+    "button": "Bir konuşma başlat"
+  },
   "footer": {
     "tagline": "Bağımsız mühendis. Yapay zekâ odaklı, spesifikasyon güdümlü mimari ve ürünler, açıkça inşa edilir.",
     "pages": "Sayfalar",

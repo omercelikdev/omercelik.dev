@@ -92,6 +92,11 @@
     "error": "Une erreur s'est produite. Veuillez réessayer, ou écrivez-moi directement.",
     "orReach": "Ou contactez-moi directement"
   },
+  "cta": {
+    "title": "Vous avez un projet en tête ?",
+    "subtitle": "Je suis ouvert au conseil, aux collaborations et à la création de quelque chose de nouveau ensemble.",
+    "button": "Entamer une conversation"
+  },
   "footer": {
     "tagline": "Ingénieur indépendant. Architecture et produits pilotés par l'IA et guidés par les spécifications, construits en open source.",
     "pages": "Pages",

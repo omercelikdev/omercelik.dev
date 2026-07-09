@@ -4,7 +4,8 @@ import { Container } from "@/components/layout/container";
 import { SectionHead } from "@/components/ui/section";
 import { Hero } from "@/components/home/hero";
 import { Capabilities } from "@/components/home/capabilities";
-import { WorkRow } from "@/components/products/work-row";
+import { CtaBand } from "@/components/home/cta-band";
+import { ProductCard } from "@/components/products/product-card";
 import { PostRow } from "@/components/writings/post-row";
 import { Reveal } from "@/components/motion/reveal";
 import { getFeaturedProducts } from "@/lib/github";
@@ -35,7 +36,7 @@ export default async function HomePage({
 
       <Container>
         {/* 01 — what I do */}
-        <section className="py-16">
+        <section className="py-20">
           <Reveal>
             <SectionHead index="01" label={t("sec1")} />
           </Reveal>
@@ -44,7 +45,7 @@ export default async function HomePage({
 
         {/* 02 — products */}
         {products.length > 0 && (
-          <section className="py-16">
+          <section className="py-20">
             <Reveal>
               <SectionHead
                 index="02"
@@ -52,9 +53,11 @@ export default async function HomePage({
                 action={{ href: "/products", label: t("viewAll") }}
               />
             </Reveal>
-            <div>
+            <div className="grid gap-5 sm:grid-cols-2">
               {products.map((product) => (
-                <WorkRow key={product.fullName} product={product} />
+                <Reveal key={product.fullName}>
+                  <ProductCard product={product} />
+                </Reveal>
               ))}
             </div>
           </section>
@@ -62,7 +65,7 @@ export default async function HomePage({
 
         {/* 03 — writing */}
         {writings.length > 0 && (
-          <section className="py-16">
+          <section className="py-20">
             <Reveal>
               <SectionHead
                 index="03"
@@ -78,6 +81,8 @@ export default async function HomePage({
           </section>
         )}
       </Container>
+
+      <CtaBand />
     </>
   );
 }

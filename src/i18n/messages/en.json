@@ -92,6 +92,11 @@
     "error": "Something went wrong. Please try again, or email me directly.",
     "orReach": "Or reach me directly"
   },
+  "cta": {
+    "title": "Have a project in mind?",
+    "subtitle": "I'm open to consulting, collaborations, and building something new together.",
+    "button": "Start a conversation"
+  },
   "footer": {
     "tagline": "Independent engineer. AI-driven, spec-driven architecture and products, built in the open.",
     "pages": "Pages",

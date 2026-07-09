@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/layout/container";
-import { WorkRow } from "@/components/products/work-row";
+import { ProductCard } from "@/components/products/product-card";
+import { Reveal } from "@/components/motion/reveal";
 import { getProducts } from "@/lib/github";
 import { alternatesFor } from "@/lib/seo";
 
@@ -45,9 +46,11 @@ export default async function ProductsPage({
           {t("empty")}
         </p>
       ) : (
-        <div className="border-t border-border">
+        <div className="grid gap-5 sm:grid-cols-2">
           {products.map((product) => (
-            <WorkRow key={product.fullName} product={product} />
+            <Reveal key={product.fullName}>
+              <ProductCard product={product} />
+            </Reveal>
           ))}
         </div>
       )}
