@@ -33,7 +33,7 @@ export function Footer() {
           </a>
         </div>
 
-        <div className="mt-10 flex items-center justify-between gap-4 border-t border-border pt-6">
+        <div className="mt-10 flex items-center justify-between gap-4 border-t border-dashed border-border/60 pt-6">
           <span className="mono text-[12px] text-muted-foreground">
             © {year} {site.name}
           </span>
