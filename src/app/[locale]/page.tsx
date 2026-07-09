@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/layout/container";
@@ -7,6 +8,11 @@ import { ProductCard } from "@/components/products/product-card";
 import { PostCard } from "@/components/writings/post-card";
 import { getFeaturedProducts } from "@/lib/github";
 import { getLatestWritings } from "@/lib/writings";
+import { alternatesFor } from "@/lib/seo";
+
+export function generateMetadata(): Metadata {
+  return { alternates: alternatesFor("/") };
+}
 
 export default async function HomePage({
   params,

@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/ui/section";
 import { PostCard } from "@/components/writings/post-card";
 import { getAllWritings } from "@/lib/writings";
+import { alternatesFor } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -12,7 +13,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "writings" });
-  return { title: t("title"), description: t("subtitle") };
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+    alternates: alternatesFor("/writings"),
+  };
 }
 
 export default async function WritingsPage({

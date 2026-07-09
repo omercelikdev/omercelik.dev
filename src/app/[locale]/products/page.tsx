@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/ui/section";
 import { ProductCard } from "@/components/products/product-card";
 import { getProducts } from "@/lib/github";
+import { alternatesFor } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -12,7 +13,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "products" });
-  return { title: t("title"), description: t("subtitle") };
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+    alternates: alternatesFor("/products"),
+  };
 }
 
 export default async function ProductsPage({

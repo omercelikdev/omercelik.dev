@@ -12,6 +12,7 @@ import { Chip, Tag } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
 import { mdxComponents } from "@/components/writings/mdx-components";
 import { getWritingBySlug, getWritingSlugs } from "@/lib/writings";
+import { alternatesFor } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const slugs = await getWritingSlugs();
@@ -29,6 +30,7 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.description,
+    alternates: alternatesFor(`/writings/${slug}`),
     openGraph: { title: post.title, description: post.description, type: "article" },
   };
 }

@@ -5,6 +5,7 @@ import { Container } from "@/components/layout/container";
 import { Eyebrow } from "@/components/ui/section";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
 import { site } from "@/config/site";
+import { alternatesFor } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -13,7 +14,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
-  return { title: t("title"), description: t("subtitle") };
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+    alternates: alternatesFor("/about"),
+  };
 }
 
 export default async function AboutPage({
