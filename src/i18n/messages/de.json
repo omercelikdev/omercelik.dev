@@ -1,16 +1,17 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "description": "Entwickler, der Open-Source-Produkte baut. Schreibt über Software, Systeme und Handwerk."
+    "description": "Unabhängiger Ingenieur mit Fokus auf KI-getriebene, spezifikationsgetriebene Architektur — Bibliotheken und Plattformen für Unternehmen sowie Produkte, die echte Arbeit einfacher machen."
   },
   "nav": {
     "home": "Start",
     "products": "Produkte",
     "writings": "Texte",
-    "about": "Über mich"
+    "about": "Über mich",
+    "contact": "Kontakt"
   },
   "theme": {
-    "toggle": "Design umschalten",
+    "toggle": "Design wechseln",
     "light": "Hell",
     "dark": "Dunkel"
   },
@@ -18,20 +19,43 @@
     "label": "Sprache"
   },
   "home": {
-    "eyebrow": "Entwickler · Macher",
-    "title": "Ich baue Open-Source-Produkte und schreibe über das Handwerk.",
-    "subtitle": "Unabhängiger Softwareentwickler. Ich veröffentliche Werkzeuge auf GitHub und halte fest, was ich dabei lerne.",
-    "ctaProducts": "Produkte ansehen",
+    "eyebrow": "KI-getriebene Architektur · spezifikationsgetriebene Systeme",
+    "headlineLead": "Ich entwerfe und baue",
+    "roles": [
+      "KI-getriebene Bibliotheken",
+      "spezifikationsgetriebene Systeme",
+      "Entwicklerwerkzeuge",
+      "Unternehmensplattformen"
+    ],
+    "subtitle": "Unabhängiger Ingenieur mit Fokus auf KI-getriebene, spezifikationsgetriebene Architektur — Bibliotheken und Plattformen für Unternehmen sowie Produkte, die komplexe Arbeit einfach wirken lassen.",
+    "ctaContact": "Ein Gespräch beginnen",
     "ctaWritings": "Texte lesen",
-    "featuredTitle": "Ausgewählte Produkte",
-    "featuredSubtitle": "Eine Auswahl meiner Projekte, live von GitHub geladen.",
-    "latestTitle": "Neueste Texte",
-    "latestSubtitle": "Notizen zu Software, Systemen und dem Bauen von Dingen.",
-    "viewAll": "Alle ansehen"
+    "sec1": "was ich mache",
+    "sec2": "Produkte & ausgewählte Arbeiten",
+    "sec3": "Texte",
+    "viewAll": "alle",
+    "capabilities": [
+      {
+        "title": "KI-getriebene Architektur",
+        "desc": "Systeme, die von Grund auf um KI herum entworfen sind — Agenten, Orchestrierung und spezifikationsgetriebene Generierung."
+      },
+      {
+        "title": "Spezifikationsgetriebene Bibliotheken",
+        "desc": "Versionierte, installierbare Bibliotheken, die eine präzise Spezifikation in korrekten, testbaren Code verwandeln."
+      },
+      {
+        "title": "Unternehmenssysteme",
+        "desc": ".NET-Architektur, Workflow-Orchestrierung und dauerhafte Ausführung im großen Maßstab."
+      },
+      {
+        "title": "Produkte",
+        "desc": "Nutzerorientierte Produkte, die komplexe Arbeit einfach und schnell wirken lassen."
+      }
+    ]
   },
   "products": {
     "title": "Produkte",
-    "subtitle": "Open-Source-Werkzeuge und Projekte, live von GitHub synchronisiert.",
+    "subtitle": "Open-Source-Werkzeuge und -Projekte, live von GitHub synchronisiert.",
     "stars": "Sterne",
     "forks": "Forks",
     "viewRepo": "Auf GitHub ansehen",
@@ -40,28 +64,43 @@
   },
   "writings": {
     "title": "Texte",
-    "subtitle": "Essays und Notizen. Jeder Beitrag bleibt in der Sprache, in der er geschrieben wurde.",
+    "subtitle": "Essays und Notizen zu KI-getriebener Architektur, Systemen und dem Handwerk. Jeder Text bleibt in der Sprache, in der er geschrieben wurde.",
     "readingTime": "{minutes} Min. Lesezeit",
     "empty": "Noch keine Beiträge — schau bald wieder vorbei.",
     "backToList": "Alle Texte",
-    "tags": "Themen",
-    "publishedOn": "Veröffentlicht am {date}"
+    "tags": "Schlagwörter",
+    "publishedOn": "Veröffentlicht {date}"
   },
   "about": {
     "title": "Über mich",
     "subtitle": "Wer ich bin und woran ich arbeite.",
-    "body": "Ich bin Ömer — ein Softwareentwickler, der gerne Systeme entwirft und Produkte offen veröffentlicht. Dies ist ein Platzhaltertext: Bearbeite ihn in den Übersetzungsdateien, um in jeder Sprache genau das zu sagen, was du möchtest.",
-    "contactTitle": "Kontakt",
-    "contactSubtitle": "So erreichst du mich am besten."
+    "photoAlt": "Ömer Çelik",
+    "body": "Ich bin Ömer — ein unabhängiger Softwareingenieur. Ich arbeite an KI-getriebener, spezifikationsgetriebener Architektur: Bibliotheken und Plattformen, die Unternehmensteams helfen, präzise Spezifikationen in korrekte, testbare Systeme zu verwandeln. Daneben entwerfe und baue ich Produkte, die komplexe Arbeit einfach wirken lassen. Dies ist eine Platzhalter-Biografie — bearbeite sie in den Nachrichtendateien, um in jeder Sprache genau das zu sagen, was du möchtest."
+  },
+  "contact": {
+    "title": "Sprechen wir",
+    "subtitle": "Hast du ein Projekt, eine Position oder eine Idee zu besprechen? Schreib mir — ich lese alles.",
+    "nameLabel": "Name",
+    "emailLabel": "E-Mail",
+    "messageLabel": "Nachricht",
+    "namePlaceholder": "Dein Name",
+    "emailPlaceholder": "du@firma.com",
+    "messagePlaceholder": "Was möchtest du bauen oder besprechen?",
+    "submit": "Nachricht senden",
+    "sending": "Wird gesendet…",
+    "success": "Danke — deine Nachricht ist unterwegs. Ich melde mich bald bei dir.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuche es erneut oder schreib mir direkt.",
+    "orReach": "Oder erreiche mich direkt"
   },
   "footer": {
-    "tagline": "Offen entwickeln.",
-    "rights": "Alle Rechte vorbehalten.",
+    "tagline": "Unabhängiger Ingenieur. KI-getriebene, spezifikationsgetriebene Architektur und Produkte, offen entwickelt.",
+    "pages": "Seiten",
+    "elsewhere": "Anderswo",
     "builtWith": "Erstellt mit Next.js"
   },
   "notFound": {
     "title": "Seite nicht gefunden",
     "subtitle": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
-    "home": "Zur Startseite"
+    "home": "Zurück zur Startseite"
   }
 }

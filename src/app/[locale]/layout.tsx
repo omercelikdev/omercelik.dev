@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing, rtlLocales, type Locale } from "@/i18n/routing";
@@ -10,14 +10,14 @@ import { Footer } from "@/components/layout/footer";
 import { site } from "@/config/site";
 import "../globals.css";
 
-const inter = Inter({
+const geist = Geist({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-geist",
   display: "swap",
 });
-const jetbrains = JetBrains_Mono({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
@@ -78,7 +78,7 @@ export default async function LocaleLayout({
       dir={dir}
       data-theme="light"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetbrains.variable}`}
+      className={`${geist.variable} ${geistMono.variable}`}
     >
       <head>
         <ThemeScript />

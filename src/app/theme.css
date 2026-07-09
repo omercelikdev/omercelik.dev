@@ -1,106 +1,99 @@
 /* ============================================================================
    DESIGN TOKENS — single source of truth
    ----------------------------------------------------------------------------
-   Ported from the Mockifyr Design System ("quiet frame, lively content").
-   This is the ONLY file you edit to re-skin the whole site. Swap --primary and
-   the neutral ramp to change the brand; every component reads from these vars.
-
-   Surface stack (depth from three greys, not heavy shadows):
-     --app (frame)  ->  --surface (page body)  ->  --background (cards)
-   Colour appears only in semantic status (success / info / warning / danger /
-   violet), never as decoration.
+   Vercel / Linear aesthetic: OKLCH monochrome, white light background,
+   hairline borders, NO elevation (depth reads from borders, not shadows).
+   One brand accent (--brand-accent) used sparingly (the ".dev" mark, links).
+   Swap the ramp below to re-skin the whole site.
    ========================================================================== */
 
 :root {
-  /* neutral ramp — light */
-  --app: #ffffff;
-  --surface: #f5f5f7;
-  --background: #ffffff;
-  --foreground: #18181b;
-  --muted: #ececef;
-  --muted-foreground: #71717a;
-  --faint: #a1a1aa;
-  --border: #e6e6e9;
-  --border-strong: #d7d7db;
-  --input: #e6e6e9;
-  --primary: #18181b;
-  --primary-foreground: #ffffff;
-  --accent: #f1f1f3;
+  /* neutral ramp — light (white background) */
+  --app: oklch(1 0 0);
+  --surface: oklch(1 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+  --faint: oklch(0.705 0.015 286.067);
+  --border: oklch(0.92 0.004 286.32);
+  --border-strong: oklch(0.87 0.005 286.2);
+  --input: oklch(0.92 0.004 286.32);
+  --primary: oklch(0.21 0.006 285.885);
+  --primary-foreground: oklch(0.985 0 0);
+  --accent: oklch(0.967 0.001 286.375);
 
-  /* semantic status triplets */
-  --success: #15803d; --success-bg: #f0fdf4; --success-border: #bbf7d0;
-  --warning: #b45309; --warning-bg: #fffbeb; --warning-border: #fde68a;
-  --danger:  #b91c1c; --danger-bg:  #fef2f2; --danger-border:  #fecaca;
-  --info:    #1d4ed8; --info-bg:    #eff6ff; --info-border:    #bfdbfe;
-  --violet:  #6d28d9; --violet-bg:  #f5f3ff; --violet-border:  #ddd6fe;
+  /* single brand accent (the ".dev", links, live dot) */
+  --brand-accent: oklch(0.55 0.2 264);
+  --brand-accent-soft: oklch(0.55 0.2 264 / 0.1);
+
+  /* semantic status (kept for method/status chips; rarely used) */
+  --success: oklch(0.55 0.14 152); --success-bg: oklch(0.96 0.03 152); --success-border: oklch(0.88 0.06 152);
+  --warning: oklch(0.62 0.13 70);  --warning-bg: oklch(0.97 0.04 85);  --warning-border: oklch(0.87 0.07 80);
+  --danger:  oklch(0.55 0.2 27);   --danger-bg:  oklch(0.96 0.03 27);  --danger-border:  oklch(0.88 0.07 27);
+  --info:    oklch(0.55 0.2 264);  --info-bg:    oklch(0.96 0.03 264); --info-border:    oklch(0.88 0.06 264);
+  --violet:  oklch(0.51 0.23 277); --violet-bg:  oklch(0.96 0.03 277); --violet-border:  oklch(0.88 0.06 277);
 
   /* geometry */
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 10px;
-  --radius-xl: 14px;
-  --radius-2xl: 20px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --hairline: 0.75px;
 
-  /* elevation — one whisper shadow */
-  --shadow-surface: 0 1px 2px 0 rgb(24 24 27 / .04), 0 3px 14px 0 rgb(24 24 27 / .05);
-  --shadow-overlay: 0 10px 40px -8px rgb(24 24 27 / .18), 0 4px 12px -4px rgb(24 24 27 / .10);
+  /* elevation — none on the surface; a soft one only for floating popovers */
+  --shadow-surface: none;
+  --shadow-overlay: 0 8px 30px -8px oklch(0.141 0.005 285 / 0.14), 0 2px 8px -3px oklch(0.141 0.005 285 / 0.08);
 
   /* typography */
-  --font-sans: var(--font-inter), ui-sans-serif, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", "Noto Sans", Arial, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", "JetBrains Mono",
-    "Cascadia Code", Menlo, Consolas, monospace;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
 }
 
-/* dark — applied when the user (or the pre-paint script) sets data-theme="dark" */
 :root[data-theme="dark"] {
-  --app: #0a0a0c;
-  --surface: #101014;
-  --background: #17171c;
-  --foreground: #f4f4f5;
-  --muted: #202027;
-  --muted-foreground: #a1a1aa;
-  --faint: #71717a;
-  --border: #26262b;
-  --border-strong: #37373e;
-  --input: #26262b;
-  --primary: #fafafa;
-  --primary-foreground: #18181b;
-  --accent: #202026;
+  --app: oklch(0.141 0.005 285.823);
+  --surface: oklch(0.141 0.005 285.823);
+  --background: oklch(0.185 0.006 285.9);
+  --foreground: oklch(0.985 0 0);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --faint: oklch(0.55 0.014 286);
+  --border: oklch(1 0 0 / 0.1);
+  --border-strong: oklch(1 0 0 / 0.18);
+  --input: oklch(1 0 0 / 0.12);
+  --primary: oklch(0.92 0.004 286.32);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+  --accent: oklch(0.274 0.006 286.033);
 
-  --success: #4ade80; --success-bg: #0c1f14; --success-border: #14532d;
-  --warning: #fbbf24; --warning-bg: #211803; --warning-border: #78350f;
-  --danger:  #f87171; --danger-bg:  #260d0d; --danger-border:  #7f1d1d;
-  --info:    #60a5fa; --info-bg:    #0b1830; --info-border:    #1e3a8a;
-  --violet:  #a78bfa; --violet-bg:  #17102b; --violet-border:  #4c1d95;
+  --brand-accent: oklch(0.72 0.16 262);
+  --brand-accent-soft: oklch(0.72 0.16 262 / 0.14);
 
-  --shadow-surface: 0 1px 2px 0 rgb(0 0 0 / .4);
-  --shadow-overlay: 0 10px 40px -8px rgb(0 0 0 / .6), 0 4px 12px -4px rgb(0 0 0 / .4);
+  --success: oklch(0.72 0.17 152); --success-bg: oklch(0.27 0.05 152); --success-border: oklch(0.4 0.08 152);
+  --warning: oklch(0.8 0.14 85);   --warning-bg: oklch(0.28 0.05 75);  --warning-border: oklch(0.42 0.08 75);
+  --danger:  oklch(0.7 0.18 25);   --danger-bg:  oklch(0.27 0.07 27);  --danger-border:  oklch(0.42 0.1 27);
+  --info:    oklch(0.72 0.16 262); --info-bg:    oklch(0.27 0.06 264); --info-border:    oklch(0.42 0.09 264);
+  --violet:  oklch(0.72 0.16 277); --violet-bg:  oklch(0.27 0.06 277); --violet-border:  oklch(0.42 0.09 277);
+
+  --shadow-overlay: 0 8px 30px -8px oklch(0 0 0 / 0.5), 0 2px 8px -3px oklch(0 0 0 / 0.4);
 }
 
-/* Also honour the OS preference when the user has never chosen a theme.
-   The pre-paint script sets data-theme explicitly, so this is a safety net. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --app: #0a0a0c;
-    --surface: #101014;
-    --background: #17171c;
-    --foreground: #f4f4f5;
-    --muted: #202027;
-    --muted-foreground: #a1a1aa;
-    --faint: #71717a;
-    --border: #26262b;
-    --border-strong: #37373e;
-    --input: #26262b;
-    --primary: #fafafa;
-    --primary-foreground: #18181b;
-    --accent: #202026;
-    --success: #4ade80; --success-bg: #0c1f14; --success-border: #14532d;
-    --warning: #fbbf24; --warning-bg: #211803; --warning-border: #78350f;
-    --danger:  #f87171; --danger-bg:  #260d0d; --danger-border:  #7f1d1d;
-    --info:    #60a5fa; --info-bg:    #0b1830; --info-border:    #1e3a8a;
-    --violet:  #a78bfa; --violet-bg:  #17102b; --violet-border:  #4c1d95;
-    --shadow-surface: 0 1px 2px 0 rgb(0 0 0 / .4);
-    --shadow-overlay: 0 10px 40px -8px rgb(0 0 0 / .6), 0 4px 12px -4px rgb(0 0 0 / .4);
+    --app: oklch(0.141 0.005 285.823);
+    --surface: oklch(0.141 0.005 285.823);
+    --background: oklch(0.185 0.006 285.9);
+    --foreground: oklch(0.985 0 0);
+    --muted: oklch(0.274 0.006 286.033);
+    --muted-foreground: oklch(0.705 0.015 286.067);
+    --faint: oklch(0.55 0.014 286);
+    --border: oklch(1 0 0 / 0.1);
+    --border-strong: oklch(1 0 0 / 0.18);
+    --input: oklch(1 0 0 / 0.12);
+    --primary: oklch(0.92 0.004 286.32);
+    --primary-foreground: oklch(0.21 0.006 285.885);
+    --accent: oklch(0.274 0.006 286.033);
+    --brand-accent: oklch(0.72 0.16 262);
+    --brand-accent-soft: oklch(0.72 0.16 262 / 0.14);
   }
 }

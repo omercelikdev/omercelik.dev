@@ -8,6 +8,7 @@ import { locales, type Locale } from "@/i18n/routing";
 
 const NATIVE_NAMES: Record<Locale, string> = {
   en: "English",
+  tr: "Türkçe",
   ar: "العربية",
   de: "Deutsch",
   fr: "Français",

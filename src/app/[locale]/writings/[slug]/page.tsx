@@ -74,7 +74,7 @@ export default async function WritingPage({
   });
 
   return (
-    <Container className="py-16">
+    <Container className="pt-28 pb-24 sm:pt-32">
       <article className="mx-auto max-w-2xl">
         <Link
           href="/writings"

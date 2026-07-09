@@ -1,6 +1,8 @@
 import { type ReactNode } from "react";
 
-/** Centres content on the page body ("oval") with the standard 1080px gutter. */
+/** The single content column used on every page and by the header/footer, so
+ *  content starts at the exact same x-position everywhere (no horizontal shift
+ *  between routes). Max width 1080px, 28px gutter (20px on small screens). */
 export function Container({
   children,
   className = "",
@@ -9,7 +11,7 @@ export function Container({
   className?: string;
 }) {
   return (
-    <div className={`mx-auto w-full max-w-5xl px-5 sm:px-6 ${className}`}>
+    <div className={`mx-auto w-full max-w-[1080px] px-5 sm:px-7 ${className}`}>
       {children}
     </div>
   );

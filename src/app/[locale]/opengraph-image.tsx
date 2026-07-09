@@ -17,45 +17,29 @@ export default function OpenGraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#f5f5f7",
-          padding: 80,
+          background: "#ffffff",
+          padding: 84,
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-          <div
-            style={{
-              width: 72,
-              height: 72,
-              borderRadius: 18,
-              background: "#18181b",
-              color: "#fafafa",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 44,
-              fontWeight: 800,
-            }}
-          >
-            Ö
-          </div>
-          <div style={{ fontSize: 24, color: "#71717a" }}>{site.domain}</div>
+        <div style={{ display: "flex", alignItems: "center", fontSize: 24, color: "#71717a" }}>
+          omercelik<span style={{ color: "#3b5bdb" }}>.dev</span>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div
             style={{
-              fontSize: 68,
-              fontWeight: 800,
-              letterSpacing: "-0.03em",
+              fontSize: 72,
+              fontWeight: 500,
+              letterSpacing: "-0.04em",
               color: "#18181b",
-              lineHeight: 1.1,
+              lineHeight: 1.05,
             }}
           >
             {site.name}
           </div>
-          <div style={{ fontSize: 30, color: "#71717a", maxWidth: 800 }}>
-            Open-source products &amp; writing about the craft.
+          <div style={{ fontSize: 28, color: "#71717a", maxWidth: 820, lineHeight: 1.3 }}>
+            AI-driven, spec-driven architecture — libraries, platforms &amp; products.
           </div>
         </div>
 
@@ -68,8 +52,8 @@ export default function OpenGraphImage() {
             color: "#a1a1aa",
           }}
         >
-          <div style={{ width: 10, height: 10, borderRadius: 999, background: "#6d28d9" }} />
-          GitHub · Writing · Products
+          <div style={{ width: 9, height: 9, borderRadius: 999, background: "#3b5bdb" }} />
+          Products · Writing · Contact
         </div>
       </div>
     ),

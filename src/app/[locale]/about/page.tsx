@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Mail, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { Eyebrow } from "@/components/ui/section";
-import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
-import { site } from "@/config/site";
+import { Portrait } from "@/components/about/portrait";
+import { buttonClass } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { alternatesFor } from "@/lib/seo";
 
 export async function generateMetadata({
@@ -29,57 +29,31 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("about");
-
-  const contacts = [
-    { href: site.links.github, label: "GitHub", handle: "@" + site.githubUsername, Icon: GithubIcon },
-    { href: site.links.x, label: "X", handle: "@" + site.githubUsername, Icon: XIcon },
-    { href: site.links.linkedin, label: "LinkedIn", handle: site.name, Icon: LinkedinIcon },
-    { href: site.links.email, label: "Email", handle: site.email, Icon: Mail },
-  ];
+  const nav = await getTranslations("nav");
 
   return (
-    <Container className="py-16">
-      <div className="mx-auto max-w-2xl">
-        <div className="flex flex-col gap-3">
-          <Eyebrow>{site.domain}</Eyebrow>
-          <h1 className="text-3xl font-extrabold tracking-[-0.02em]">
-            {t("title")}
-          </h1>
+    <Container className="pt-28 pb-24 sm:pt-32">
+      <div className="grid gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
+        <div className="lg:pt-1">
+          <Portrait alt={t("photoAlt")} />
         </div>
 
-        <p className="mt-6 text-[15px] leading-7 text-foreground/90">
-          {t("body")}
-        </p>
-
-        <div className="mt-12">
-          <h2 className="text-lg font-semibold tracking-tight">
-            {t("contactTitle")}
-          </h2>
-          <p className="mt-1.5 text-[13px] text-muted-foreground">
-            {t("contactSubtitle")}
+        <div className="max-w-2xl">
+          <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-medium tracking-[-0.03em]">
+            {t("title")}
+          </h1>
+          <p className="mt-4 text-[15px] leading-8 text-foreground/90">
+            {t("body")}
           </p>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {contacts.map(({ href, label, handle, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="group flex items-center gap-3 rounded-[var(--radius-xl)] border border-border bg-background p-4 shadow-[var(--shadow-surface)] transition-all hover:border-border-strong"
-              >
-                <span className="grid size-9 place-items-center rounded-[var(--radius-lg)] bg-muted text-foreground">
-                  <Icon className="size-4" />
-                </span>
-                <span className="flex flex-col">
-                  <span className="text-[13px] font-semibold">{label}</span>
-                  <span className="mono text-[11px] text-muted-foreground">
-                    {handle}
-                  </span>
-                </span>
-                <ArrowUpRight className="ms-auto size-4 text-faint transition-colors group-hover:text-foreground" />
-              </a>
-            ))}
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Link href="/contact" className={buttonClass("primary")}>
+              {nav("contact")}
+              <ArrowRight className="size-4 rtl:rotate-180" />
+            </Link>
+            <Link href="/products" className={buttonClass("outline")}>
+              {nav("products")}
+            </Link>
           </div>
         </div>
       </div>

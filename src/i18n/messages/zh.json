@@ -1,13 +1,14 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "description": "构建开源产品的开发者。撰写关于软件、系统与工艺的文章。"
+    "description": "从事 AI 驱动、规约驱动架构的独立工程师——为企业打造库与平台，以及让实际工作更简单的产品。"
   },
   "nav": {
     "home": "首页",
     "products": "产品",
     "writings": "文章",
-    "about": "关于"
+    "about": "关于",
+    "contact": "联系"
   },
   "theme": {
     "toggle": "切换主题",
@@ -18,16 +19,39 @@
     "label": "语言"
   },
   "home": {
-    "eyebrow": "开发者 · 创造者",
-    "title": "我构建开源产品，并记录其中的工艺。",
-    "subtitle": "独立软件工程师。我在 GitHub 上发布工具，并写下一路学到的东西。",
-    "ctaProducts": "查看产品",
+    "eyebrow": "AI 驱动的架构 · 规约驱动的系统",
+    "headlineLead": "我设计并构建",
+    "roles": [
+      "AI 驱动的库",
+      "规约驱动的系统",
+      "开发者工具",
+      "企业级平台"
+    ],
+    "subtitle": "专注于 AI 驱动、规约驱动架构的独立工程师——为企业打造库与平台，以及让复杂工作变得简单的产品。",
+    "ctaContact": "开始一段对话",
     "ctaWritings": "阅读文章",
-    "featuredTitle": "精选产品",
-    "featuredSubtitle": "我的部分作品，实时从 GitHub 加载。",
-    "latestTitle": "最新文章",
-    "latestSubtitle": "关于软件、系统与创造的笔记。",
-    "viewAll": "查看全部"
+    "sec1": "我的工作",
+    "sec2": "产品与精选作品",
+    "sec3": "文章",
+    "viewAll": "全部",
+    "capabilities": [
+      {
+        "title": "AI 驱动的架构",
+        "desc": "从底层围绕 AI 设计的系统——智能体、编排与规约驱动的生成。"
+      },
+      {
+        "title": "规约驱动的库",
+        "desc": "可版本化、可安装的库，将精确的规约转化为正确且可测试的代码。"
+      },
+      {
+        "title": "企业级系统",
+        "desc": ".NET 架构、工作流编排与大规模的持久化执行。"
+      },
+      {
+        "title": "产品",
+        "desc": "面向用户的产品，让复杂工作变得简单而迅速。"
+      }
+    ]
   },
   "products": {
     "title": "产品",
@@ -36,13 +60,13 @@
     "forks": "复刻",
     "viewRepo": "在 GitHub 上查看",
     "updated": "更新于 {date}",
-    "empty": "这里暂时还没有内容。"
+    "empty": "这里暂时还没有可展示的内容。"
   },
   "writings": {
     "title": "文章",
-    "subtitle": "随笔与笔记。每篇文章都保留其撰写时的语言。",
+    "subtitle": "关于 AI 驱动架构、系统与工艺的随笔与笔记。每篇文章都保留其写作时所用的语言。",
     "readingTime": "阅读约 {minutes} 分钟",
-    "empty": "暂时还没有文章 —— 请稍后再来。",
+    "empty": "暂无文章——请稍后再来。",
     "backToList": "全部文章",
     "tags": "标签",
     "publishedOn": "发布于 {date}"
@@ -50,18 +74,33 @@
   "about": {
     "title": "关于",
     "subtitle": "我是谁，以及我在做什么。",
-    "body": "我是 Ömer —— 一名喜欢设计系统并公开发布产品的软件工程师。这是一段占位文本：在翻译文件中修改它，用每种语言说出你真正想表达的内容。",
-    "contactTitle": "联系我",
-    "contactSubtitle": "联系我的最佳方式。"
+    "photoAlt": "Ömer Çelik",
+    "body": "我是 Ömer——一名独立软件工程师。我从事 AI 驱动、规约驱动的架构工作：为企业团队打造库与平台，帮助他们将精确的规约转化为正确且可测试的系统。与此同时，我也设计并构建让复杂工作变得简单的产品。这是一段占位简介——请在消息文件中编辑它，用每一种语言准确表达你想说的内容。"
+  },
+  "contact": {
+    "title": "聊聊吧",
+    "subtitle": "有项目、职位或想法想要探讨吗？给我留言——我会读每一条。",
+    "nameLabel": "姓名",
+    "emailLabel": "邮箱",
+    "messageLabel": "留言",
+    "namePlaceholder": "您的姓名",
+    "emailPlaceholder": "you@company.com",
+    "messagePlaceholder": "您想构建或探讨什么？",
+    "submit": "发送留言",
+    "sending": "发送中…",
+    "success": "谢谢——您的留言已在路上。我会尽快回复您。",
+    "error": "出了点问题。请重试，或直接给我发邮件。",
+    "orReach": "或直接联系我"
   },
   "footer": {
-    "tagline": "公开地构建。",
-    "rights": "保留所有权利。",
+    "tagline": "独立工程师。以开放方式构建 AI 驱动、规约驱动的架构与产品。",
+    "pages": "页面",
+    "elsewhere": "其他平台",
     "builtWith": "使用 Next.js 构建"
   },
   "notFound": {
     "title": "页面未找到",
-    "subtitle": "你要找的页面不存在或已被移动。",
+    "subtitle": "您要查找的页面不存在或已被移动。",
     "home": "返回首页"
   }
 }

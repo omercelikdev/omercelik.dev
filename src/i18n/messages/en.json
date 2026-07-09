@@ -1,13 +1,14 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "description": "Developer building open-source products. Writing about software, systems and craft."
+    "description": "Independent engineer working on AI-driven, spec-driven architecture — libraries and platforms for enterprises, and products that make real work simpler."
   },
   "nav": {
     "home": "Home",
     "products": "Products",
     "writings": "Writing",
-    "about": "About"
+    "about": "About",
+    "contact": "Contact"
   },
   "theme": {
     "toggle": "Toggle theme",
@@ -18,16 +19,39 @@
     "label": "Language"
   },
   "home": {
-    "eyebrow": "Developer · Builder",
-    "title": "I build open-source products and write about the craft.",
-    "subtitle": "Independent software engineer. I ship tools, publish them on GitHub, and write down what I learn along the way.",
-    "ctaProducts": "See products",
-    "ctaWritings": "Read writing",
-    "featuredTitle": "Featured products",
-    "featuredSubtitle": "A selection of what I have shipped, pulled live from GitHub.",
-    "latestTitle": "Latest writing",
-    "latestSubtitle": "Notes on software, systems and building things.",
-    "viewAll": "View all"
+    "eyebrow": "AI-driven architecture · spec-driven systems",
+    "headlineLead": "I design and build",
+    "roles": [
+      "AI-driven libraries",
+      "spec-driven systems",
+      "developer tooling",
+      "enterprise platforms"
+    ],
+    "subtitle": "Independent engineer focused on AI-driven, spec-driven architecture — libraries and platforms for enterprises, and products that make complex work feel simple.",
+    "ctaContact": "Start a conversation",
+    "ctaWritings": "Read the writing",
+    "sec1": "what I do",
+    "sec2": "products & selected work",
+    "sec3": "writing",
+    "viewAll": "all",
+    "capabilities": [
+      {
+        "title": "AI-driven architecture",
+        "desc": "Systems designed around AI from the ground up — agents, orchestration and spec-driven generation."
+      },
+      {
+        "title": "Spec-driven libraries",
+        "desc": "Versioned, installable libraries that turn a precise spec into correct, testable code."
+      },
+      {
+        "title": "Enterprise systems",
+        "desc": ".NET architecture, workflow orchestration and durable execution at scale."
+      },
+      {
+        "title": "Products",
+        "desc": "User-facing products that make complex work feel simple and fast."
+      }
+    ]
   },
   "products": {
     "title": "Products",
@@ -40,7 +64,7 @@
   },
   "writings": {
     "title": "Writing",
-    "subtitle": "Essays and notes. Each piece stays in the language it was written in.",
+    "subtitle": "Essays and notes on AI-driven architecture, systems and the craft. Each piece stays in the language it was written in.",
     "readingTime": "{minutes} min read",
     "empty": "No posts yet — check back soon.",
     "backToList": "All writing",
@@ -50,13 +74,28 @@
   "about": {
     "title": "About",
     "subtitle": "Who I am and what I work on.",
-    "body": "I'm Ömer — a software engineer who enjoys designing systems and shipping products in the open. This is a placeholder bio: edit it in the message files to say exactly what you want, in every language.",
-    "contactTitle": "Get in touch",
-    "contactSubtitle": "The best way to reach me."
+    "photoAlt": "Ömer Çelik",
+    "body": "I'm Ömer — an independent software engineer. I work on AI-driven, spec-driven architecture: libraries and platforms that help enterprise teams turn precise specifications into correct, testable systems. Alongside that, I design and build products that make complex work feel simple. This is a placeholder bio — edit it in the message files to say exactly what you want, in every language."
+  },
+  "contact": {
+    "title": "Let's talk",
+    "subtitle": "Have a project, a role, or an idea to discuss? Send a note — I read everything.",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "you@company.com",
+    "messagePlaceholder": "What would you like to build or discuss?",
+    "submit": "Send message",
+    "sending": "Sending…",
+    "success": "Thanks — your message is on its way. I'll get back to you soon.",
+    "error": "Something went wrong. Please try again, or email me directly.",
+    "orReach": "Or reach me directly"
   },
   "footer": {
-    "tagline": "Building in the open.",
-    "rights": "All rights reserved.",
+    "tagline": "Independent engineer. AI-driven, spec-driven architecture and products, built in the open.",
+    "pages": "Pages",
+    "elsewhere": "Elsewhere",
     "builtWith": "Built with Next.js"
   },
   "notFound": {

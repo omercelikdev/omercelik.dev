@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "title": "Ömer Çelik",
+    "description": "Yapay zekâ odaklı, spesifikasyon güdümlü mimari üzerine çalışan bağımsız mühendis — kurumlar için kütüphaneler ve platformlar, gerçek işi kolaylaştıran ürünler."
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "products": "Ürünler",
+    "writings": "Yazılar",
+    "about": "Hakkında",
+    "contact": "İletişim"
+  },
+  "theme": {
+    "toggle": "Temayı değiştir",
+    "light": "Açık",
+    "dark": "Koyu"
+  },
+  "lang": {
+    "label": "Dil"
+  },
+  "home": {
+    "eyebrow": "Yapay zekâ odaklı mimari · spesifikasyon güdümlü sistemler",
+    "headlineLead": "Tasarlayıp geliştiriyorum:",
+    "roles": [
+      "yapay zekâ odaklı kütüphaneler",
+      "spesifikasyon güdümlü sistemler",
+      "geliştirici araçları",
+      "kurumsal platformlar"
+    ],
+    "subtitle": "Yapay zekâ odaklı, spesifikasyon güdümlü mimariye odaklanan bağımsız mühendis — kurumlar için kütüphaneler ve platformlar, karmaşık işi basit hissettiren ürünler.",
+    "ctaContact": "Bir konuşma başlat",
+    "ctaWritings": "Yazıları oku",
+    "sec1": "ne yapıyorum",
+    "sec2": "ürünler ve seçili çalışmalar",
+    "sec3": "yazılar",
+    "viewAll": "tümü",
+    "capabilities": [
+      {
+        "title": "Yapay zekâ odaklı mimari",
+        "desc": "Temelden yapay zekâ etrafında tasarlanmış sistemler — ajanlar, orkestrasyon ve spesifikasyon güdümlü üretim."
+      },
+      {
+        "title": "Spesifikasyon güdümlü kütüphaneler",
+        "desc": "Kesin bir spesifikasyonu doğru ve test edilebilir koda dönüştüren, sürümlenmiş ve kurulabilir kütüphaneler."
+      },
+      {
+        "title": "Kurumsal sistemler",
+        "desc": ".NET mimarisi, iş akışı orkestrasyonu ve ölçekte dayanıklı yürütme."
+      },
+      {
+        "title": "Ürünler",
+        "desc": "Karmaşık işi basit ve hızlı hissettiren, kullanıcı odaklı ürünler."
+      }
+    ]
+  },
+  "products": {
+    "title": "Ürünler",
+    "subtitle": "Açık kaynak araçlar ve projeler, GitHub'dan canlı senkronize edilir.",
+    "stars": "yıldız",
+    "forks": "çatal",
+    "viewRepo": "GitHub'da görüntüle",
+    "updated": "Güncellendi {date}",
+    "empty": "Burada henüz gösterilecek bir şey yok."
+  },
+  "writings": {
+    "title": "Yazılar",
+    "subtitle": "Yapay zekâ odaklı mimari, sistemler ve zanaat üzerine denemeler ve notlar. Her yazı, yazıldığı dilde kalır.",
+    "readingTime": "{minutes} dk okuma",
+    "empty": "Henüz yazı yok — yakında tekrar uğrayın.",
+    "backToList": "Tüm yazılar",
+    "tags": "Etiketler",
+    "publishedOn": "Yayımlandı {date}"
+  },
+  "about": {
+    "title": "Hakkında",
+    "subtitle": "Kimim ve ne üzerine çalışıyorum.",
+    "photoAlt": "Ömer Çelik",
+    "body": "Ben Ömer — bağımsız bir yazılım mühendisiyim. Yapay zekâ odaklı, spesifikasyon güdümlü mimari üzerine çalışıyorum: kurumsal ekiplerin kesin spesifikasyonları doğru ve test edilebilir sistemlere dönüştürmesine yardımcı olan kütüphaneler ve platformlar. Bunun yanında, karmaşık işi basit hissettiren ürünler tasarlayıp geliştiriyorum. Bu bir yer tutucu biyografidir — her dilde tam olarak ne istediğinizi söylemek için mesaj dosyalarında düzenleyin."
+  },
+  "contact": {
+    "title": "Konuşalım",
+    "subtitle": "Konuşacak bir projeniz, bir pozisyonunuz ya da bir fikriniz mi var? Bir not gönderin — her şeyi okuyorum.",
+    "nameLabel": "İsim",
+    "emailLabel": "E-posta",
+    "messageLabel": "Mesaj",
+    "namePlaceholder": "Adınız",
+    "emailPlaceholder": "siz@sirket.com",
+    "messagePlaceholder": "Ne inşa etmek ya da konuşmak istersiniz?",
+    "submit": "Mesaj gönder",
+    "sending": "Gönderiliyor…",
+    "success": "Teşekkürler — mesajınız yola çıktı. En kısa sürede size döneceğim.",
+    "error": "Bir şeyler ters gitti. Lütfen tekrar deneyin ya da doğrudan bana e-posta gönderin.",
+    "orReach": "Ya da bana doğrudan ulaşın"
+  },
+  "footer": {
+    "tagline": "Bağımsız mühendis. Yapay zekâ odaklı, spesifikasyon güdümlü mimari ve ürünler, açıkça inşa edilir.",
+    "pages": "Sayfalar",
+    "elsewhere": "Diğer yerler",
+    "builtWith": "Next.js ile geliştirildi"
+  },
+  "notFound": {
+    "title": "Sayfa bulunamadı",
+    "subtitle": "Aradığınız sayfa mevcut değil ya da taşınmış.",
+    "home": "Ana sayfaya dön"
+  }
+}

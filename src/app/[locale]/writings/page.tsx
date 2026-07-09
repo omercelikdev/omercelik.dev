@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Container } from "@/components/layout/container";
-import { Eyebrow } from "@/components/ui/section";
-import { PostCard } from "@/components/writings/post-card";
+import { PostRow } from "@/components/writings/post-row";
 import { getAllWritings } from "@/lib/writings";
 import { alternatesFor } from "@/lib/seo";
 
@@ -31,25 +30,24 @@ export default async function WritingsPage({
   const posts = await getAllWritings();
 
   return (
-    <Container className="py-16">
-      <div className="mb-10 flex flex-col gap-3">
-        <Eyebrow>Notes</Eyebrow>
-        <h1 className="text-3xl font-extrabold tracking-[-0.02em]">
+    <Container className="pt-28 pb-16 sm:pt-32">
+      <header className="mb-12 flex flex-col gap-3">
+        <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-medium tracking-[-0.03em]">
           {t("title")}
         </h1>
-        <p className="max-w-prose text-[15px] text-muted-foreground">
+        <p className="max-w-xl text-[15px] text-muted-foreground">
           {t("subtitle")}
         </p>
-      </div>
+      </header>
 
       {posts.length === 0 ? (
-        <p className="rounded-[var(--radius-2xl)] border border-border bg-background p-10 text-center text-sm text-muted-foreground">
+        <p className="border-t border-border py-16 text-center text-sm text-muted-foreground">
           {t("empty")}
         </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="border-t border-border">
           {posts.map((post) => (
-            <PostCard key={post.slug} post={post} />
+            <PostRow key={post.slug} post={post} />
           ))}
         </div>
       )}
