@@ -43,6 +43,11 @@ export async function generateMetadata({
       siteName: site.name,
       type: "website",
     },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+    },
     alternates: {
       types: { "application/rss+xml": `${site.url}/feed.xml` },
     },
