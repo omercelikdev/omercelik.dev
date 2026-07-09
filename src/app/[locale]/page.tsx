@@ -53,7 +53,7 @@ export default async function HomePage({
                 action={{ href: "/products", label: t("viewAll") }}
               />
             </Reveal>
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {products.map((product) => (
                 <Reveal key={product.fullName}>
                   <ProductCard product={product} />

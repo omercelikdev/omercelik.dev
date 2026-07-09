@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { Mail } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { Container } from "./container";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
@@ -13,6 +14,7 @@ export function Footer() {
     { href: site.links.github, label: "GitHub", Icon: GithubIcon },
     { href: site.links.x, label: "X", Icon: XIcon },
     { href: site.links.linkedin, label: "LinkedIn", Icon: LinkedinIcon },
+    { href: site.links.email, label: "Email", Icon: Mail },
   ];
 
   const pages = [
@@ -24,9 +26,9 @@ export function Footer() {
 
   return (
     <footer className="mt-32 border-t border-border">
-      <Container className="grid gap-10 py-14 sm:grid-cols-[1.4fr_1fr_1fr]">
+      <Container className="grid gap-10 py-14 sm:grid-cols-[1.6fr_1fr]">
         <div className="flex flex-col gap-3">
-          <span className="mono text-[13px]">
+          <span className="mono text-[14px]">
             omercelik<span className="text-brand-accent">.dev</span>
           </span>
           <p className="max-w-xs text-[13px] leading-relaxed text-muted-foreground">
@@ -40,10 +42,7 @@ export function Footer() {
           </a>
         </div>
 
-        <nav className="flex flex-col gap-2.5">
-          <span className="mono text-[11px] uppercase tracking-wider text-faint">
-            {t("pages")}
-          </span>
+        <nav className="flex flex-col gap-2.5 sm:items-end">
           {pages.map((p) => (
             <Link
               key={p.href}
@@ -54,30 +53,26 @@ export function Footer() {
             </Link>
           ))}
         </nav>
-
-        <nav className="flex flex-col gap-2.5">
-          <span className="mono text-[11px] uppercase tracking-wider text-faint">
-            {t("elsewhere")}
-          </span>
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="group inline-flex items-center gap-2 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <s.Icon className="size-3.5" />
-              {s.label}
-            </a>
-          ))}
-        </nav>
       </Container>
 
-      <Container className="border-t border-border py-6 text-[12px] text-muted-foreground">
-        <span className="mono">
+      <Container className="flex items-center justify-between gap-4 border-t border-border py-6">
+        <span className="mono text-[12px] text-muted-foreground">
           © {year} {site.name}
         </span>
+        <div className="flex items-center gap-1">
+          {socials.map(({ href, label, Icon }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel="noreferrer noopener"
+              aria-label={label}
+              className="grid size-9 place-items-center rounded-[var(--radius-lg)] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            >
+              <Icon className="size-4" />
+            </a>
+          ))}
+        </div>
       </Container>
     </footer>
   );

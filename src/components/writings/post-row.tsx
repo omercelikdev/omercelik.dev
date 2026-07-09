@@ -18,7 +18,7 @@ export function PostRow({ post }: { post: WritingMeta }) {
       className="group flex items-baseline justify-between gap-6 border-b border-border py-5"
     >
       <span className="flex flex-col gap-1">
-        <span className="text-[15px] transition-colors group-hover:text-brand-accent">
+        <span className="text-[15px] text-foreground underline-offset-4 transition-all group-hover:underline">
           {post.title}
         </span>
         {post.description && (

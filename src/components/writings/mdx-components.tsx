@@ -20,7 +20,7 @@ export const mdxComponents: MDXComponents = {
   ),
   a: (props) => (
     <a
-      className="font-medium text-violet underline decoration-violet-border underline-offset-2 transition-colors hover:decoration-violet"
+      className="font-medium text-foreground underline decoration-border underline-offset-2 transition-colors hover:decoration-foreground"
       {...props}
     />
   ),
@@ -36,7 +36,7 @@ export const mdxComponents: MDXComponents = {
   li: (props) => <li className="marker:text-faint" {...props} />,
   blockquote: (props) => (
     <blockquote
-      className="mt-5 border-s-2 border-violet-border ps-4 text-[15px] italic text-muted-foreground"
+      className="mt-5 border-s-2 border-border-strong ps-4 text-[15px] italic text-muted-foreground"
       {...props}
     />
   ),

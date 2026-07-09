@@ -49,9 +49,7 @@ export function Typewriter({
   return (
     <span className="text-brand-accent">
       {text}
-      <span className="caret" aria-hidden>
-        .
-      </span>
+      <span className="caret" aria-hidden />
     </span>
   );
 }
