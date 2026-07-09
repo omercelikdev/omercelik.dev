@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Ömer Çelik",
+    "description": "Développeur qui crée des produits open source. J'écris sur le logiciel, les systèmes et le métier."
+  },
+  "nav": {
+    "home": "Accueil",
+    "products": "Produits",
+    "writings": "Écrits",
+    "about": "À propos"
+  },
+  "theme": {
+    "toggle": "Changer de thème",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "lang": {
+    "label": "Langue"
+  },
+  "home": {
+    "eyebrow": "Développeur · Créateur",
+    "title": "Je crée des produits open source et j'écris sur le métier.",
+    "subtitle": "Ingénieur logiciel indépendant. Je publie des outils sur GitHub et je consigne ce que j'apprends en chemin.",
+    "ctaProducts": "Voir les produits",
+    "ctaWritings": "Lire les écrits",
+    "featuredTitle": "Produits en vedette",
+    "featuredSubtitle": "Une sélection de mes réalisations, chargée en direct depuis GitHub.",
+    "latestTitle": "Derniers écrits",
+    "latestSubtitle": "Notes sur le logiciel, les systèmes et la création.",
+    "viewAll": "Tout voir"
+  },
+  "products": {
+    "title": "Produits",
+    "subtitle": "Outils et projets open source, synchronisés en direct depuis GitHub.",
+    "stars": "étoiles",
+    "forks": "forks",
+    "viewRepo": "Voir sur GitHub",
+    "updated": "Mis à jour le {date}",
+    "empty": "Rien à afficher pour l'instant."
+  },
+  "writings": {
+    "title": "Écrits",
+    "subtitle": "Essais et notes. Chaque texte reste dans la langue où il a été écrit.",
+    "readingTime": "{minutes} min de lecture",
+    "empty": "Aucun article pour l'instant — revenez bientôt.",
+    "backToList": "Tous les écrits",
+    "tags": "Sujets",
+    "publishedOn": "Publié le {date}"
+  },
+  "about": {
+    "title": "À propos",
+    "subtitle": "Qui je suis et ce sur quoi je travaille.",
+    "body": "Je suis Ömer — un ingénieur logiciel qui aime concevoir des systèmes et publier des produits en public. Ceci est un texte provisoire : modifiez-le dans les fichiers de traduction pour dire exactement ce que vous voulez, dans chaque langue.",
+    "contactTitle": "Me contacter",
+    "contactSubtitle": "La meilleure façon de me joindre."
+  },
+  "footer": {
+    "tagline": "Construire au grand jour.",
+    "rights": "Tous droits réservés.",
+    "builtWith": "Réalisé avec Next.js"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "subtitle": "La page que vous cherchez n'existe pas ou a été déplacée.",
+    "home": "Retour à l'accueil"
+  }
+}

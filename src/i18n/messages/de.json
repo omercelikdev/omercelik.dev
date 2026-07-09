@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Ömer Çelik",
+    "description": "Entwickler, der Open-Source-Produkte baut. Schreibt über Software, Systeme und Handwerk."
+  },
+  "nav": {
+    "home": "Start",
+    "products": "Produkte",
+    "writings": "Texte",
+    "about": "Über mich"
+  },
+  "theme": {
+    "toggle": "Design umschalten",
+    "light": "Hell",
+    "dark": "Dunkel"
+  },
+  "lang": {
+    "label": "Sprache"
+  },
+  "home": {
+    "eyebrow": "Entwickler · Macher",
+    "title": "Ich baue Open-Source-Produkte und schreibe über das Handwerk.",
+    "subtitle": "Unabhängiger Softwareentwickler. Ich veröffentliche Werkzeuge auf GitHub und halte fest, was ich dabei lerne.",
+    "ctaProducts": "Produkte ansehen",
+    "ctaWritings": "Texte lesen",
+    "featuredTitle": "Ausgewählte Produkte",
+    "featuredSubtitle": "Eine Auswahl meiner Projekte, live von GitHub geladen.",
+    "latestTitle": "Neueste Texte",
+    "latestSubtitle": "Notizen zu Software, Systemen und dem Bauen von Dingen.",
+    "viewAll": "Alle ansehen"
+  },
+  "products": {
+    "title": "Produkte",
+    "subtitle": "Open-Source-Werkzeuge und Projekte, live von GitHub synchronisiert.",
+    "stars": "Sterne",
+    "forks": "Forks",
+    "viewRepo": "Auf GitHub ansehen",
+    "updated": "Aktualisiert {date}",
+    "empty": "Hier gibt es noch nichts zu zeigen."
+  },
+  "writings": {
+    "title": "Texte",
+    "subtitle": "Essays und Notizen. Jeder Beitrag bleibt in der Sprache, in der er geschrieben wurde.",
+    "readingTime": "{minutes} Min. Lesezeit",
+    "empty": "Noch keine Beiträge — schau bald wieder vorbei.",
+    "backToList": "Alle Texte",
+    "tags": "Themen",
+    "publishedOn": "Veröffentlicht am {date}"
+  },
+  "about": {
+    "title": "Über mich",
+    "subtitle": "Wer ich bin und woran ich arbeite.",
+    "body": "Ich bin Ömer — ein Softwareentwickler, der gerne Systeme entwirft und Produkte offen veröffentlicht. Dies ist ein Platzhaltertext: Bearbeite ihn in den Übersetzungsdateien, um in jeder Sprache genau das zu sagen, was du möchtest.",
+    "contactTitle": "Kontakt",
+    "contactSubtitle": "So erreichst du mich am besten."
+  },
+  "footer": {
+    "tagline": "Offen entwickeln.",
+    "rights": "Alle Rechte vorbehalten.",
+    "builtWith": "Erstellt mit Next.js"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "subtitle": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "home": "Zur Startseite"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Ömer Çelik",
+    "description": "Developer building open-source products. Writing about software, systems and craft."
+  },
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "writings": "Writing",
+    "about": "About"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "lang": {
+    "label": "Language"
+  },
+  "home": {
+    "eyebrow": "Developer · Builder",
+    "title": "I build open-source products and write about the craft.",
+    "subtitle": "Independent software engineer. I ship tools, publish them on GitHub, and write down what I learn along the way.",
+    "ctaProducts": "See products",
+    "ctaWritings": "Read writing",
+    "featuredTitle": "Featured products",
+    "featuredSubtitle": "A selection of what I have shipped, pulled live from GitHub.",
+    "latestTitle": "Latest writing",
+    "latestSubtitle": "Notes on software, systems and building things.",
+    "viewAll": "View all"
+  },
+  "products": {
+    "title": "Products",
+    "subtitle": "Open-source tools and projects, synced live from GitHub.",
+    "stars": "stars",
+    "forks": "forks",
+    "viewRepo": "View on GitHub",
+    "updated": "Updated {date}",
+    "empty": "Nothing to show here yet."
+  },
+  "writings": {
+    "title": "Writing",
+    "subtitle": "Essays and notes. Each piece stays in the language it was written in.",
+    "readingTime": "{minutes} min read",
+    "empty": "No posts yet — check back soon.",
+    "backToList": "All writing",
+    "tags": "Tags",
+    "publishedOn": "Published {date}"
+  },
+  "about": {
+    "title": "About",
+    "subtitle": "Who I am and what I work on.",
+    "body": "I'm Ömer — a software engineer who enjoys designing systems and shipping products in the open. This is a placeholder bio: edit it in the message files to say exactly what you want, in every language.",
+    "contactTitle": "Get in touch",
+    "contactSubtitle": "The best way to reach me."
+  },
+  "footer": {
+    "tagline": "Building in the open.",
+    "rights": "All rights reserved.",
+    "builtWith": "Built with Next.js"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "subtitle": "The page you are looking for does not exist or has moved.",
+    "home": "Back home"
+  }
+}

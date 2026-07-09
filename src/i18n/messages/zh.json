@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Ömer Çelik",
+    "description": "构建开源产品的开发者。撰写关于软件、系统与工艺的文章。"
+  },
+  "nav": {
+    "home": "首页",
+    "products": "产品",
+    "writings": "文章",
+    "about": "关于"
+  },
+  "theme": {
+    "toggle": "切换主题",
+    "light": "浅色",
+    "dark": "深色"
+  },
+  "lang": {
+    "label": "语言"
+  },
+  "home": {
+    "eyebrow": "开发者 · 创造者",
+    "title": "我构建开源产品，并记录其中的工艺。",
+    "subtitle": "独立软件工程师。我在 GitHub 上发布工具，并写下一路学到的东西。",
+    "ctaProducts": "查看产品",
+    "ctaWritings": "阅读文章",
+    "featuredTitle": "精选产品",
+    "featuredSubtitle": "我的部分作品，实时从 GitHub 加载。",
+    "latestTitle": "最新文章",
+    "latestSubtitle": "关于软件、系统与创造的笔记。",
+    "viewAll": "查看全部"
+  },
+  "products": {
+    "title": "产品",
+    "subtitle": "开源工具与项目，实时同步自 GitHub。",
+    "stars": "星标",
+    "forks": "复刻",
+    "viewRepo": "在 GitHub 上查看",
+    "updated": "更新于 {date}",
+    "empty": "这里暂时还没有内容。"
+  },
+  "writings": {
+    "title": "文章",
+    "subtitle": "随笔与笔记。每篇文章都保留其撰写时的语言。",
+    "readingTime": "阅读约 {minutes} 分钟",
+    "empty": "暂时还没有文章 —— 请稍后再来。",
+    "backToList": "全部文章",
+    "tags": "标签",
+    "publishedOn": "发布于 {date}"
+  },
+  "about": {
+    "title": "关于",
+    "subtitle": "我是谁，以及我在做什么。",
+    "body": "我是 Ömer —— 一名喜欢设计系统并公开发布产品的软件工程师。这是一段占位文本：在翻译文件中修改它，用每种语言说出你真正想表达的内容。",
+    "contactTitle": "联系我",
+    "contactSubtitle": "联系我的最佳方式。"
+  },
+  "footer": {
+    "tagline": "公开地构建。",
+    "rights": "保留所有权利。",
+    "builtWith": "使用 Next.js 构建"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "subtitle": "你要找的页面不存在或已被移动。",
+    "home": "返回首页"
+  }
+}

@@ -1,0 +1,41 @@
+---
+title: "Hello, world"
+description: "Why I'm starting to write in the open, and what you can expect to find here."
+date: "2026-07-09"
+lang: "en"
+tags: ["meta", "writing"]
+---
+
+I've wanted a place of my own for a long time — not a feed, not a thread, but a
+quiet corner where I can put down what I'm building and what I'm learning. This
+is that place.
+
+## What this is
+
+A home for two things:
+
+- **Products** — the open-source tools I ship, pulled live from GitHub.
+- **Writing** — notes on software, systems, and the craft of building things.
+
+Each piece stays in the language I wrote it in. The interface speaks several
+languages; the essays speak mine.
+
+## A small taste of code
+
+Here's the shape of the thing that renders this very page:
+
+```ts
+export async function getWritingBySlug(slug: string) {
+  const raw = await fs.readFile(`content/writings/${slug}.mdx`, "utf-8");
+  const { data, content } = matter(raw);
+  return { ...data, content };
+}
+```
+
+Nothing clever. Files on disk, parsed at build time, rendered as MDX. The best
+systems are the ones you can hold in your head.
+
+## What's next
+
+More tools, more notes. If any of it is useful to you, that's a bonus — but I'd
+write it down anyway.

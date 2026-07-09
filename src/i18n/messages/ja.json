@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "title": "Ömer Çelik",
+    "description": "オープンソース製品をつくる開発者。ソフトウェア・システム・ものづくりについて書いています。"
+  },
+  "nav": {
+    "home": "ホーム",
+    "products": "プロダクト",
+    "writings": "記事",
+    "about": "概要"
+  },
+  "theme": {
+    "toggle": "テーマを切り替える",
+    "light": "ライト",
+    "dark": "ダーク"
+  },
+  "lang": {
+    "label": "言語"
+  },
+  "home": {
+    "eyebrow": "開発者 · ビルダー",
+    "title": "オープンソース製品をつくり、そのものづくりについて書いています。",
+    "subtitle": "独立系ソフトウェアエンジニア。GitHub でツールを公開し、道すがら学んだことを書き留めています。",
+    "ctaProducts": "プロダクトを見る",
+    "ctaWritings": "記事を読む",
+    "featuredTitle": "注目のプロダクト",
+    "featuredSubtitle": "これまでつくったものの一部を、GitHub からリアルタイムで表示します。",
+    "latestTitle": "最新の記事",
+    "latestSubtitle": "ソフトウェア・システム・ものづくりについてのメモ。",
+    "viewAll": "すべて見る"
+  },
+  "products": {
+    "title": "プロダクト",
+    "subtitle": "オープンソースのツールとプロジェクト。GitHub からリアルタイムで同期しています。",
+    "stars": "スター",
+    "forks": "フォーク",
+    "viewRepo": "GitHub で見る",
+    "updated": "{date} 更新",
+    "empty": "まだ表示できるものがありません。"
+  },
+  "writings": {
+    "title": "記事",
+    "subtitle": "エッセイとメモ。各記事は書かれた言語のままにしています。",
+    "readingTime": "約 {minutes} 分で読めます",
+    "empty": "まだ記事はありません — またお越しください。",
+    "backToList": "すべての記事",
+    "tags": "タグ",
+    "publishedOn": "{date} 公開"
+  },
+  "about": {
+    "title": "概要",
+    "subtitle": "私が何者で、何に取り組んでいるか。",
+    "body": "私は Ömer — システムを設計し、製品をオープンに公開するのが好きなソフトウェアエンジニアです。これはプレースホルダーの文章です。翻訳ファイルを編集して、各言語で伝えたいことをそのまま書いてください。",
+    "contactTitle": "お問い合わせ",
+    "contactSubtitle": "連絡をとる一番の方法。"
+  },
+  "footer": {
+    "tagline": "オープンにつくる。",
+    "rights": "全著作権所有。",
+    "builtWith": "Next.js で構築"
+  },
+  "notFound": {
+    "title": "ページが見つかりません",
+    "subtitle": "お探しのページは存在しないか、移動されました。",
+    "home": "ホームに戻る"
+  }
+}

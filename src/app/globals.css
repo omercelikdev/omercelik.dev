@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+/* Map the design tokens into Tailwind's theme so utilities like `bg-surface`,
+   `text-muted-foreground`, `rounded-2xl`, `shadow-surface` resolve to the live
+   CSS variables (which flip with the theme). `inline` keeps the var reference
+   instead of the resolved value, so runtime theme switching just works. */
+@theme inline {
+  --color-app: var(--app);
+  --color-surface: var(--surface);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-faint: var(--faint);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-border: var(--danger-border);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+  --color-violet: var(--violet);
+  --color-violet-bg: var(--violet-bg);
+  --color-violet-border: var(--violet-border);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+
+  --shadow-surface: var(--shadow-surface);
+  --shadow-overlay: var(--shadow-overlay);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--surface);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--violet) 22%, transparent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+/* tabular, monospaced numerics for data (versions, stars, dates) */
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* smooth token transitions when toggling theme */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-ready,
+  html.theme-ready * {
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+  }
+}
+
+/* rehype-pretty-code dual-theme wiring: each token carries a light + dark
+   colour as CSS vars; pick per active [data-theme]. */
+code[data-theme],
+code[data-theme] span {
+  color: var(--shiki-light);
+}
+:root[data-theme="dark"] code[data-theme],
+:root[data-theme="dark"] code[data-theme] span {
+  color: var(--shiki-dark);
+}
+code[data-line] {
+  display: inline-block;
+  width: 100%;
+}
+figcaption[data-rehype-pretty-code-title] {
+  margin-top: 1.25rem;
+  border: 1px solid var(--border);
+  border-bottom: 0;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--muted);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+figcaption[data-rehype-pretty-code-title] + pre {
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

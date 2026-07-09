@@ -1,0 +1,31 @@
+---
+title: "Mockifyr'ı neden yazdım"
+description: "Bağımsız, .NET tabanlı bir API mock motoru kurmanın ardındaki düşünce."
+date: "2026-07-05"
+lang: "tr"
+tags: ["mockifyr", ".net", "mühendislik"]
+---
+
+API'leri taklit etmek (mock'lamak) yeni bir fikir değil. Ama ihtiyacım olan şey
+şuydu: **tamamen bağımsız**, saf bir çekirdek motor — taşımadan (transport)
+soyutlanmış, dış bağımlılığı olmayan, ve doğruluğu tahminle değil **kanıtla**
+ispatlanan bir sistem.
+
+## Temel ilke
+
+Çekirdek saf kalır: I/O yapmaz, bir HTTP handler'a asla dokunmaz. Delay, fault,
+proxy birer **direktiftir** — dış çağrılar `IServeEventListener` üzerinden akar.
+
+```csharp
+public sealed record StubMatch(
+    ResponseDefinition Response,
+    IReadOnlyList<Directive> Directives);
+```
+
+## "Bitti" ne demek?
+
+Bir davranış, gerçek referansa karşı **diferansiyel** olarak doğrulanana kadar
+bitmiş sayılmaz. "Çalışıyor gibi görünüyor" bir kanıt değildir. Oracle çalışır,
+diff yeşile döner — işte o zaman bitmiştir.
+
+Bu blog, o yolculukta öğrendiklerimi Türkçe olarak buraya not ettiğim yer.
