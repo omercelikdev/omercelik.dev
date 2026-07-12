@@ -27,7 +27,7 @@ export function Footer() {
           </p>
           <a
             href={site.links.email}
-            className="mono w-fit text-[13px] text-muted-foreground underline decoration-border underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground"
+            className="mono w-fit text-[13px] text-muted-foreground underline decoration-dotted decoration-1 decoration-border underline-offset-[5px] transition-colors hover:text-foreground hover:decoration-foreground"
           >
             {site.email}
           </a>

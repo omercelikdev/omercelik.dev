@@ -20,7 +20,7 @@ export const mdxComponents: MDXComponents = {
   ),
   a: (props) => (
     <a
-      className="font-medium text-foreground underline decoration-border underline-offset-2 transition-colors hover:decoration-foreground"
+      className="font-medium text-foreground underline decoration-dotted decoration-1 decoration-border underline-offset-[5px] transition-colors hover:decoration-foreground"
       {...props}
     />
   ),

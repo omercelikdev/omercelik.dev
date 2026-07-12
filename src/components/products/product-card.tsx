@@ -10,7 +10,7 @@ export function ProductCard({ product }: { product: Product }) {
   const titleHref = siteHref ?? product.url;
 
   return (
-    <div className="group flex h-full flex-col gap-3 rounded-[var(--radius-xl)] border border-border p-5 transition-colors duration-200 hover:border-border-strong">
+    <div className="group flex h-full flex-col gap-3 rounded-[var(--radius-xl)] border border-border p-5 transition-colors duration-200 hover:border-foreground/35">
       <div className="flex items-start justify-between gap-3">
         <a
           href={titleHref}

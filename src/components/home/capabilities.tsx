@@ -16,7 +16,7 @@ export async function Capabilities() {
           <Reveal
             key={item.title}
             delay={i * 70}
-            className="rounded-[var(--radius-xl)] border border-border p-5 transition-colors duration-200 hover:border-border-strong"
+            className="rounded-[var(--radius-xl)] border border-border p-5 transition-colors duration-200 hover:border-foreground/35"
           >
             <Icon className="mb-4 size-5 text-foreground" strokeWidth={1.5} />
             <h3 className="mb-1.5 text-[14px] font-medium">{item.title}</h3>

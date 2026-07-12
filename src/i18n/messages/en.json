@@ -6,7 +6,7 @@
   "nav": {
     "home": "Home",
     "products": "Products",
-    "writings": "Writing",
+    "writings": "Writings",
     "about": "About",
     "contact": "Contact"
   },
@@ -32,7 +32,7 @@
     "ctaWritings": "Read the writing",
     "sec1": "what I do",
     "sec2": "products & selected work",
-    "sec3": "writing",
+    "sec3": "writings",
     "viewAll": "all",
     "capabilities": [
       {
@@ -63,7 +63,7 @@
     "empty": "Nothing to show here yet."
   },
   "writings": {
-    "title": "Writing",
+    "title": "Writings",
     "subtitle": "Essays and notes on AI-driven architecture, systems and the craft. Each piece stays in the language it was written in.",
     "readingTime": "{minutes} min read",
     "empty": "No posts yet — check back soon.",

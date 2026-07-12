@@ -150,7 +150,7 @@ export default async function WritingPage({
                   ) : (
                     <Link
                       href={`/writings/${p.slug}`}
-                      className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                      className="text-muted-foreground decoration-dotted decoration-1 underline-offset-[5px] transition-colors hover:text-foreground hover:underline"
                     >
                       {p.title}
                     </Link>
