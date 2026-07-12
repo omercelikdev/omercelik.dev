@@ -3,11 +3,10 @@ import { ArrowRight, Braces, FileCheck2, Sparkles, type LucideIcon } from "lucid
 import { Container } from "@/components/layout/container";
 import { buttonClass } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { Typewriter } from "@/components/motion/typewriter";
 import { HeroSignature } from "@/components/home/hero-spec";
 
 const H1 =
-  "text-[clamp(2.4rem,6vw,4.2rem)] font-medium leading-[1.05] tracking-[-0.035em]";
+  "text-[clamp(2rem,5vw,3.4rem)] font-medium leading-[1.1] tracking-[-0.03em]";
 
 const EYEBROW_ICONS: LucideIcon[] = [Sparkles, FileCheck2, Braces];
 
@@ -15,7 +14,6 @@ export async function Hero() {
   const t = await getTranslations("home");
   const roles = t.raw("roles") as string[];
   const lead = t("headlineLead");
-  const longest = roles.reduce((a, b) => (b.length > a.length ? b : a), "");
   // Split the translated "A · B · .NET" eyebrow into individual chips.
   const chips = t("eyebrow")
     .split("·")
@@ -30,7 +28,7 @@ export async function Hero() {
       </div>
 
       <Container className="pt-24 pb-16 sm:pt-28">
-        <div className="reveal in flex max-w-3xl flex-col gap-5">
+        <div className="reveal in flex max-w-3xl flex-col gap-4">
           {/* Eyebrow: live dot + labelled chips */}
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="relative flex size-2" aria-hidden>
@@ -51,14 +49,9 @@ export async function Hero() {
             })}
           </div>
 
-          <div className="relative">
-            <h1 aria-hidden className={`${H1} invisible`}>
-              {lead} {longest}.
-            </h1>
-            <h1 className={`${H1} absolute inset-0`}>
-              {lead} <Typewriter phrases={roles} />
-            </h1>
-          </div>
+          <h1 className={H1}>
+            {lead} <span className="text-brand-accent">{roles[0]}.</span>
+          </h1>
 
           <p className="max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
             {t("subtitle")}
