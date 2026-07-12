@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Braces, FileCheck2, Sparkles, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { Eyebrow } from "@/components/ui/section";
 import { buttonClass } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { Typewriter } from "@/components/motion/typewriter";
@@ -9,43 +8,73 @@ import { Typewriter } from "@/components/motion/typewriter";
 const H1 =
   "text-[clamp(2.4rem,6vw,4.2rem)] font-medium leading-[1.05] tracking-[-0.035em]";
 
+const EYEBROW_ICONS: LucideIcon[] = [Sparkles, FileCheck2, Braces];
+
 export async function Hero() {
   const t = await getTranslations("home");
   const roles = t.raw("roles") as string[];
   const lead = t("headlineLead");
-  // Reserve the tallest possible height so the typewriter never shifts the page.
   const longest = roles.reduce((a, b) => (b.length > a.length ? b : a), "");
+  // Split the translated "A · B · .NET" eyebrow into individual chips.
+  const chips = t("eyebrow")
+    .split("·")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   return (
-    <Container className="pt-28 pb-16 sm:pt-36">
-      <div className="reveal in flex max-w-3xl flex-col gap-6">
-        <Eyebrow>{t("eyebrow")}</Eyebrow>
-
-        <div className="relative">
-          {/* invisible sizer: locks the block height to the longest phrase */}
-          <h1 aria-hidden className={`${H1} invisible`}>
-            {lead} {longest}.
-          </h1>
-          {/* visible animated headline, overlaid on the sizer */}
-          <h1 className={`${H1} absolute inset-0`}>
-            {lead} <Typewriter phrases={roles} />
-          </h1>
-        </div>
-
-        <p className="max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-          {t("subtitle")}
-        </p>
-
-        <div className="mt-2 flex flex-wrap items-center gap-3">
-          <Link href="/contact" className={buttonClass("primary")}>
-            {t("ctaContact")}
-            <ArrowRight className="size-4 rtl:rotate-180" />
-          </Link>
-          <Link href="/writings" className={buttonClass("ghost")}>
-            {t("ctaWritings")}
-          </Link>
-        </div>
+    <section className="relative overflow-hidden">
+      {/* Subtle hero backdrop: fading grid + soft brand glow */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute inset-0 opacity-60 [background-image:linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] [background-size:46px_46px] [mask-image:radial-gradient(ellipse_55%_45%_at_50%_0%,black,transparent)]" />
+        <div className="absolute -top-24 left-1/2 h-[380px] w-[680px] -translate-x-1/2 rounded-full bg-brand-accent/10 blur-[130px]" />
       </div>
-    </Container>
+
+      <Container className="pt-28 pb-16 sm:pt-36">
+        <div className="reveal in flex max-w-3xl flex-col gap-6">
+          {/* Eyebrow: live dot + labelled chips */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="relative flex size-2" aria-hidden>
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-accent opacity-60" />
+              <span className="relative inline-flex size-2 rounded-full bg-brand-accent" />
+            </span>
+            {chips.map((label, i) => {
+              const Icon = EYEBROW_ICONS[i] ?? Sparkles;
+              return (
+                <span
+                  key={label}
+                  className="mono inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1 text-[12px] text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
+                >
+                  <Icon className="size-3.5" strokeWidth={2} />
+                  {label}
+                </span>
+              );
+            })}
+          </div>
+
+          <div className="relative">
+            <h1 aria-hidden className={`${H1} invisible`}>
+              {lead} {longest}.
+            </h1>
+            <h1 className={`${H1} absolute inset-0`}>
+              {lead} <Typewriter phrases={roles} />
+            </h1>
+          </div>
+
+          <p className="max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+            {t("subtitle")}
+          </p>
+
+          <div className="mt-2 flex flex-wrap items-center gap-3">
+            <Link href="/contact" className={buttonClass("primary")}>
+              {t("ctaContact")}
+              <ArrowRight className="size-4 rtl:rotate-180" />
+            </Link>
+            <Link href="/writings" className={buttonClass("ghost")}>
+              {t("ctaWritings")}
+            </Link>
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 }
