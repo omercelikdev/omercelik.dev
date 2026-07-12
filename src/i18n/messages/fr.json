@@ -70,7 +70,8 @@
     "backToList": "Tous les écrits",
     "tags": "Étiquettes",
     "publishedOn": "Publié le {date}",
-    "series": "Série"
+    "series": "Série",
+    "tagged": "Étiqueté"
   },
   "about": {
     "title": "À propos",

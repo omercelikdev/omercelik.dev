@@ -70,7 +70,8 @@
     "backToList": "Alle Texte",
     "tags": "Schlagwörter",
     "publishedOn": "Veröffentlicht {date}",
-    "series": "Reihe"
+    "series": "Reihe",
+    "tagged": "Markiert"
   },
   "about": {
     "title": "Über mich",

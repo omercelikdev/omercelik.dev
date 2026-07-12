@@ -70,7 +70,8 @@
     "backToList": "All writing",
     "tags": "Tags",
     "series": "Series",
-    "publishedOn": "Published {date}"
+    "publishedOn": "Published {date}",
+    "tagged": "Tagged"
   },
   "about": {
     "title": "About",

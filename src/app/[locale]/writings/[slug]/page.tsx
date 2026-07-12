@@ -8,7 +8,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import { Container } from "@/components/layout/container";
-import { Chip, Tag } from "@/components/ui/badge";
+import { Chip, TagLink } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
 import { mdxComponents } from "@/components/writings/mdx-components";
 import { Comments } from "@/components/writings/comments";
@@ -128,7 +128,7 @@ export default async function WritingPage({
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {post.tags.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
+                <TagLink key={tag} tag={tag} />
               ))}
             </div>
           )}

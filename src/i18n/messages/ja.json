@@ -70,7 +70,8 @@
     "backToList": "すべての文章",
     "tags": "タグ",
     "publishedOn": "公開日 {date}",
-    "series": "シリーズ"
+    "series": "シリーズ",
+    "tagged": "タグ"
   },
   "about": {
     "title": "概要",

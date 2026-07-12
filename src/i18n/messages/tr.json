@@ -70,7 +70,8 @@
     "backToList": "Tüm yazılar",
     "tags": "Etiketler",
     "publishedOn": "Yayımlandı {date}",
-    "series": "Seri"
+    "series": "Seri",
+    "tagged": "Etiketli"
   },
   "about": {
     "title": "Hakkında",

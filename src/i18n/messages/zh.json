@@ -70,7 +70,8 @@
     "backToList": "全部文章",
     "tags": "标签",
     "publishedOn": "发布于 {date}",
-    "series": "系列"
+    "series": "系列",
+    "tagged": "标签"
   },
   "about": {
     "title": "关于",

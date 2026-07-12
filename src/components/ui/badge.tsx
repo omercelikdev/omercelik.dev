@@ -1,4 +1,6 @@
 import { type ReactNode } from "react";
+import { Link } from "@/i18n/navigation";
+import { tagSlug } from "@/lib/writings";
 
 type Tone = "success" | "info" | "warning" | "danger" | "violet" | "neutral";
 
@@ -36,5 +38,17 @@ export function Tag({ children }: { children: ReactNode }) {
     <span className="inline-flex items-center rounded-[var(--radius-md)] border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
       {children}
     </span>
+  );
+}
+
+/** Clickable tag → the tag's filter page. */
+export function TagLink({ tag }: { tag: string }) {
+  return (
+    <Link
+      href={`/writings/tag/${tagSlug(tag)}`}
+      className="inline-flex items-center rounded-[var(--radius-md)] border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+    >
+      {tag}
+    </Link>
   );
 }

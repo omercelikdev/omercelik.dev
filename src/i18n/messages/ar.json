@@ -70,7 +70,8 @@
     "backToList": "كل الكتابات",
     "tags": "الوسوم",
     "publishedOn": "نُشر في {date}",
-    "series": "سلسلة"
+    "series": "سلسلة",
+    "tagged": "موسوم"
   },
   "about": {
     "title": "نبذة",
