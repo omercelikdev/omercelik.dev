@@ -103,22 +103,14 @@
   0%, 100% { opacity: 1; }
   50%      { opacity: 0; }
 }
-/* gentle wave that flows across the pipeline nodes */
-@keyframes node-flow {
-  0%, 100% { opacity: 0.3; }
-  50%      { opacity: 1; }
+/* dashes travelling along a connector path (flowing arrow) */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -28; }
 }
-/* a particle travelling along a pipeline connector */
-@keyframes pipe-flow {
-  0%   { left: 0;    opacity: 0; }
-  12%  { opacity: 1; }
-  88%  { opacity: 1; }
-  100% { left: 100%; opacity: 0; }
-}
-/* soft pulse ring on the active pipeline node */
+/* soft pulse ring on the active/running node */
 @keyframes node-ring {
   0%   { transform: scale(1);   opacity: 0.5; }
-  100% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
 }
 .reveal {
   opacity: 0;
