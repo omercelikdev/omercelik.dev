@@ -2,6 +2,10 @@ import { site } from "@/config/site";
 import { localeUrl } from "@/lib/seo";
 import { getAllWritings } from "@/lib/writings";
 
+// Generated at build time (reads content from disk) so it works on runtimes
+// without a filesystem, e.g. Cloudflare Workers. Refreshes on each deploy.
+export const dynamic = "force-static";
+
 function escape(s: string): string {
   return s
     .replace(/&/g, "&amp;")
