@@ -103,6 +103,11 @@
   0%, 100% { opacity: 1; }
   50%      { opacity: 0; }
 }
+/* gentle wave that flows across the pipeline nodes */
+@keyframes node-flow {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1; }
+}
 .reveal {
   opacity: 0;
 }
