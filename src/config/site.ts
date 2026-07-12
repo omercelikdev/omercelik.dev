@@ -18,9 +18,9 @@ export const site = {
    *  both IDs are filled in. */
   comments: {
     repo: "omercelikdev/omercelik.dev",
-    repoId: "",
-    category: "Comments",
-    categoryId: "",
+    repoId: "R_kgDOSnPY_w",
+    category: "Announcements",
+    categoryId: "DIC_kwDOSnPY_84DBDCw",
   },
 } as const;
 
