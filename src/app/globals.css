@@ -107,6 +107,11 @@
 @keyframes dash-flow {
   to { stroke-dashoffset: -28; }
 }
+/* a left→right wave across pipeline stages */
+@keyframes stage-pulse {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1; }
+}
 /* soft pulse ring on the active/running node */
 @keyframes node-ring {
   0%   { transform: scale(1);   opacity: 0.5; }

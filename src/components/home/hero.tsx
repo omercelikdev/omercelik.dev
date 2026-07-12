@@ -29,8 +29,8 @@ export async function Hero() {
         <div className="absolute inset-0 opacity-70 [background-image:radial-gradient(var(--border)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_55%_50%_at_50%_0%,black,transparent)]" />
       </div>
 
-      <Container className="pt-28 pb-16 sm:pt-36">
-        <div className="reveal in flex max-w-3xl flex-col gap-6">
+      <Container className="pt-24 pb-16 sm:pt-28">
+        <div className="reveal in flex max-w-3xl flex-col gap-5">
           {/* Eyebrow: live dot + labelled chips */}
           <div className="flex flex-wrap items-center gap-2.5">
             <span className="relative flex size-2" aria-hidden>

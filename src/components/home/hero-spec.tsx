@@ -25,7 +25,7 @@ const LINES: React.ReactNode[] = [
 
 export function SpecCard() {
   return (
-    <div className="mt-10 w-full max-w-lg">
+    <div className="mt-8 w-full max-w-lg">
       <div className="overflow-hidden rounded-[var(--radius-2xl)] border border-border bg-background">
         {/* window header */}
         <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
@@ -61,7 +61,25 @@ export function SpecCard() {
             ))}
           </div>
         </div>
+
+        {/* pipeline footer: the spec flows through generate → verify → ship */}
+        <div className="mono flex items-center gap-1.5 border-t border-border px-4 py-3 text-[10.5px] text-muted-foreground">
+          {STAGES.map((stage, i) => (
+            <span key={stage} className="inline-flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-1.5">
+                <span
+                  className="size-1.5 rounded-full bg-brand-accent"
+                  style={{ animation: "stage-pulse 2.4s ease-in-out infinite", animationDelay: `${i * 0.3}s` }}
+                />
+                {stage}
+              </span>
+              {i < STAGES.length - 1 && <span className="text-faint">→</span>}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
+
+const STAGES = ["Spec", "Generate", "Verify", "Ship"] as const;
