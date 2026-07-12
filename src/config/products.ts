@@ -16,6 +16,9 @@ export interface ProductEntry {
   featured?: boolean;
   highlight?: string;
   accent?: ProductAccent;
+  /** Override the project's own site (used by the card's "visit" arrow).
+   *  Falls back to the repo's GitHub `homepage` field when omitted. */
+  site?: string;
 }
 
 export const products: ProductEntry[] = [

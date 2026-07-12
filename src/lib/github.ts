@@ -72,14 +72,19 @@ async function fetchAllRepos(): Promise<GitHubRepo[]> {
 
 function toProduct(
   repo: GitHubRepo,
-  overrides?: { highlight?: string; accent?: ProductAccent; featured?: boolean },
+  overrides?: {
+    highlight?: string;
+    accent?: ProductAccent;
+    featured?: boolean;
+    site?: string;
+  },
 ): Product {
   return {
     name: repo.name,
     fullName: repo.full_name,
     description: overrides?.highlight ?? repo.description,
     url: repo.html_url,
-    homepage: repo.homepage,
+    homepage: overrides?.site || repo.homepage || null,
     cover: `https://opengraph.githubassets.com/1/${repo.full_name}`,
     stars: repo.stargazers_count,
     forks: repo.forks_count,
@@ -107,6 +112,7 @@ export async function getProducts(): Promise<Product[]> {
             highlight: entry.highlight,
             accent: entry.accent,
             featured: entry.featured,
+            site: entry.site,
           });
         }),
       );

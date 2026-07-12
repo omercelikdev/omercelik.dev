@@ -6,19 +6,23 @@ import type { Product } from "@/lib/github";
  *  do" cards. Hairline border, no cover image, border darkens subtly on hover
  *  (no growth). Links to the project's own site when set, else to GitHub. */
 export function ProductCard({ product }: { product: Product }) {
-  const href = product.homepage || product.url;
+  const siteHref = product.homepage; // the project's own site, if any
+  const titleHref = siteHref ?? product.url;
 
   return (
     <div className="group flex h-full flex-col gap-3 rounded-[var(--radius-xl)] border border-border p-5 transition-colors duration-200 hover:border-border-strong">
       <div className="flex items-start justify-between gap-3">
         <a
-          href={href}
+          href={titleHref}
           target="_blank"
           rel="noreferrer noopener"
           className="inline-flex items-center gap-1.5 text-[15px] font-medium tracking-tight transition-colors hover:text-brand-accent"
+          title={siteHref ? `${product.name} — visit site` : product.name}
         >
           {product.name}
-          <ArrowUpRight className="size-3.5 text-faint transition-colors group-hover:text-foreground" />
+          {siteHref && (
+            <ArrowUpRight className="size-3.5 text-faint transition-colors group-hover:text-brand-accent" />
+          )}
         </a>
         <span className="mono flex-none pt-0.5 text-[11px] text-faint">
           {product.year}
