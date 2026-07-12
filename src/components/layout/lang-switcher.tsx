@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Check, Languages } from "lucide-react";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { usePathname, getPathname } from "@/i18n/navigation";
 import { locales, type Locale } from "@/i18n/routing";
 
 const NATIVE_NAMES: Record<Locale, string> = {
@@ -20,9 +20,7 @@ export function LangSwitcher() {
   const t = useTranslations("lang");
   const activeLocale = useLocale() as Locale;
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [isPending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,9 +34,10 @@ export function LangSwitcher() {
   function select(locale: Locale) {
     setOpen(false);
     if (locale === activeLocale) return;
-    startTransition(() => {
-      router.replace(pathname, { locale });
-    });
+    // Full page load (not a soft nav): the root [locale] layout is re-rendered
+    // on the server, so its inline scripts (theme init) never re-render on the
+    // client and React 19's "script tag" warning can't fire.
+    window.location.href = getPathname({ href: pathname, locale });
   }
 
   return (
@@ -49,8 +48,7 @@ export function LangSwitcher() {
         aria-label={t("label")}
         aria-haspopup="menu"
         aria-expanded={open}
-        data-pending={isPending || undefined}
-        className="flex h-9 items-center gap-1.5 rounded-[var(--radius-lg)] border border-border bg-background px-2.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground data-[pending]:opacity-60"
+        className="flex h-9 items-center gap-1.5 rounded-[var(--radius-lg)] border border-border bg-background px-2.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       >
         <Languages className="size-4" strokeWidth={2} />
         <span className="text-xs font-semibold uppercase">{activeLocale}</span>
