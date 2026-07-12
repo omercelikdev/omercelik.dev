@@ -13,8 +13,7 @@ import { Link } from "@/i18n/navigation";
 import { mdxComponents } from "@/components/writings/mdx-components";
 import { Comments } from "@/components/writings/comments";
 import { getSeriesPosts, getWritingBySlug, getWritingSlugs } from "@/lib/writings";
-import { alternatesFor, localeUrl } from "@/lib/seo";
-import { site } from "@/config/site";
+import { alternatesFor } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const slugs = await getWritingSlugs();
@@ -56,19 +55,6 @@ export default async function WritingPage({
 
   const seriesPosts = post.series ? await getSeriesPosts(post.series) : [];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.description,
-    datePublished: post.date,
-    dateModified: post.date,
-    inLanguage: post.lang,
-    author: { "@type": "Person", name: site.name, url: site.url },
-    publisher: { "@type": "Person", name: site.name },
-    mainEntityOfPage: localeUrl(locale, `/writings/${slug}`),
-  };
-
   const { content } = await compileMDX({
     source: post.content,
     components: mdxComponents,
@@ -92,10 +78,6 @@ export default async function WritingPage({
 
   return (
     <Container className="pt-28 pb-24 sm:pt-32">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
       <article className="mx-auto max-w-2xl">
         <Link
           href="/writings"

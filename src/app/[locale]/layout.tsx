@@ -67,16 +67,6 @@ export default async function LocaleLayout({
 
   const dir = rtlLocales.includes(locale as Locale) ? "rtl" : "ltr";
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: site.name,
-    url: site.url,
-    email: site.email,
-    sameAs: [site.links.github, site.links.x, site.links.linkedin],
-    jobTitle: "Software Engineer",
-  };
-
   return (
     <html
       lang={locale}
@@ -84,12 +74,6 @@ export default async function LocaleLayout({
       suppressHydrationWarning
       className={`${geist.variable} ${geistMono.variable}`}
     >
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
       <body className="min-h-dvh bg-surface antialiased">
         <ThemeProvider>
           <NextIntlClientProvider>
