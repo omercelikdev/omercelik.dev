@@ -86,10 +86,11 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* smooth token transitions when toggling theme */
+/* smooth token transitions when toggling theme (next-themes sets the theme
+   before paint, so there is no transition flash on initial load) */
 @media (prefers-reduced-motion: no-preference) {
-  html.theme-ready,
-  html.theme-ready * {
+  html,
+  html * {
     transition: background-color .2s ease, border-color .2s ease, color .2s ease;
   }
 }
