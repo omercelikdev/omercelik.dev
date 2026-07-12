@@ -46,10 +46,6 @@ export const products: ProductEntry[] = [
     accent: "warning",
   },
   {
-    repo: "socketr",
-    accent: "info",
-  },
-  {
     repo: "qliplab",
     accent: "violet",
   },
