@@ -4,7 +4,7 @@ import { Container } from "@/components/layout/container";
 import { buttonClass } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { Typewriter } from "@/components/motion/typewriter";
-import { SpecCard } from "@/components/home/hero-spec";
+import { HeroSignature } from "@/components/home/hero-spec";
 
 const H1 =
   "text-[clamp(2.4rem,6vw,4.2rem)] font-medium leading-[1.05] tracking-[-0.035em]";
@@ -73,9 +73,11 @@ export async function Hero() {
               {t("ctaWritings")}
             </Link>
           </div>
+        </div>
 
-          {/* Signature: a golden-path spec manifest */}
-          <SpecCard />
+        {/* Signature spans the full width: spec manifest + tooling + pipeline */}
+        <div className="reveal in">
+          <HeroSignature />
         </div>
       </Container>
     </section>
