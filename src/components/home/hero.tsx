@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { buttonClass } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { Typewriter } from "@/components/motion/typewriter";
+import { HeroPipeline } from "@/components/home/hero-pipeline";
 
 const H1 =
   "text-[clamp(2.4rem,6vw,4.2rem)] font-medium leading-[1.05] tracking-[-0.035em]";
@@ -23,10 +24,9 @@ export async function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Subtle hero backdrop: fading dot grid + a faint brand glow */}
+      {/* Subtle hero backdrop: a fading dot grid on the plain background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-0 opacity-70 [background-image:radial-gradient(var(--border)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_55%_50%_at_50%_0%,black,transparent)]" />
-        <div className="absolute -top-24 left-1/2 h-[340px] w-[620px] -translate-x-1/2 rounded-full bg-brand-accent/[0.06] blur-[130px]" />
       </div>
 
       <Container className="pt-28 pb-16 sm:pt-36">
@@ -74,26 +74,10 @@ export async function Hero() {
             </Link>
           </div>
 
-          {/* Signature: a quiet spec-driven pipeline, nodes flowing left→right */}
-          <div className="mono mt-8 flex flex-wrap items-center gap-x-2.5 gap-y-2 border-t border-border pt-6 text-[11px] text-muted-foreground">
-            <span className="text-faint">pipeline</span>
-            {PIPELINE.map((stage, i) => (
-              <span key={stage} className="inline-flex items-center gap-2.5">
-                <span className="inline-flex items-center gap-1.5">
-                  <span
-                    className={`size-1.5 rounded-full ${i === PIPELINE.length - 1 ? "bg-brand-accent" : "bg-muted-foreground"}`}
-                    style={{ animation: "node-flow 2.8s ease-in-out infinite", animationDelay: `${i * 0.35}s` }}
-                  />
-                  {stage}
-                </span>
-                {i < PIPELINE.length - 1 && <span className="text-faint">→</span>}
-              </span>
-            ))}
-          </div>
+          {/* Signature: an animated spec-driven pipeline */}
+          <HeroPipeline />
         </div>
       </Container>
     </section>
   );
 }
-
-const PIPELINE = ["Spec", "Generate", "Verify", "Ship"] as const;
