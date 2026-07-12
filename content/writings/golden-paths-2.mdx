@@ -1,0 +1,31 @@
+---
+title: "Golden paths, part 2 — the manifest as the single source of truth"
+description: "An example post. How a spec manifest keeps the golden path honest."
+date: "2026-07-10"
+lang: "en"
+tags: ["golden-paths", "spec-driven", "example"]
+series: "Golden paths"
+seriesOrder: 2
+---
+
+> Example post, part two of the series.
+
+If the golden path is the road, the **manifest** is the map everyone agrees on.
+A single `manifest.yaml` (plus OpenAPI / AsyncAPI) becomes the source of truth,
+and tooling checks the repo against it.
+
+## Why it matters for AI
+
+When the spec is explicit and machine-readable, AI can generate against it and a
+deterministic linter can verify the result — no LLM in the validation loop:
+
+```yaml
+# .goldpath/manifest.yaml (illustrative)
+service: orders
+contracts:
+  - openapi: ./api/orders.yaml
+invariants:
+  - every endpoint has an idempotency key
+```
+
+Humans approve, guardrails verify, drift gets caught early. That's the whole idea.

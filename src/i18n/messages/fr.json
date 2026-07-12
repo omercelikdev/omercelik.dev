@@ -19,16 +19,16 @@
     "label": "Langue"
   },
   "home": {
-    "eyebrow": "architecture pilotée par l'IA · systèmes guidés par les spécifications",
-    "headlineLead": "Je conçois et développe",
+    "eyebrow": "nativement IA · guidé par les spécifications · .NET",
+    "headlineLead": "Je construis",
     "roles": [
-      "des bibliothèques pilotées par l'IA",
-      "des systèmes guidés par les spécifications",
-      "des outils pour développeurs",
-      "des plateformes d'entreprise"
+      "une infrastructure de développement nativement IA",
+      "des golden paths guidés par les spécifications",
+      "des bibliothèques .NET composables",
+      "une architecture qui passe à l'échelle"
     ],
-    "subtitle": "Ingénieur indépendant spécialisé dans l'architecture pilotée par l'IA et guidée par les spécifications — des bibliothèques et plateformes pour les entreprises, et des produits qui rendent le travail complexe simple.",
-    "ctaContact": "Entamer une conversation",
+    "subtitle": "Ingénieur logiciel qui construit une infrastructure de développement open source — des golden paths nativement IA et guidés par les spécifications, et des bibliothèques .NET composables. J'accorde de l'importance à l'architecture, à la justesse et aux outils qui font du bon choix l'option par défaut.",
+    "ctaContact": "Me contacter",
     "ctaWritings": "Lire les écrits",
     "sec1": "ce que je fais",
     "sec2": "produits & travaux sélectionnés",
@@ -69,17 +69,18 @@
     "empty": "Aucun article pour l'instant — revenez bientôt.",
     "backToList": "Tous les écrits",
     "tags": "Étiquettes",
-    "publishedOn": "Publié le {date}"
+    "publishedOn": "Publié le {date}",
+    "series": "Série"
   },
   "about": {
     "title": "À propos",
     "subtitle": "Qui je suis et ce sur quoi je travaille.",
     "photoAlt": "Ömer Çelik",
-    "body": "Je suis Ömer — un ingénieur logiciel indépendant. Je travaille sur une architecture pilotée par l'IA et guidée par les spécifications : des bibliothèques et plateformes qui aident les équipes d'entreprise à transformer des spécifications précises en systèmes corrects et testables. En parallèle, je conçois et développe des produits qui rendent le travail complexe simple. Ceci est une biographie provisoire — modifiez-la dans les fichiers de messages pour dire exactement ce que vous voulez, dans chaque langue."
+    "body": "Je suis Ömer — un ingénieur logiciel. Je construis une infrastructure de développement open source : des golden paths nativement IA et guidés par les spécifications, et des bibliothèques .NET composables, où des spécifications précises deviennent des systèmes corrects et testables, et où l'IA travaille à l'intérieur des garde-fous. J'accorde de l'importance à l'architecture, à la justesse et aux outils qui font du bon choix l'option par défaut. Ceci est une biographie provisoire — modifiez-la dans les fichiers de messages pour dire exactement ce que vous voulez, dans chaque langue."
   },
   "contact": {
-    "title": "Discutons",
-    "subtitle": "Vous avez un projet, un poste ou une idée à discuter ? Envoyez-moi un mot — je lis tout.",
+    "title": "Me contacter",
+    "subtitle": "Des questions, des idées ou un retour sur le travail — ma boîte de réception est ouverte. Je lis tout.",
     "nameLabel": "Nom",
     "emailLabel": "E-mail",
     "messageLabel": "Message",
@@ -93,9 +94,9 @@
     "orReach": "Ou contactez-moi directement"
   },
   "cta": {
-    "title": "Vous avez un projet en tête ?",
-    "subtitle": "Je suis ouvert au conseil, aux collaborations et à la création de quelque chose de nouveau ensemble.",
-    "button": "Entamer une conversation"
+    "title": "Restons en contact",
+    "subtitle": "Des questions, des idées ou un retour sur le travail — écrivez-moi quand vous voulez.",
+    "button": "Me contacter"
   },
   "footer": {
     "tagline": "Ingénieur indépendant. Architecture et produits pilotés par l'IA et guidés par les spécifications, construits en open source.",

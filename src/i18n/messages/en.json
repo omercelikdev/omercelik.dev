@@ -19,16 +19,16 @@
     "label": "Language"
   },
   "home": {
-    "eyebrow": "AI-driven architecture · spec-driven systems",
-    "headlineLead": "I design and build",
+    "eyebrow": "AI-native · spec-driven · .NET",
+    "headlineLead": "I build",
     "roles": [
-      "AI-driven libraries",
-      "spec-driven systems",
-      "developer tooling",
-      "enterprise platforms"
+      "AI-native developer infrastructure",
+      "spec-driven golden paths",
+      "composable .NET libraries",
+      "architecture that scales"
     ],
-    "subtitle": "Independent engineer focused on AI-driven, spec-driven architecture — libraries and platforms for enterprises, and products that make complex work feel simple.",
-    "ctaContact": "Start a conversation",
+    "subtitle": "Software engineer building open-source developer infrastructure — AI-native, spec-driven golden paths and composable .NET libraries. I care about architecture, correctness, and tools that make the right thing the default.",
+    "ctaContact": "Get in touch",
     "ctaWritings": "Read the writing",
     "sec1": "what I do",
     "sec2": "products & selected work",
@@ -69,17 +69,18 @@
     "empty": "No posts yet — check back soon.",
     "backToList": "All writing",
     "tags": "Tags",
+    "series": "Series",
     "publishedOn": "Published {date}"
   },
   "about": {
     "title": "About",
     "subtitle": "Who I am and what I work on.",
     "photoAlt": "Ömer Çelik",
-    "body": "I'm Ömer — an independent software engineer. I work on AI-driven, spec-driven architecture: libraries and platforms that help enterprise teams turn precise specifications into correct, testable systems. Alongside that, I design and build products that make complex work feel simple. This is a placeholder bio — edit it in the message files to say exactly what you want, in every language."
+    "body": "I'm Ömer — a software engineer. I build open-source developer infrastructure: AI-native, spec-driven golden paths and composable .NET libraries, where precise specifications become correct, testable systems and AI works inside the guardrails. I care about architecture, correctness, and tools that make the right thing the default. This is a placeholder bio — edit it in the message files to say exactly what you want, in every language."
   },
   "contact": {
-    "title": "Let's talk",
-    "subtitle": "Have a project, a role, or an idea to discuss? Send a note — I read everything.",
+    "title": "Get in touch",
+    "subtitle": "Questions, ideas, or feedback on the work — my inbox is open. I read everything.",
     "nameLabel": "Name",
     "emailLabel": "Email",
     "messageLabel": "Message",
@@ -93,9 +94,9 @@
     "orReach": "Or reach me directly"
   },
   "cta": {
-    "title": "Have a project in mind?",
-    "subtitle": "I'm open to consulting, collaborations, and building something new together.",
-    "button": "Start a conversation"
+    "title": "Let's connect",
+    "subtitle": "Questions, ideas, or feedback on the work — reach out any time.",
+    "button": "Get in touch"
   },
   "footer": {
     "tagline": "Independent engineer. AI-driven, spec-driven architecture and products, built in the open.",

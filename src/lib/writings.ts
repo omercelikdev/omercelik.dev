@@ -14,6 +14,10 @@ export interface WritingFrontmatter {
   lang: string;
   tags?: string[];
   draft?: boolean;
+  /** Optional series this post belongs to (a human-readable series title). */
+  series?: string;
+  /** Position within the series (1-based); used to order series posts. */
+  seriesOrder?: number;
 }
 
 export interface WritingMeta extends WritingFrontmatter {
@@ -45,6 +49,8 @@ function parse(fileName: string, raw: string): Writing {
     lang: fm.lang ?? "en",
     tags: fm.tags ?? [],
     draft: fm.draft ?? false,
+    series: fm.series,
+    seriesOrder: fm.seriesOrder,
     readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
     content,
   };
@@ -83,4 +89,16 @@ export async function getLatestWritings(count = 3): Promise<WritingMeta[]> {
 
 export async function getWritingSlugs(): Promise<string[]> {
   return (await getAllWritings()).map((w) => w.slug);
+}
+
+/** All posts in a series, ordered by seriesOrder (then date). */
+export async function getSeriesPosts(series: string): Promise<WritingMeta[]> {
+  const all = await getAllWritings();
+  return all
+    .filter((w) => w.series === series)
+    .sort(
+      (a, b) =>
+        (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0) ||
+        +new Date(a.date) - +new Date(b.date),
+    );
 }

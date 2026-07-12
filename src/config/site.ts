@@ -12,6 +12,16 @@ export const site = {
     linkedin: "https://www.linkedin.com/in/omercelikdev",
     email: "mailto:omer@omercelik.dev",
   },
+  /** Comments on writing via Giscus (GitHub Discussions — free, no backend).
+   *  Enable Discussions on the repo, install the giscus app, then paste the
+   *  repoId + categoryId from https://giscus.app. Comments render only once
+   *  both IDs are filled in. */
+  comments: {
+    repo: "omercelikdev/omercelik.dev",
+    repoId: "",
+    category: "Comments",
+    categoryId: "",
+  },
 } as const;
 
 export type SiteConfig = typeof site;

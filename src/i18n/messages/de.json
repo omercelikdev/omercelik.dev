@@ -19,16 +19,16 @@
     "label": "Sprache"
   },
   "home": {
-    "eyebrow": "KI-getriebene Architektur · spezifikationsgetriebene Systeme",
-    "headlineLead": "Ich entwerfe und baue",
+    "eyebrow": "KI-nativ · spezifikationsgetrieben · .NET",
+    "headlineLead": "Ich baue",
     "roles": [
-      "KI-getriebene Bibliotheken",
-      "spezifikationsgetriebene Systeme",
-      "Entwicklerwerkzeuge",
-      "Unternehmensplattformen"
+      "KI-native Entwickler-Infrastruktur",
+      "spezifikationsgetriebene Golden Paths",
+      "komponierbare .NET-Bibliotheken",
+      "Architektur, die skaliert"
     ],
-    "subtitle": "Unabhängiger Ingenieur mit Fokus auf KI-getriebene, spezifikationsgetriebene Architektur — Bibliotheken und Plattformen für Unternehmen sowie Produkte, die komplexe Arbeit einfach wirken lassen.",
-    "ctaContact": "Ein Gespräch beginnen",
+    "subtitle": "Softwareingenieur, der quelloffene Entwickler-Infrastruktur baut — KI-native, spezifikationsgetriebene Golden Paths und komponierbare .NET-Bibliotheken. Mir liegen Architektur, Korrektheit und Werkzeuge am Herzen, die das Richtige zur Standardwahl machen.",
+    "ctaContact": "Kontakt aufnehmen",
     "ctaWritings": "Texte lesen",
     "sec1": "was ich mache",
     "sec2": "Produkte & ausgewählte Arbeiten",
@@ -69,17 +69,18 @@
     "empty": "Noch keine Beiträge — schau bald wieder vorbei.",
     "backToList": "Alle Texte",
     "tags": "Schlagwörter",
-    "publishedOn": "Veröffentlicht {date}"
+    "publishedOn": "Veröffentlicht {date}",
+    "series": "Reihe"
   },
   "about": {
     "title": "Über mich",
     "subtitle": "Wer ich bin und woran ich arbeite.",
     "photoAlt": "Ömer Çelik",
-    "body": "Ich bin Ömer — ein unabhängiger Softwareingenieur. Ich arbeite an KI-getriebener, spezifikationsgetriebener Architektur: Bibliotheken und Plattformen, die Unternehmensteams helfen, präzise Spezifikationen in korrekte, testbare Systeme zu verwandeln. Daneben entwerfe und baue ich Produkte, die komplexe Arbeit einfach wirken lassen. Dies ist eine Platzhalter-Biografie — bearbeite sie in den Nachrichtendateien, um in jeder Sprache genau das zu sagen, was du möchtest."
+    "body": "Ich bin Ömer — ein Softwareingenieur. Ich baue quelloffene Entwickler-Infrastruktur: KI-native, spezifikationsgetriebene Golden Paths und komponierbare .NET-Bibliotheken, in denen präzise Spezifikationen zu korrekten, testbaren Systemen werden und KI innerhalb der Leitplanken arbeitet. Mir liegen Architektur, Korrektheit und Werkzeuge am Herzen, die das Richtige zur Standardwahl machen. Dies ist eine Platzhalter-Biografie — bearbeite sie in den Nachrichtendateien, um in jeder Sprache genau das zu sagen, was du möchtest."
   },
   "contact": {
-    "title": "Sprechen wir",
-    "subtitle": "Hast du ein Projekt, eine Position oder eine Idee zu besprechen? Schreib mir — ich lese alles.",
+    "title": "Kontakt aufnehmen",
+    "subtitle": "Fragen, Ideen oder Feedback zur Arbeit — mein Postfach ist offen. Ich lese alles.",
     "nameLabel": "Name",
     "emailLabel": "E-Mail",
     "messageLabel": "Nachricht",
@@ -93,9 +94,9 @@
     "orReach": "Oder erreiche mich direkt"
   },
   "cta": {
-    "title": "Haben Sie ein Projekt im Sinn?",
-    "subtitle": "Ich bin offen für Beratung, Kooperationen und den gemeinsamen Aufbau von etwas Neuem.",
-    "button": "Ein Gespräch beginnen"
+    "title": "Vernetzen wir uns",
+    "subtitle": "Fragen, Ideen oder Feedback zur Arbeit — melde dich jederzeit.",
+    "button": "Kontakt aufnehmen"
   },
   "footer": {
     "tagline": "Unabhängiger Ingenieur. KI-getriebene, spezifikationsgetriebene Architektur und Produkte, offen entwickelt.",

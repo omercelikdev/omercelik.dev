@@ -19,16 +19,16 @@
     "label": "Dil"
   },
   "home": {
-    "eyebrow": "Yapay zekâ odaklı mimari · spesifikasyon güdümlü sistemler",
-    "headlineLead": "Tasarlayıp geliştiriyorum:",
+    "eyebrow": "Yapay zekâ temelli · spesifikasyon güdümlü · .NET",
+    "headlineLead": "İnşa ettiğim:",
     "roles": [
-      "yapay zekâ odaklı kütüphaneler",
-      "spesifikasyon güdümlü sistemler",
-      "geliştirici araçları",
-      "kurumsal platformlar"
+      "yapay zekâ temelli geliştirici altyapısı",
+      "spesifikasyon güdümlü altın yollar",
+      "birleştirilebilir .NET kütüphaneleri",
+      "ölçeklenen mimari"
     ],
-    "subtitle": "Yapay zekâ odaklı, spesifikasyon güdümlü mimariye odaklanan bağımsız mühendis — kurumlar için kütüphaneler ve platformlar, karmaşık işi basit hissettiren ürünler.",
-    "ctaContact": "Bir konuşma başlat",
+    "subtitle": "Açık kaynak geliştirici altyapısı geliştiren yazılım mühendisi — yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve birleştirilebilir .NET kütüphaneleri. Mimariyi, doğruluğu ve doğru olanı varsayılan hâline getiren araçları önemsiyorum.",
+    "ctaContact": "İletişime geç",
     "ctaWritings": "Yazıları oku",
     "sec1": "ne yapıyorum",
     "sec2": "ürünler ve seçili çalışmalar",
@@ -69,17 +69,18 @@
     "empty": "Henüz yazı yok — yakında tekrar uğrayın.",
     "backToList": "Tüm yazılar",
     "tags": "Etiketler",
-    "publishedOn": "Yayımlandı {date}"
+    "publishedOn": "Yayımlandı {date}",
+    "series": "Seri"
   },
   "about": {
     "title": "Hakkında",
     "subtitle": "Kimim ve ne üzerine çalışıyorum.",
     "photoAlt": "Ömer Çelik",
-    "body": "Ben Ömer — bağımsız bir yazılım mühendisiyim. Yapay zekâ odaklı, spesifikasyon güdümlü mimari üzerine çalışıyorum: kurumsal ekiplerin kesin spesifikasyonları doğru ve test edilebilir sistemlere dönüştürmesine yardımcı olan kütüphaneler ve platformlar. Bunun yanında, karmaşık işi basit hissettiren ürünler tasarlayıp geliştiriyorum. Bu bir yer tutucu biyografidir — her dilde tam olarak ne istediğinizi söylemek için mesaj dosyalarında düzenleyin."
+    "body": "Ben Ömer — bir yazılım mühendisiyim. Açık kaynak geliştirici altyapısı geliştiriyorum: yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve birleştirilebilir .NET kütüphaneleri; burada kesin spesifikasyonlar doğru ve test edilebilir sistemlere dönüşür ve yapay zekâ, korkuluklar içinde çalışır. Mimariyi, doğruluğu ve doğru olanı varsayılan hâline getiren araçları önemsiyorum. Bu bir yer tutucu biyografidir — her dilde tam olarak ne istediğinizi söylemek için mesaj dosyalarında düzenleyin."
   },
   "contact": {
-    "title": "Konuşalım",
-    "subtitle": "Konuşacak bir projeniz, bir pozisyonunuz ya da bir fikriniz mi var? Bir not gönderin — her şeyi okuyorum.",
+    "title": "İletişime geç",
+    "subtitle": "İş hakkında sorular, fikirler ya da geri bildirimler — gelen kutum açık. Her şeyi okuyorum.",
     "nameLabel": "İsim",
     "emailLabel": "E-posta",
     "messageLabel": "Mesaj",
@@ -93,9 +94,9 @@
     "orReach": "Ya da bana doğrudan ulaşın"
   },
   "cta": {
-    "title": "Aklınızda bir proje mi var?",
-    "subtitle": "Danışmanlık, iş birlikleri ve birlikte yeni bir şeyler inşa etmeye açığım.",
-    "button": "Bir konuşma başlat"
+    "title": "Bağlantı kuralım",
+    "subtitle": "İş hakkında sorular, fikirler ya da geri bildirimler — istediğin zaman ulaş.",
+    "button": "İletişime geç"
   },
   "footer": {
     "tagline": "Bağımsız mühendis. Yapay zekâ odaklı, spesifikasyon güdümlü mimari ve ürünler, açıkça inşa edilir.",
