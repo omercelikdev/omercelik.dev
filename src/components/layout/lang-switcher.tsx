@@ -34,8 +34,11 @@ export function LangSwitcher() {
   function select(locale: Locale) {
     setOpen(false);
     if (locale === activeLocale) return;
-    // Full page load (not a soft nav): the root [locale] layout is re-rendered
-    // on the server, so its inline scripts (theme init) never re-render on the
+    // Persist the choice so next-intl's middleware doesn't redirect the
+    // prefix-less default-locale path ("/") back to the previous locale.
+    document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`;
+    // Full page load (not a soft nav): the root [locale] layout re-renders on
+    // the server, so its inline scripts (theme init) never re-render on the
     // client and React 19's "script tag" warning can't fire.
     window.location.href = getPathname({ href: pathname, locale });
   }
