@@ -6,7 +6,7 @@ import { ContactForm } from "@/components/contact/contact-form";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
 import { site } from "@/config/site";
-import { alternatesFor } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -15,11 +15,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "contact" });
-  return {
+  return pageMetadata({
+    locale,
+    path: "/contact",
     title: t("title"),
     description: t("subtitle"),
-    alternates: alternatesFor(locale, "/contact"),
-  };
+  });
 }
 
 export default async function ContactPage({

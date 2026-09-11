@@ -9,7 +9,8 @@ import { buttonClass } from "@/components/ui/button";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
 import { Link } from "@/i18n/navigation";
 import { getFeaturedProducts } from "@/lib/github";
-import { alternatesFor } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMetadata, profileJsonLd } from "@/lib/seo";
 import { site } from "@/config/site";
 
 export async function generateMetadata({
@@ -19,11 +20,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "about" });
-  return {
+  return pageMetadata({
+    locale,
+    path: "/about",
     title: t("metaTitle"),
-    description: t("subtitle"),
-    alternates: alternatesFor(locale, "/about"),
-  };
+    description: t("metaDescription"),
+  });
 }
 
 const SUBHEAD =
@@ -55,6 +57,7 @@ export default async function AboutPage({
 
   return (
     <Container className={PAGE_PADDING}>
+      <JsonLd data={profileJsonLd(locale)} />
       <div className="grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-16">
         <aside className="intro flex flex-col gap-8 lg:sticky lg:top-24 lg:self-start">
           <Portrait alt={t("photoAlt")} />

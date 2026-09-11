@@ -62,8 +62,13 @@
   --text-caption--line-height: 1.5;
   --text-ui: 13px;
   --text-ui--line-height: 1.55;
+  --text-control: 14px;
+  --text-control--line-height: 1.4;
   --text-body: 15px;
   --text-body--line-height: 1.65;
+  /* form fields: 16px, or iOS zooms the page on focus */
+  --text-field: 16px;
+  --text-field--line-height: 1.5;
   --text-lead: 17px;
   --text-lead--line-height: 1.6;
   --text-prose: 17px;

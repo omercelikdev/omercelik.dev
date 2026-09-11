@@ -20,7 +20,7 @@ export function AuthorCard() {
     <div className="mt-16 flex items-start gap-4 rounded-[var(--radius-xl)] border border-border p-5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/omer.jpg"
+        src="/omer-160.jpg"
         alt=""
         width={48}
         height={48}

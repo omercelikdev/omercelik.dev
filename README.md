@@ -29,9 +29,20 @@ npm run build                # static site in ./out
   scroll-linked ones (`animation-timeline: view()`). Content is visible without
   JavaScript, and `prefers-reduced-motion` switches it all off.
 - **Signature diagram** — `src/components/diagram/`: an isometric stack of
-  architecture layers in CSS 3D (no WebGL). It tilts with the pointer (a few
-  lines of JS), opens as you scroll and runs a signal down the layers (CSS);
-  touch screens get an idle sway, reduced motion a still diagram.
+  architecture layers in CSS 3D (no WebGL). One layer is in focus at a time:
+  it slides forward and lights up, the layers above fade, and its description
+  shows below. It plays top to bottom while in view; a mouse moving up and
+  down the stack scrubs through it, a tap steps forward, and the legend
+  selects a layer (keyboard included). It also tilts toward the pointer and
+  opens as the page scrolls. Touch screens get an idle sway, reduced motion no
+  autoplay; without JavaScript it's a still diagram.
+- **SEO** — `src/lib/seo.ts`: every page gets its title, description,
+  canonical, hreflang, Open Graph and X card from `pageMetadata` /
+  `articleMetadata` (Next merges metadata shallowly, so pages set the whole
+  block). Structured data: Person + WebSite everywhere, ProfilePage on About,
+  BlogPosting + BreadcrumbList on articles. Social cards are real `.png`
+  routes (`src/app/og.png`, `src/app/og/[slug]/card.png`) so static hosts
+  serve them as images. Tag pages are `noindex, follow`.
 - **Type** — Geist for the interface, Newsreader (serif) for essay titles and
   pull quotes.
 - **Products** — read from the GitHub API at build time; curate the list in
@@ -108,3 +119,20 @@ Worker static assets, with `404.html` for unknown paths.
 2. Add a `GITHUB_TOKEN` build variable — a token with no permissions is enough
    to read public repositories.
 3. Attach the `omercelik.dev` custom domain to the Worker.
+
+## After the first deploy — search engines
+
+The site ships everything search engines read (sitemap, canonicals,
+structured data); these steps tell them it exists:
+
+1. **Google Search Console** — add a *Domain* property for `omercelik.dev`,
+   verify with the DNS TXT record (in Cloudflare DNS), then submit
+   `https://omercelik.dev/sitemap.xml`. Use *URL inspection → Request
+   indexing* for the home page and each new essay.
+2. **Bing Webmaster Tools** — import the site from Search Console (Bing also
+   feeds DuckDuckGo and others).
+3. **Link back to the site** from GitHub, LinkedIn and X profiles — the same
+   URLs listed as `sameAs` in the Person structured data. Consistent profiles
+   are what tie searches for the name to this site.
+4. Check a page with Google's Rich Results Test and share one link on
+   LinkedIn/X to confirm the social card.

@@ -43,7 +43,7 @@ export function Header() {
         <Link
           href="/"
           aria-label={site.domain}
-          className="mono -ms-2.5 flex-none rounded-[var(--radius-md)] px-2.5 py-1.5 text-base font-semibold tracking-tight transition-colors hover:bg-muted"
+          className="mono -ms-2.5 flex-none rounded-[var(--radius-md)] px-2.5 py-1.5 text-body font-semibold tracking-tight transition-colors hover:bg-muted"
         >
           omercelik<span className="text-brand-accent">.dev</span>
         </Link>

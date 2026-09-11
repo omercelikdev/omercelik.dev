@@ -1,4 +1,5 @@
 import { Children, isValidElement, type ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 import { ArchitectureStack, type StackLayer } from "@/components/diagram/architecture-stack";
 
@@ -95,6 +96,7 @@ export function Layer(_props: LayerProps) {
  *  </LayerStack>
  *  Plain string props only — the MDX pipeline doesn't evaluate expressions. */
 export function LayerStack({ title, children }: { title?: string; children: ReactNode }) {
+  const t = useTranslations("diagram");
   const layers: StackLayer[] = Children.toArray(children)
     .filter(isValidElement)
     .map((child) => {
@@ -106,11 +108,18 @@ export function LayerStack({ title, children }: { title?: string; children: Reac
 
   const description = title ?? layers.map((layer) => layer.label).join(" → ");
   return (
-    <div className="my-10">
-      <ArchitectureStack variant="inline" layers={layers} description={description} />
+    <figure className="my-10">
+      <ArchitectureStack
+        variant="inline"
+        layers={layers}
+        description={description}
+        legendLabel={t("layers")}
+      />
       {title && (
-        <p className="mt-3 text-center text-caption text-muted-foreground">{title}</p>
+        <figcaption className="mt-1 text-center text-caption font-medium text-foreground">
+          {title}
+        </figcaption>
       )}
-    </div>
+    </figure>
   );
 }

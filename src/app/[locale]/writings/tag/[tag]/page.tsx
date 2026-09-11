@@ -7,7 +7,7 @@ import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { PostRow } from "@/components/writings/post-row";
 import { Link } from "@/i18n/navigation";
 import { getAllTags, getWritingsByTag } from "@/lib/writings";
-import { alternatesFor } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const tags = await getAllTags();
@@ -28,10 +28,15 @@ export async function generateMetadata({
   const name = await tagName(tag);
   const t = await getTranslations({ locale, namespace: "writings" });
   if (!name) return {};
-  return {
+  // Tag pages are thin lists of posts that live elsewhere: out of the index,
+  // but crawlable, so they still lead search engines to the articles.
+  return pageMetadata({
+    locale,
+    path: `/writings/tag/${tag}`,
     title: `${t("tagged")}: ${name}`,
-    alternates: alternatesFor(locale, `/writings/tag/${tag}`),
-  };
+    description: t("subtitle"),
+    noindex: true,
+  });
 }
 
 export default async function TagPage({

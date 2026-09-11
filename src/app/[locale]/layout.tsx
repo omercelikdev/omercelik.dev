@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Geist, Geist_Mono, Newsreader } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -9,7 +9,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { site } from "@/config/site";
-import { siteJsonLd } from "@/lib/seo";
+import { localeUrl, SITE_OG_IMAGE, siteJsonLd, X_HANDLE } from "@/lib/seo";
 import "../globals.css";
 
 const geist = Geist({
@@ -42,27 +42,52 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
+  // Site-wide defaults. Every page sets its own title, canonical and social
+  // cards on top (lib/seo), replacing these — Next merges only shallowly.
   return {
     metadataBase: new URL(site.url),
-    title: { default: t("title"), template: `%s · ${t("title")}` },
+    title: { default: t("homeTitle"), template: `%s · ${site.name}` },
     description: t("description"),
+    applicationName: site.name,
+    authors: [{ name: site.name, url: localeUrl(locale, "/about") }],
+    creator: site.name,
+    publisher: site.name,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
     openGraph: {
-      title: t("title"),
-      description: t("description"),
-      url: site.url,
-      siteName: site.name,
       type: "website",
+      siteName: site.name,
+      title: t("homeTitle"),
+      description: t("description"),
+      images: [{ url: SITE_OG_IMAGE, width: 1200, height: 630, alt: site.name }],
     },
     twitter: {
       card: "summary_large_image",
-      title: t("title"),
-      description: t("description"),
+      site: X_HANDLE,
+      creator: X_HANDLE,
+      images: [SITE_OG_IMAGE],
     },
     alternates: {
       types: { "application/rss+xml": `${site.url}/feed.xml` },
     },
   };
 }
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#18181b" },
+  ],
+};
 
 export default async function LocaleLayout({
   children,
@@ -76,6 +101,8 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const nav = await getTranslations("nav");
   const home = await getTranslations("home");
+  const meta = await getTranslations("meta");
+  const about = await getTranslations("about");
 
   return (
     <html
@@ -93,7 +120,14 @@ export default async function LocaleLayout({
         >
           {nav("skip")}
         </a>
-        <JsonLd data={siteJsonLd(locale, home("role"))} />
+        <JsonLd
+          data={siteJsonLd({
+            locale,
+            jobTitle: home("role"),
+            description: meta("description"),
+            knowsAbout: about.raw("toolbox") as string[],
+          })}
+        />
         <ThemeProvider>
           <NextIntlClientProvider>
             <div className="flex min-h-dvh flex-col">

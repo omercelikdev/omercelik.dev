@@ -15,7 +15,10 @@
   --foreground: oklch(0.141 0.005 285.823);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
-  --faint: oklch(0.705 0.015 286.067);
+  /* faint still carries text (labels, indices, dates): 4.5:1 on white, the
+     WCAG AA minimum. Hierarchy against muted-foreground comes from size and
+     the mono face, not from a paler grey. */
+  --faint: oklch(0.565 0.015 286.067);
   --border: oklch(0.92 0.004 286.32);
   --border-strong: oklch(0.87 0.005 286.2);
   --input: oklch(0.92 0.004 286.32);
@@ -59,7 +62,7 @@
   --foreground: oklch(0.985 0 0);
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
-  --faint: oklch(0.55 0.014 286);
+  --faint: oklch(0.62 0.014 286);
   --border: oklch(1 0 0 / 0.1);
   --border-strong: oklch(1 0 0 / 0.18);
   --input: oklch(1 0 0 / 0.12);
@@ -87,7 +90,7 @@
     --foreground: oklch(0.985 0 0);
     --muted: oklch(0.274 0.006 286.033);
     --muted-foreground: oklch(0.705 0.015 286.067);
-    --faint: oklch(0.55 0.014 286);
+    --faint: oklch(0.62 0.014 286);
     --border: oklch(1 0 0 / 0.1);
     --border-strong: oklch(1 0 0 / 0.18);
     --input: oklch(1 0 0 / 0.12);

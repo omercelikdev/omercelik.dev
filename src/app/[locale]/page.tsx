@@ -11,7 +11,7 @@ import { FeaturedPost } from "@/components/writings/featured-post";
 import { Reveal } from "@/components/motion/reveal";
 import { getFeaturedProducts } from "@/lib/github";
 import { getLatestWritings } from "@/lib/writings";
-import { alternatesFor } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -19,7 +19,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  return { alternates: alternatesFor(locale, "/") };
+  const t = await getTranslations({ locale, namespace: "meta" });
+  return pageMetadata({
+    locale,
+    path: "/",
+    title: t("homeTitle"),
+    description: t("description"),
+    absoluteTitle: true,
+  });
 }
 
 export default async function HomePage({

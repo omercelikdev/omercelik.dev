@@ -6,7 +6,7 @@ import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { PostRow } from "@/components/writings/post-row";
 import { TagLink } from "@/components/ui/badge";
 import { getAllTags, getAllWritings } from "@/lib/writings";
-import { alternatesFor } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -15,11 +15,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "writings" });
-  return {
+  return pageMetadata({
+    locale,
+    path: "/writings",
     title: t("title"),
     description: t("subtitle"),
-    alternates: alternatesFor(locale, "/writings"),
-  };
+  });
 }
 
 export default async function WritingsPage({

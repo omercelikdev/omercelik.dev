@@ -10,7 +10,7 @@ const VARIANT: Record<Variant, string> = {
   ghost: "bg-transparent hover:bg-muted",
 };
 const SIZE: Record<Size, string> = {
-  md: "h-9 px-3.5 text-sm",
+  md: "h-9 px-3.5 text-control",
   sm: "h-8 px-3 text-ui",
 };
 

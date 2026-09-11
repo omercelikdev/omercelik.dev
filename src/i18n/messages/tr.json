@@ -1,7 +1,8 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "description": "Açık kaynak geliştirici altyapısı geliştiren yazılım mühendisi — yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve birleştirilebilir .NET kütüphaneleri. Mimari ve zanaat üzerine notlar."
+    "homeTitle": "Ömer Çelik — Yazılım Mühendisi",
+    "description": "Açık kaynak geliştirici altyapısı geliştiren yazılım mühendisi: yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve .NET kütüphaneleri."
   },
   "nav": {
     "products": "Ürünler",
@@ -32,6 +33,13 @@
     "signature": "Katman katman bir altın yol — <goldpath>goldpath</goldpath> onu kurar, <specdrift>specdrift</specdrift> dürüst tutar.",
     "stackDescription": "Diyagram: üst üste beş katman olarak bir altın yol — spesifikasyon, sözleşmeler, kod, doğrulama ve çalışma zamanı — ve spesifikasyondan üretime akan bir sinyal.",
     "featured": "Öne çıkan yazı",
+    "layers": [
+      "Ne doğru olmalı — tek bir manifest, tek doğruluk kaynağı.",
+      "Servisler nasıl konuşur — kodla birlikte sürümlenen OpenAPI ve AsyncAPI.",
+      "Ne çalışır — elle yazılmadan, altın yol üzerinde üretilen kod.",
+      "Kanıt — specdrift, kodun hâlâ spesifikasyona uyduğunu doğrular.",
+      "Üretimde ne olur — OpenTelemetry ile uçtan uca izlenir."
+    ],
     "sec1": "ne yapıyorum",
     "sec2": "ürünler ve seçili çalışmalar",
     "sec3": "yazılar",
@@ -80,6 +88,7 @@
   "about": {
     "title": "Merhaba, ben Ömer.",
     "metaTitle": "Hakkında",
+    "metaDescription": "Ömer Çelik, açık kaynak geliştirici altyapısı geliştiren bir yazılım mühendisi — spesifikasyon güdümlü altın yollar ve .NET kütüphaneleri.",
     "subtitle": "Kimim ve ne üzerine çalışıyorum.",
     "photoAlt": "Ömer Çelik'in portresi",
     "body": [
@@ -120,6 +129,9 @@
   "footer": {
     "tagline": "Yazılım mühendisi. Açık kaynak geliştirici altyapısı, açıkta inşa ediliyor.",
     "rss": "RSS akışı"
+  },
+  "diagram": {
+    "layers": "Katmanlar"
   },
   "notFound": {
     "title": "Sayfa bulunamadı",

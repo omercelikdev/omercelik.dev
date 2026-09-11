@@ -1,7 +1,8 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "description": "Software engineer building open-source developer infrastructure — AI-native, spec-driven golden paths and composable .NET libraries. Notes on architecture and the craft."
+    "homeTitle": "Ömer Çelik — Software Engineer",
+    "description": "Software engineer building open-source developer infrastructure: AI-native, spec-driven golden paths and composable .NET libraries."
   },
   "nav": {
     "products": "Products",
@@ -32,6 +33,13 @@
     "signature": "A golden path, layer by layer — <goldpath>goldpath</goldpath> scaffolds it, <specdrift>specdrift</specdrift> keeps it honest.",
     "stackDescription": "Diagram: a golden path as five stacked layers — spec, contracts, code, verification and runtime — with a signal flowing from the spec down to production.",
     "featured": "Featured essay",
+    "layers": [
+      "What must be true — one manifest is the single source of truth.",
+      "How services speak — OpenAPI and AsyncAPI, versioned with the code.",
+      "What runs — generated on the golden path, not hand-rolled.",
+      "The proof — specdrift checks that the code still matches the spec.",
+      "What production does — traced end to end with OpenTelemetry."
+    ],
     "sec1": "what I do",
     "sec2": "products & selected work",
     "sec3": "writings",
@@ -80,6 +88,7 @@
   "about": {
     "title": "Hi, I'm Ömer.",
     "metaTitle": "About",
+    "metaDescription": "Ömer Çelik is a software engineer building open-source developer infrastructure — spec-driven golden paths and composable .NET libraries.",
     "subtitle": "Who I am and what I work on.",
     "photoAlt": "Portrait of Ömer Çelik",
     "body": [
@@ -120,6 +129,9 @@
   "footer": {
     "tagline": "Software engineer. Open-source developer infrastructure, built in the open.",
     "rss": "RSS feed"
+  },
+  "diagram": {
+    "layers": "Layers"
   },
   "notFound": {
     "title": "Page not found",

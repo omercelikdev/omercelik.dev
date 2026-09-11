@@ -20,7 +20,7 @@ export function Portrait({ alt }: { alt: string }) {
         />
       ) : (
         <div className="grid size-full place-items-center">
-          <span className="text-6xl font-medium text-faint">ÖÇ</span>
+          <span className="text-display font-medium text-faint">ÖÇ</span>
         </div>
       )}
     </div>

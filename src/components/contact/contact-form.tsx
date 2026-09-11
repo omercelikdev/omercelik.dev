@@ -7,7 +7,7 @@ import { buttonClass } from "@/components/ui/button";
 import { site } from "@/config/site";
 
 const inputClass =
-  "w-full rounded-[var(--radius-lg)] border border-input bg-background px-3.5 py-2.5 text-body text-foreground outline-none transition-colors placeholder:text-faint focus:border-brand-accent";
+  "w-full rounded-[var(--radius-lg)] border border-input bg-background px-3.5 py-2.5 text-field text-foreground outline-none transition-colors placeholder:text-faint focus:border-brand-accent";
 
 /** No backend, no dependency, and honest about it: submitting opens the
  *  visitor's own mail app with the message filled in. The reply address is

@@ -1,10 +1,15 @@
 /* The site's signature diagram: architecture layers stacked in CSS 3D.
 
-   Three custom properties drive it, all registered so they can animate:
-   --tilt-x / --tilt-y (−1…1) follow the pointer (set by TiltScene), and
-   --spread (0…1) opens the stack as the page scrolls. Every effect is an
-   enhancement: with no JavaScript, no scroll-driven animations or reduced
-   motion, it is a still, readable isometric diagram. */
+   Custom properties drive it, all registered so they can animate:
+   --tilt-x / --tilt-y (−1…1) follow the pointer, and --spread (0…1) opens the
+   stack as the page scrolls. StackScene marks one layer active at a time
+   (data-state on each plate): it slides forward and lights up, the layers
+   above it fade so it can be read, and the signal's path so far lights the
+   connectors. Without JavaScript, scroll-driven animations or with reduced
+   motion it is a still, readable isometric diagram.
+
+   Sizes here are in px on purpose: this is an illustration. The legend and
+   description use the site's type scale values (11px meta, 13px ui). */
 
 @property --spread {
   syntax: "<number>";
@@ -30,7 +35,7 @@
   --scale: 1;
   position: relative;
   display: grid;
-  height: 480px;
+  height: 470px;
   place-items: center;
   perspective: 1500px;
   perspective-origin: 50% 30%;
@@ -47,7 +52,7 @@
 @media (max-width: 640px) {
   .viewport {
     --scale: 0.78;
-    height: 400px;
+    height: 390px;
   }
   .inline .viewport {
     --scale: 0.66;
@@ -92,6 +97,7 @@
   inset: 0;
   transform-style: preserve-3d;
   transform: translateZ(calc((var(--n) - 1 - var(--i)) * var(--gap)));
+  transition: translate 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 /* The slab's underside, a few pixels down: gives each layer thickness. */
 .plate::before {
@@ -102,6 +108,7 @@
   border-radius: 14px;
   background: color-mix(in oklch, var(--muted) 70%, transparent);
   transform: translateZ(-6px);
+  transition: opacity 0.45s ease;
 }
 
 .face {
@@ -118,6 +125,11 @@
   font-size: 11px;
   line-height: 1.4;
   color: var(--muted-foreground);
+  transition:
+    border-color 0.45s ease,
+    box-shadow 0.45s ease,
+    background-color 0.45s ease,
+    opacity 0.45s ease;
 }
 
 /* The label row sits on each layer's front edge — the strip that stays in
@@ -171,6 +183,7 @@
     var(--brand-accent) 45%,
     transparent
   );
+  transition: opacity 0.45s ease;
 }
 
 /* ---- Layer contents ---- */
@@ -250,19 +263,93 @@
   line-height: 1.5;
 }
 
+/* ---- Layer states (set by StackScene) ---- */
+.plate[data-state="active"] {
+  /* slide forward out of the stack, and lift a little */
+  translate: 0 30px 18px;
+}
+.plate[data-state="active"] > .face {
+  border-color: var(--brand-accent);
+  background: color-mix(in oklch, var(--background) 97%, transparent);
+  box-shadow:
+    0 0 0 1px var(--brand-accent),
+    0 22px 50px -20px color-mix(in oklch, var(--brand-accent) 60%, transparent);
+}
+/* Layers above the active one step aside so it can be read… */
+.plate[data-state="above"] > .face,
+.plate[data-state="above"]::before {
+  opacity: 0.16;
+}
+/* …and their connectors show the path the signal has travelled. */
+.plate[data-state="above"] > .riser::after {
+  opacity: 1;
+  background: var(--brand-accent);
+}
+
+/* ---- Legend + description (below the stack) ---- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 6px;
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+.legendItem:hover {
+  color: var(--foreground);
+}
+.legendItem[aria-pressed="true"] {
+  border-color: color-mix(in oklch, var(--brand-accent) 35%, transparent);
+  background: var(--brand-accent-soft);
+  color: var(--brand-accent);
+}
+.legendIndex {
+  color: var(--faint);
+}
+.legendItem[aria-pressed="true"] .legendIndex {
+  color: inherit;
+}
+.description {
+  max-width: 34rem;
+  min-height: 3.2em;
+  margin: 10px auto 0;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
 /* ---- Motion ---- */
 @media (prefers-reduced-motion: no-preference) {
-  /* Layers settle into place on load, top layer last. */
+  /* Layers settle into place on load, top layer last. Backwards fill only,
+     so the state transitions own `translate` once the entrance is done. */
   .plate {
-    animation: settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     animation-delay: calc(0.15s + (var(--n) - var(--i)) * 0.08s);
   }
-  /* A signal runs from the spec down to runtime, lighting each layer. */
-  .face {
+  /* Until StackScene takes over (or without JavaScript), a signal runs down
+     through the layers on its own. */
+  .scene:not([data-live]) .face {
     animation: light 6s ease-in-out infinite;
     animation-delay: calc(1.4s + var(--i) * 0.5s);
   }
-  .riser::after {
+  .scene:not([data-live]) .riser::after {
     animation: signal 6s linear infinite;
     animation-delay: calc(1.65s + var(--i) * 0.5s);
   }
@@ -287,6 +374,14 @@
     .viewport {
       animation: sway 10s ease-in-out infinite alternate;
     }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plate,
+  .plate::before,
+  .face,
+  .riser::after {
+    transition: none;
   }
 }
 

@@ -44,7 +44,7 @@ export async function Hero() {
             <div className="flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/omer.jpg"
+                src="/omer-160.jpg"
                 alt=""
                 width={40}
                 height={40}
@@ -89,7 +89,7 @@ export async function Hero() {
           {/* Signature: what the headline means, as a system you can turn. */}
           <div className="intro [animation-delay:140ms]">
             <HeroStack />
-            <p className="-mt-2 text-center text-caption text-muted-foreground">
+            <p className="mt-1 text-center text-caption text-muted-foreground">
               {t.rich("signature", {
                 goldpath: repoLink(SIGNATURE_REPOS.goldpath),
                 specdrift: repoLink(SIGNATURE_REPOS.specdrift),

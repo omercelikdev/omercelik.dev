@@ -5,7 +5,7 @@ import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { ProductCard } from "@/components/products/product-card";
 import { Reveal } from "@/components/motion/reveal";
 import { getProducts } from "@/lib/github";
-import { alternatesFor } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -14,11 +14,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "products" });
-  return {
+  return pageMetadata({
+    locale,
+    path: "/products",
     title: t("title"),
     description: t("subtitle"),
-    alternates: alternatesFor(locale, "/products"),
-  };
+  });
 }
 
 export default async function ProductsPage({

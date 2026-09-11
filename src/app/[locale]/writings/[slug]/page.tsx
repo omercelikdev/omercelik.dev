@@ -23,8 +23,7 @@ import {
   getWritingSlugs,
   type WritingMeta,
 } from "@/lib/writings";
-import { articleLocale, localeUrl, personId } from "@/lib/seo";
-import { site } from "@/config/site";
+import { articleJsonLd, articleMetadata } from "@/lib/seo";
 
 /** A table of contents earns its space from three sections up. */
 const TOC_MIN_HEADINGS = 3;
@@ -42,22 +41,9 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getWritingBySlug(slug);
   if (!post) return {};
-  return {
-    title: post.title,
-    description: post.description,
-    // Both UI languages render this article; the copy in the language it was
-    // written in is the canonical one.
-    alternates: {
-      canonical: localeUrl(articleLocale(post.lang), `/writings/${slug}`),
-    },
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: "article",
-      publishedTime: post.date,
-      tags: post.tags,
-    },
-  };
+  // Both UI languages render this article; the copy in the language it was
+  // written in is the canonical one (see articleMetadata).
+  return articleMetadata(post);
 }
 
 export default async function WritingPage({
@@ -83,7 +69,6 @@ export default async function WritingPage({
   ]);
   const headings = extractHeadings(post.content);
   const showToc = headings.length >= TOC_MIN_HEADINGS;
-  const canonical = localeUrl(articleLocale(post.lang), `/writings/${slug}`);
 
   const { content } = await compileMDX({
     source: post.content,
@@ -124,20 +109,7 @@ export default async function WritingPage({
     // the middle track, the table of contents in the right-hand margin.
     <div className={`mx-auto w-full max-w-[1280px] px-5 sm:px-7 ${PAGE_PADDING}`}>
       <div className="reading-progress" aria-hidden />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          headline: post.title,
-          description: post.description,
-          datePublished: post.date,
-          inLanguage: post.lang,
-          url: canonical,
-          mainEntityOfPage: canonical,
-          keywords: post.tags?.join(", "),
-          author: { "@type": "Person", "@id": personId, name: site.name },
-        }}
-      />
+      <JsonLd data={articleJsonLd(post)} />
 
       <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)] xl:gap-x-12">
         <article className="mx-auto min-w-0 max-w-2xl xl:col-start-2 xl:mx-0 xl:max-w-none">

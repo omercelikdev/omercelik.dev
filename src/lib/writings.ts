@@ -21,6 +21,8 @@ export interface WritingFrontmatter {
   seriesOrder?: number;
   /** Lead the home page with this piece (the newest featured one wins). */
   featured?: boolean;
+  /** Date of the last meaningful revision (ISO), if revised after `date`. */
+  updated?: string;
 }
 
 export interface WritingMeta extends WritingFrontmatter {
@@ -55,6 +57,7 @@ function parse(fileName: string, raw: string): Writing {
     series: fm.series,
     seriesOrder: fm.seriesOrder,
     featured: fm.featured ?? false,
+    updated: fm.updated,
     readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
     content,
   };

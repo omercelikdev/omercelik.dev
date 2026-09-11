@@ -9,9 +9,11 @@ const CODE_BARS = [78, 54, 66, 40, 58];
 const SPARK = "M0 26 L12 21 L24 23 L36 15 L48 18 L60 10 L72 14 L84 8 L96 12 L108 5 L120 9";
 
 /** The hero's stack: a golden path from spec to runtime, each layer drawn
- *  with a hint of what lives there. */
+ *  with a hint of what lives there and explained while it's in focus. */
 export function HeroStack() {
   const t = useTranslations("home");
+  const d = useTranslations("diagram");
+  const descriptions = t.raw("layers") as string[];
 
   const layers: StackLayer[] = [
     {
@@ -82,7 +84,13 @@ export function HeroStack() {
         </svg>
       ),
     },
-  ];
+  ].map((layer, i) => ({ ...layer, description: descriptions[i] }));
 
-  return <ArchitectureStack layers={layers} description={t("stackDescription")} />;
+  return (
+    <ArchitectureStack
+      layers={layers}
+      description={t("stackDescription")}
+      legendLabel={d("layers")}
+    />
+  );
 }
