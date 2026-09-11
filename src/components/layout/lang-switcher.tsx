@@ -16,6 +16,13 @@ const NATIVE_NAMES: Record<Locale, string> = {
   ja: "日本語",
 };
 
+/** Persist the choice so next-intl's proxy doesn't redirect the prefix-less
+ *  default-locale path ("/") back to the previous locale. Lives at module
+ *  scope: writing to `document` is a browser side effect, not render work. */
+function rememberLocale(locale: Locale) {
+  document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`;
+}
+
 export function LangSwitcher() {
   const t = useTranslations("lang");
   const activeLocale = useLocale() as Locale;
@@ -34,13 +41,11 @@ export function LangSwitcher() {
   function select(locale: Locale) {
     setOpen(false);
     if (locale === activeLocale) return;
-    // Persist the choice so next-intl's middleware doesn't redirect the
-    // prefix-less default-locale path ("/") back to the previous locale.
-    document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`;
+    rememberLocale(locale);
     // Full page load (not a soft nav): the root [locale] layout re-renders on
     // the server, so its inline scripts (theme init) never re-render on the
     // client and React 19's "script tag" warning can't fire.
-    window.location.href = getPathname({ href: pathname, locale });
+    window.location.assign(getPathname({ href: pathname, locale }));
   }
 
   return (

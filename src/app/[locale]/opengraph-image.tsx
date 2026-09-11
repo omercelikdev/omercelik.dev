@@ -1,9 +1,17 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/config/site";
+import { routing } from "@/i18n/routing";
 
 export const alt = site.name;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Rendered to a PNG at build time — the card is identical for every locale.
+export const dynamic = "force-static";
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 // Static social card. Colours are inlined (OG images can't read CSS variables);
 // they mirror the light theme tokens — update if you re-skin the brand.

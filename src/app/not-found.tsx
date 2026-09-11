@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "./globals.css";
 
 /** Global fallback for routes that never resolved to a locale. Has its own
@@ -12,12 +13,12 @@ export default function GlobalNotFound() {
           <p className="max-w-sm text-sm text-muted-foreground">
             The page you are looking for does not exist or has moved.
           </p>
-          <a
+          <Link
             href="/"
             className="inline-flex h-9 items-center justify-center rounded-[var(--radius-lg)] bg-primary px-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90"
           >
             Back home
-          </a>
+          </Link>
         </main>
       </body>
     </html>

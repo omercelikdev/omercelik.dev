@@ -1,14 +1,22 @@
 import { ImageResponse } from "next/og";
 import { getWritingBySlug, getWritingSlugs } from "@/lib/writings";
 import { site } from "@/config/site";
+import { routing } from "@/i18n/routing";
 
 export const alt = "Writing — omercelik.dev";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// Rendered to a PNG at build time, one per article.
+export const dynamic = "force-static";
+
 export async function generateStaticParams() {
   const slugs = await getWritingSlugs();
-  return slugs.map((slug) => ({ slug }));
+  // Metadata image routes don't inherit the locale from the layout's params
+  // the way pages do, so spell out the full locale × slug matrix.
+  return routing.locales.flatMap((locale) =>
+    slugs.map((slug) => ({ locale, slug })),
+  );
 }
 
 // Per-article social card so shared links (LinkedIn, X) show the post title.

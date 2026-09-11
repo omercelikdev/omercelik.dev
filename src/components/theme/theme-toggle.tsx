@@ -1,20 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 
+const noopSubscribe = () => () => {};
+
 export function ThemeToggle() {
   const t = useTranslations("theme");
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  // `resolvedTheme` is only known on the client, so the first client render
+  // must match the server's. `false` on the server, `true` once hydrated —
+  // the sanctioned way to express that without setState inside an effect.
+  const hydrated = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const isDark = mounted && resolvedTheme === "dark";
+  const isDark = hydrated && resolvedTheme === "dark";
 
   return (
     <button

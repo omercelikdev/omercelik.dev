@@ -28,9 +28,13 @@ export function Typewriter({
       return () => clearTimeout(t);
     }
     if (deleting && text === "") {
-      setDeleting(false);
-      setIndex((i) => (i + 1) % phrases.length);
-      return;
+      // A short beat before the next phrase starts typing. Scheduled rather
+      // than set synchronously so the effect never cascades a render.
+      const t = setTimeout(() => {
+        setDeleting(false);
+        setIndex((i) => (i + 1) % phrases.length);
+      }, typingMs);
+      return () => clearTimeout(t);
     }
 
     const t = setTimeout(
