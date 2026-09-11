@@ -1,0 +1,345 @@
+/* The site's signature diagram: architecture layers stacked in CSS 3D.
+
+   Three custom properties drive it, all registered so they can animate:
+   --tilt-x / --tilt-y (−1…1) follow the pointer (set by TiltScene), and
+   --spread (0…1) opens the stack as the page scrolls. Every effect is an
+   enhancement: with no JavaScript, no scroll-driven animations or reduced
+   motion, it is a still, readable isometric diagram. */
+
+@property --spread {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.55;
+}
+@property --tilt-x {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --tilt-y {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.figure {
+  margin: 0;
+}
+
+.viewport {
+  --scale: 1;
+  position: relative;
+  display: grid;
+  height: 480px;
+  place-items: center;
+  perspective: 1500px;
+  perspective-origin: 50% 30%;
+}
+/* In an article the diagram is a framed figure, so nothing spills out of
+   the reading column. */
+.inline .viewport {
+  --scale: 0.8;
+  height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+@media (max-width: 640px) {
+  .viewport {
+    --scale: 0.78;
+    height: 400px;
+  }
+  .inline .viewport {
+    --scale: 0.66;
+    height: 340px;
+  }
+}
+
+.scene {
+  /* distance between layers; grows as the stack opens */
+  --gap: calc(30px + var(--spread) * 50px);
+  position: relative;
+  width: 300px;
+  height: 184px;
+  transform-style: preserve-3d;
+  /* keep the middle of the stack, not its top layer, in the middle of the
+     frame: the stack rises (n − 1) gaps, so shift down by a share of that */
+  translate: 0 calc(var(--gap) * (var(--n) - 1) * 0.39);
+  transform: scale(var(--scale)) rotateX(calc(56deg - var(--tilt-y) * 7deg))
+    rotateZ(calc(-40deg + var(--tilt-x) * 10deg));
+}
+
+/* Blueprint floor the stack stands on. */
+.floor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 480px;
+  height: 380px;
+  translate: -50% -50%;
+  transform: translateZ(-22px);
+  opacity: 0.85;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent 80%);
+  mask-image: radial-gradient(closest-side, #000 20%, transparent 80%);
+}
+
+.plate {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc((var(--n) - 1 - var(--i)) * var(--gap)));
+}
+/* The slab's underside, a few pixels down: gives each layer thickness. */
+.plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--muted) 70%, transparent);
+  transform: translateZ(-6px);
+}
+
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--background) 88%, transparent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+/* The label row sits on each layer's front edge — the strip that stays in
+   view below the layer above — so every layer's name reads, not just the top. */
+.head {
+  order: 2;
+  margin-top: auto;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.index {
+  color: var(--faint);
+}
+.label {
+  margin-inline-start: 6px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+.detail {
+  font-size: 10px;
+  color: var(--faint);
+}
+
+/* Connector from a layer down to the next: a dashed post with a signal. */
+.riser {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: var(--gap);
+  transform-origin: top;
+  transform: rotateX(-90deg);
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--border-strong) 0 3px,
+    transparent 3px 7px
+  );
+}
+.riser::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--brand-accent) 45%,
+    transparent
+  );
+}
+
+/* ---- Layer contents ---- */
+.code {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11.5px;
+}
+.k {
+  color: var(--foreground);
+}
+.v {
+  color: var(--brand-accent);
+}
+.method {
+  display: inline-block;
+  min-width: 38px;
+  font-weight: 600;
+  color: var(--brand-accent);
+}
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 2px;
+}
+.bars > span {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--muted);
+}
+.bars > span:nth-child(3n + 2) {
+  background: var(--brand-accent-soft);
+}
+.verify {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+.checks {
+  display: grid;
+  grid-template-columns: repeat(6, 14px);
+  gap: 5px;
+}
+.checks > span {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--success-border);
+  border-radius: 4px;
+  background: var(--success-bg);
+}
+.ok {
+  font-weight: 600;
+  color: var(--success);
+}
+.spark {
+  width: 100%;
+  height: 46px;
+  overflow: visible;
+}
+.spark path {
+  fill: none;
+  stroke: var(--brand-accent);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+/* Under the label, on the same visible front strip. */
+.note {
+  order: 3;
+  margin-top: -6px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ---- Motion ---- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Layers settle into place on load, top layer last. */
+  .plate {
+    animation: settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(0.15s + (var(--n) - var(--i)) * 0.08s);
+  }
+  /* A signal runs from the spec down to runtime, lighting each layer. */
+  .face {
+    animation: light 6s ease-in-out infinite;
+    animation-delay: calc(1.4s + var(--i) * 0.5s);
+  }
+  .riser::after {
+    animation: signal 6s linear infinite;
+    animation-delay: calc(1.65s + var(--i) * 0.5s);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    /* Hero: the stack opens over the first stretch of scrolling. */
+    .scrollSpread .scene {
+      animation: spread linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 65vh;
+    }
+    /* In articles: it opens as the diagram crosses the viewport. */
+    .viewSpread .scene {
+      animation: spread linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 50%;
+    }
+  }
+
+  /* No precise pointer to follow: a slow idle sway instead. */
+  @media (hover: none), (pointer: coarse) {
+    .viewport {
+      animation: sway 10s ease-in-out infinite alternate;
+    }
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    translate: 0 0 110px;
+  }
+}
+@keyframes light {
+  0%,
+  14%,
+  100% {
+    border-color: var(--border-strong);
+    box-shadow: none;
+  }
+  5% {
+    border-color: var(--brand-accent);
+    box-shadow:
+      0 0 0 1px var(--brand-accent),
+      0 0 36px -6px color-mix(in oklch, var(--brand-accent) 55%, transparent);
+  }
+}
+@keyframes signal {
+  0% {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+  7% {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+  8%,
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+@keyframes spread {
+  from {
+    --spread: 0.55;
+  }
+  to {
+    --spread: 1;
+  }
+}
+@keyframes sway {
+  from {
+    --tilt-x: -0.6;
+    --tilt-y: 0.25;
+  }
+  to {
+    --tilt-x: 0.6;
+    --tilt-y: -0.25;
+  }
+}

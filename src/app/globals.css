@@ -49,6 +49,7 @@
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
 }
 
 /* Type scale — the only font sizes the UI uses (`text-meta` … `text-display`).
@@ -75,7 +76,10 @@
   --text-h1: clamp(2rem, 4vw, 2.75rem);
   --text-h1--line-height: 1.1;
   --text-h1--letter-spacing: -0.03em;
-  --text-display: clamp(2.25rem, 5.2vw, 3.6rem);
+  --text-quote: 1.625rem;
+  --text-quote--line-height: 1.35;
+  --text-quote--letter-spacing: -0.01em;
+  --text-display: clamp(2.25rem, 4.6vw, 3.4rem);
   --text-display--line-height: 1.06;
   --text-display--letter-spacing: -0.035em;
 }
@@ -167,6 +171,32 @@
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+}
+
+/* Article reading progress: a hairline across the top, driven by the page's
+   own scroll position. Hidden where scroll-driven animations aren't there. */
+.reading-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 50;
+  display: none;
+  height: 2px;
+  background: var(--brand-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reading-progress {
+      display: block;
+      animation: reading-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes reading-progress {
+  to { transform: scaleX(1); }
 }
 .caret {
   display: inline-block;

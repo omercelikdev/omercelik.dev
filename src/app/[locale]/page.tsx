@@ -7,6 +7,7 @@ import { Capabilities } from "@/components/home/capabilities";
 import { CtaBand } from "@/components/home/cta-band";
 import { ProductCard } from "@/components/products/product-card";
 import { PostRow } from "@/components/writings/post-row";
+import { FeaturedPost } from "@/components/writings/featured-post";
 import { Reveal } from "@/components/motion/reveal";
 import { getFeaturedProducts } from "@/lib/github";
 import { getLatestWritings } from "@/lib/writings";
@@ -30,10 +31,13 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("home");
 
-  const [products, writings] = await Promise.all([
+  const [products, latest] = await Promise.all([
     getFeaturedProducts(),
-    getLatestWritings(4),
+    getLatestWritings(5),
   ]);
+  // A featured essay leads the section; the list below skips it.
+  const featured = latest.find((post) => post.featured) ?? null;
+  const writings = latest.filter((post) => post !== featured).slice(0, 4);
 
   return (
     <>
@@ -69,7 +73,7 @@ export default async function HomePage({
         )}
 
         {/* 03 — writing */}
-        {writings.length > 0 && (
+        {(featured || writings.length > 0) && (
           <section className="py-14 sm:py-16">
             <Reveal>
               <SectionHead
@@ -78,6 +82,11 @@ export default async function HomePage({
                 action={{ href: "/writings", label: t("viewAll") }}
               />
             </Reveal>
+            {featured && (
+              <Reveal>
+                <FeaturedPost post={featured} />
+              </Reveal>
+            )}
             <div>
               {writings.map((post) => (
                 <Reveal key={post.slug}>

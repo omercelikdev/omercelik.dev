@@ -49,6 +49,7 @@
   /* typography */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
 }
 
 :root[data-theme="dark"] {

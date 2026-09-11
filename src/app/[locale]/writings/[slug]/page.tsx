@@ -7,7 +7,6 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
-import { Container } from "@/components/layout/container";
 import { PAGE_PADDING } from "@/components/ui/page-header";
 import { Label, TagLink } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
@@ -121,7 +120,10 @@ export default async function WritingPage({
   });
 
   return (
-    <Container className={PAGE_PADDING}>
+    // Wider than the site's 1080px column: the reading column sits centred in
+    // the middle track, the table of contents in the right-hand margin.
+    <div className={`mx-auto w-full max-w-[1280px] px-5 sm:px-7 ${PAGE_PADDING}`}>
+      <div className="reading-progress" aria-hidden />
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -137,8 +139,8 @@ export default async function WritingPage({
         }}
       />
 
-      <div className="xl:grid xl:grid-cols-[minmax(0,42rem)_13rem] xl:justify-between xl:gap-12">
-        <article className="min-w-0 max-w-2xl">
+      <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)] xl:gap-x-12">
+        <article className="mx-auto min-w-0 max-w-2xl xl:col-start-2 xl:mx-0 xl:max-w-none">
           <Link
             href="/writings"
             className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -148,7 +150,9 @@ export default async function WritingPage({
           </Link>
 
           <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
-            <h1 className="text-h1 font-medium text-balance">{post.title}</h1>
+            <h1 className="font-serif text-h1 font-medium tracking-[-0.015em] text-balance">
+              {post.title}
+            </h1>
             {post.description && (
               <p className="text-lead text-muted-foreground">
                 {post.description}
@@ -219,8 +223,8 @@ export default async function WritingPage({
         </article>
 
         {showToc && (
-          <aside className="hidden xl:block">
-            <div className="sticky top-24">
+          <aside className="hidden xl:col-start-3 xl:block">
+            <div className="sticky top-24 max-w-56">
               <p className="mono mb-3 text-meta uppercase tracking-wider text-faint">
                 {t("toc")}
               </p>
@@ -229,7 +233,7 @@ export default async function WritingPage({
           </aside>
         )}
       </div>
-    </Container>
+    </div>
   );
 }
 

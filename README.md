@@ -25,9 +25,15 @@ npm run build                # static site in ./out
 - **Design tokens** — colours, radius and elevation live in
   `src/app/theme.css`; the type scale (`text-meta` … `text-display`) in
   `src/app/globals.css`. Use the scale rather than arbitrary sizes.
-- **Motion** — CSS only: `.intro` for page-load entrances, `.reveal` for
+- **Motion** — CSS first: `.intro` for page-load entrances, `.reveal` for
   scroll-linked ones (`animation-timeline: view()`). Content is visible without
   JavaScript, and `prefers-reduced-motion` switches it all off.
+- **Signature diagram** — `src/components/diagram/`: an isometric stack of
+  architecture layers in CSS 3D (no WebGL). It tilts with the pointer (a few
+  lines of JS), opens as you scroll and runs a signal down the layers (CSS);
+  touch screens get an idle sway, reduced motion a still diagram.
+- **Type** — Geist for the interface, Newsreader (serif) for essay titles and
+  pull quotes.
 - **Products** — read from the GitHub API at build time; curate the list in
   `src/config/products.ts`. Set `GITHUB_TOKEN` wherever the build runs:
   unauthenticated requests are limited to 60 an hour per IP, and a failed
@@ -62,6 +68,20 @@ What an article can use:
 - **Callouts** — `<Callout type="note | tip | warning" title="…">…</Callout>`.
 - **Figures** — `<Figure src="/writings/diagram.png" alt="…" caption="…" />`,
   with the image under `public/writings/`.
+- **Pull quotes** — `<PullQuote cite="…">The line you want remembered.</PullQuote>`,
+  set large in the serif.
+- **Layer diagrams** — the hero's 3D stack, for your own systems:
+
+  ```mdx
+  <LayerStack title="Where each guarantee lives">
+    <Layer label="Spec" detail="manifest.yaml" note="What must be true." />
+    <Layer label="Code" detail="generated" />
+  </LayerStack>
+  ```
+
+  String props only — the MDX pipeline doesn't evaluate `{…}` expressions.
+- **Featured** — `featured: true` in the frontmatter leads the home page with
+  that essay.
 - **GFM** — tables, task lists and footnotes (`[^1]`).
 - **Table of contents** — appears automatically from three h2/h3 headings up.
 - **Comments** — Giscus (GitHub Discussions), one thread per post shared by

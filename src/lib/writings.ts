@@ -19,6 +19,8 @@ export interface WritingFrontmatter {
   series?: string;
   /** Position within the series (1-based); used to order series posts. */
   seriesOrder?: number;
+  /** Lead the home page with this piece (the newest featured one wins). */
+  featured?: boolean;
 }
 
 export interface WritingMeta extends WritingFrontmatter {
@@ -52,6 +54,7 @@ function parse(fileName: string, raw: string): Writing {
     draft: fm.draft ?? false,
     series: fm.series,
     seriesOrder: fm.seriesOrder,
+    featured: fm.featured ?? false,
     readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
     content,
   };

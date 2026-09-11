@@ -4,13 +4,13 @@ import { Container } from "@/components/layout/container";
 import { buttonClass } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { Typewriter } from "@/components/motion/typewriter";
-import { HeroSignature } from "@/components/home/hero-spec";
+import { HeroStack } from "@/components/home/hero-stack";
 import { site } from "@/config/site";
 
 const INLINE_LINK =
   "font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground";
 
-/** The two tools the signature cards depict. */
+/** The two tools the stack depicts. */
 const SIGNATURE_REPOS = {
   goldpath: "https://github.com/qorpe/goldpath",
   specdrift: "https://github.com/qorpe/specdrift",
@@ -23,12 +23,7 @@ export async function Hero() {
   const longest = roles.reduce((a, b) => (b.length > a.length ? b : a), "");
   const repoLink = (href: string) => {
     const RepoLink = (chunks: React.ReactNode) => (
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer noopener"
-        className={INLINE_LINK}
-      >
+      <a href={href} target="_blank" rel="noreferrer noopener" className={INLINE_LINK}>
         {chunks}
       </a>
     );
@@ -42,67 +37,65 @@ export async function Hero() {
         <div className="absolute inset-0 opacity-70 [background-image:radial-gradient(var(--border)_1px,transparent_1px)] [background-size:22px_22px] [mask-image:radial-gradient(ellipse_55%_50%_at_50%_0%,black,transparent)]" />
       </div>
 
-      <Container className="pt-16 pb-6 sm:pt-24">
-        <div className="intro flex flex-col gap-6">
-          {/* Who: the person first, then what they build. */}
-          <div className="flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/omer.jpg"
-              alt=""
-              width={40}
-              height={40}
-              className="size-10 rounded-full border border-border object-cover grayscale"
-            />
-            <p className="text-ui leading-tight">
-              <span className="block font-medium text-foreground">
-                {site.name}
+      <Container className="pt-12 pb-4 sm:pt-16">
+        <div className="grid items-center gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,500px)] lg:gap-8">
+          <div className="intro flex flex-col gap-6">
+            {/* Who: the person first, then what they build. */}
+            <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/omer.jpg"
+                alt=""
+                width={40}
+                height={40}
+                className="size-10 rounded-full border border-border object-cover grayscale"
+              />
+              <p className="text-ui leading-tight">
+                <span className="block font-medium text-foreground">{site.name}</span>
+                <span className="text-muted-foreground">{t("role")}</span>
+              </p>
+            </div>
+
+            {/* One headline. The rotating phrase is rendered in full on the
+                server, so crawlers and no-JS visitors read a whole sentence.
+                The ::before sizer holds the longest phrase's box, so typing
+                never shifts the layout — and, being generated content, stays
+                out of the heading's text. */}
+            <h1 className="text-display font-medium">
+              {lead}{" "}
+              <span
+                data-sizer={longest}
+                className="inline-grid before:invisible before:col-start-1 before:row-start-1 before:content-[attr(data-sizer)]"
+              >
+                <span className="col-start-1 row-start-1">
+                  <Typewriter phrases={roles} />
+                </span>
               </span>
-              <span className="text-muted-foreground">{t("role")}</span>
+            </h1>
+
+            <p className="max-w-xl text-lead text-muted-foreground">{t("subtitle")}</p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Link href="/contact" className={buttonClass("primary")}>
+                {t("ctaContact")}
+                <ArrowRight className="size-4" />
+              </Link>
+              <Link href="/writings" className={buttonClass("ghost")}>
+                {t("ctaWritings")}
+              </Link>
+            </div>
+          </div>
+
+          {/* Signature: what the headline means, as a system you can turn. */}
+          <div className="intro [animation-delay:140ms]">
+            <HeroStack />
+            <p className="-mt-2 text-center text-caption text-muted-foreground">
+              {t.rich("signature", {
+                goldpath: repoLink(SIGNATURE_REPOS.goldpath),
+                specdrift: repoLink(SIGNATURE_REPOS.specdrift),
+              })}
             </p>
           </div>
-
-          {/* One headline. The rotating phrase is rendered in full on the
-              server, so crawlers and no-JS visitors read a whole sentence. The
-              ::before sizer holds the longest phrase's box, so typing never
-              shifts the layout — and, being generated content, stays out of
-              the heading's text. */}
-          <h1 className="max-w-4xl text-display font-medium">
-            {lead}{" "}
-            <span
-              data-sizer={longest}
-              className="inline-grid before:invisible before:col-start-1 before:row-start-1 before:content-[attr(data-sizer)]"
-            >
-              <span className="col-start-1 row-start-1">
-                <Typewriter phrases={roles} />
-              </span>
-            </span>
-          </h1>
-
-          <p className="max-w-2xl text-lead text-muted-foreground">
-            {t("subtitle")}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <Link href="/contact" className={buttonClass("primary")}>
-              {t("ctaContact")}
-              <ArrowRight className="size-4" />
-            </Link>
-            <Link href="/writings" className={buttonClass("ghost")}>
-              {t("ctaWritings")}
-            </Link>
-          </div>
-        </div>
-
-        {/* Signature: what the headline means, as the tools themselves. */}
-        <div className="intro [animation-delay:140ms]">
-          <HeroSignature />
-          <p className="mt-4 text-caption text-muted-foreground">
-            {t.rich("signature", {
-              goldpath: repoLink(SIGNATURE_REPOS.goldpath),
-              specdrift: repoLink(SIGNATURE_REPOS.specdrift),
-            })}
-          </p>
         </div>
       </Container>
     </section>

@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
 import type { MDXComponents } from "mdx/types";
 import { CopyButton } from "./copy-button";
-import { Callout, Figure } from "./mdx-blocks";
+import { Callout, Figure, Layer, LayerStack, PullQuote } from "./mdx-blocks";
 
 /** Styled elements for rendered MDX articles. Code blocks are highlighted by
  *  rehype-pretty-code (dual-theme Shiki); see globals.css for the token wiring.
@@ -83,4 +83,7 @@ export const mdxComponents: MDXComponents = {
   ),
   Callout,
   Figure,
+  PullQuote,
+  LayerStack,
+  Layer,
 };

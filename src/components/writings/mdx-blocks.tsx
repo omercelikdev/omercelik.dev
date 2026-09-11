@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
+import { Children, isValidElement, type ReactNode } from "react";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
+import { ArchitectureStack, type StackLayer } from "@/components/diagram/architecture-stack";
 
 const CALLOUT = {
   note: { Icon: Info, tone: "border-info-border bg-info-bg text-info" },
@@ -56,5 +57,60 @@ export function Figure({
         </figcaption>
       )}
     </figure>
+  );
+}
+
+/** The sentence you want remembered, set large in the editorial serif. In MDX:
+ *  <PullQuote cite="Optional source">A spec is a promise…</PullQuote> */
+export function PullQuote({ children, cite }: { children: ReactNode; cite?: string }) {
+  return (
+    <figure className="my-10 border-s-2 border-brand-accent ps-6">
+      <blockquote className="font-serif text-quote text-foreground [&>p]:mt-0 [&>p]:font-serif [&>p]:text-quote [&>p]:text-foreground">
+        {children}
+      </blockquote>
+      {cite && (
+        <figcaption className="mono mt-3 text-caption text-muted-foreground">
+          — {cite}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+interface LayerProps {
+  label: string;
+  detail?: string;
+  note?: string;
+}
+
+/** One layer of a LayerStack; rendered by the stack, not on its own. */
+export function Layer(_props: LayerProps) {
+  return null;
+}
+
+/** The hero's 3D stack as an article diagram, top layer first. In MDX:
+ *  <LayerStack title="How a request is verified">
+ *    <Layer label="Spec" detail="manifest.yaml" note="What must be true." />
+ *    <Layer label="Code" detail="generated" />
+ *  </LayerStack>
+ *  Plain string props only — the MDX pipeline doesn't evaluate expressions. */
+export function LayerStack({ title, children }: { title?: string; children: ReactNode }) {
+  const layers: StackLayer[] = Children.toArray(children)
+    .filter(isValidElement)
+    .map((child) => {
+      const { label, detail, note } = child.props as LayerProps;
+      return { label, detail, note };
+    })
+    .filter((layer) => Boolean(layer.label));
+  if (layers.length === 0) return null;
+
+  const description = title ?? layers.map((layer) => layer.label).join(" → ");
+  return (
+    <div className="my-10">
+      <ArchitectureStack variant="inline" layers={layers} description={description} />
+      {title && (
+        <p className="mt-3 text-center text-caption text-muted-foreground">{title}</p>
+      )}
+    </div>
   );
 }
