@@ -29,13 +29,13 @@ npm run build                # static site in ./out
   scroll-linked ones (`animation-timeline: view()`). Content is visible without
   JavaScript, and `prefers-reduced-motion` switches it all off.
 - **Signature diagram** — `src/components/diagram/`: an isometric stack of
-  architecture layers in CSS 3D (no WebGL). One layer is in focus at a time:
-  it slides forward and lights up, the layers above fade, and its description
-  shows below. It plays top to bottom while in view; a mouse moving up and
-  down the stack scrubs through it, a tap steps forward, and the legend
-  selects a layer (keyboard included). It also tilts toward the pointer and
-  opens as the page scrolls. Touch screens get an idle sway, reduced motion no
-  autoplay; without JavaScript it's a still diagram.
+  architecture layers in CSS 3D (no WebGL), calm by design — nothing moves on
+  its own. Pointing at the stack opens it at that layer (the layers above lift
+  and draw back, the focused one comes forward and lights up, its description
+  shows below); the legend does the same on hover or keyboard focus and pins
+  a layer on click; on touch each tap steps forward. It tilts a few degrees
+  toward the pointer while over it and opens a little as the page scrolls.
+  Without JavaScript or with reduced motion it's a still diagram.
 - **SEO** — `src/lib/seo.ts`: every page gets its title, description,
   canonical, hreflang, Open Graph and X card from `pageMetadata` /
   `articleMetadata` (Next merges metadata shallowly, so pages set the whole

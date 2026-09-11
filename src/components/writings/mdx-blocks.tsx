@@ -108,18 +108,14 @@ export function LayerStack({ title, children }: { title?: string; children: Reac
 
   const description = title ?? layers.map((layer) => layer.label).join(" → ");
   return (
-    <figure className="my-10">
+    <div className="my-10">
       <ArchitectureStack
         variant="inline"
         layers={layers}
         description={description}
         legendLabel={t("layers")}
+        idle={title}
       />
-      {title && (
-        <figcaption className="mt-1 text-center text-caption font-medium text-foreground">
-          {title}
-        </figcaption>
-      )}
-    </figure>
+    </div>
   );
 }

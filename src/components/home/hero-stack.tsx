@@ -7,6 +7,24 @@ import {
 
 type Tone = "accent" | "pass";
 
+const INLINE_LINK =
+  "font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground";
+
+/** The two tools the stack depicts. */
+const SIGNATURE_REPOS = {
+  goldpath: "https://github.com/qorpe/goldpath",
+  specdrift: "https://github.com/qorpe/specdrift",
+};
+
+function repoLink(href: string) {
+  const RepoLink = (chunks: React.ReactNode) => (
+    <a href={href} target="_blank" rel="noreferrer noopener" className={INLINE_LINK}>
+      {chunks}
+    </a>
+  );
+  return RepoLink;
+}
+
 /** Three key/value lines — every layer's face has exactly this shape. */
 function Lines({ rows }: { rows: [key: string, value: string, tone?: Tone][] }) {
   return (
@@ -101,6 +119,10 @@ export function HeroStack() {
       layers={layers}
       description={t("stackDescription")}
       legendLabel={d("layers")}
+      idle={t.rich("signature", {
+        goldpath: repoLink(SIGNATURE_REPOS.goldpath),
+        specdrift: repoLink(SIGNATURE_REPOS.specdrift),
+      })}
     />
   );
 }

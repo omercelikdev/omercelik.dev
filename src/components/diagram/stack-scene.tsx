@@ -17,97 +17,42 @@ export interface ScenePlate {
   face: ReactNode;
 }
 
-/** How long each layer stays in focus while the stack plays itself. */
-const STEP_MS = 2800;
-/** Pause on the last layer before starting over. */
-const REST_MS = 4200;
-/** First step, once the entrance animation has settled. */
-const FIRST_MS = 1400;
-/** After a tap, a click or keyboard focus: hands off for this long. */
-const HOLD_MS = 8000;
-
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
-/** When a hand-off that starts now ends. Module scope: reading the clock is
- *  event-handler work, never render work. */
-const holdDeadline = () => Date.now() + HOLD_MS;
 
-/** The interactive half of ArchitectureStack. One layer is in focus at a
- *  time: it plays top to bottom on its own while in view, a mouse moving up
- *  and down the stack scrubs through the layers, a tap steps forward, and the
- *  legend below selects a layer directly (keyboard included). The whole scene
- *  also tilts toward a fine pointer. Reduced motion: no autoplay, no tilt —
- *  selection still works, without transitions. */
+/** The interactive half of ArchitectureStack. Calm by design — nothing moves
+ *  on its own:
+ *  - a mouse over the stack opens it at the layer under the pointer (the
+ *    stack's height maps onto the layers, top first), and the scene tilts a
+ *    few degrees toward the pointer;
+ *  - the legend focuses a layer on hover or keyboard focus; a click pins it;
+ *  - on touch, each tap steps to the next layer.
+ *  Leaving returns the stack to rest, or to the pinned layer. */
 export function StackScene({
   plates,
   description,
   legendLabel,
+  idle,
   variant,
 }: {
   plates: ScenePlate[];
   description: string;
   legendLabel: string;
+  /** Shown under the stack while no layer is in focus. */
+  idle?: ReactNode;
   variant: "hero" | "inline";
 }) {
   const n = plates.length;
-  const [active, setActive] = useState<number | null>(null);
-  const rootRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [pinned, setPinned] = useState<number | null>(null);
+  const active = hovered ?? pinned;
   const viewportRef = useRef<HTMLDivElement>(null);
-  const activeRef = useRef<number | null>(null);
-  const hovering = useRef(false);
-  const holdUntil = useRef(0);
-  const inView = useRef(true);
+  const hoveredRef = useRef<number | null>(null);
 
   useEffect(() => {
-    activeRef.current = active;
-  }, [active]);
+    hoveredRef.current = hovered;
+  }, [hovered]);
 
-  // Autoplay: step through the layers while the stack is in view and nobody
-  // is steering it. After someone has, wait a full step before moving on.
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const root = rootRef.current;
-    const io = new IntersectionObserver(([entry]) => {
-      inView.current = entry.isIntersecting;
-    });
-    if (root) io.observe(root);
-
-    let timer = 0;
-    let steered = false;
-    const tick = () => {
-      const idle =
-        !hovering.current &&
-        Date.now() >= holdUntil.current &&
-        inView.current &&
-        !document.hidden;
-      if (!idle) {
-        steered = true;
-        timer = window.setTimeout(tick, 400);
-        return;
-      }
-      // After someone steered it, give the chosen layer a full step before
-      // moving on. A stack that never started (it was off-screen) doesn't
-      // wait: it starts the moment it comes into view.
-      if (steered && activeRef.current !== null) {
-        steered = false;
-        timer = window.setTimeout(tick, STEP_MS);
-        return;
-      }
-      steered = false;
-      const prev = activeRef.current;
-      const next = prev === null ? 0 : (prev + 1) % n;
-      setActive(next);
-      timer = window.setTimeout(tick, next === n - 1 ? REST_MS : STEP_MS);
-    };
-    timer = window.setTimeout(tick, FIRST_MS);
-
-    return () => {
-      window.clearTimeout(timer);
-      io.disconnect();
-    };
-  }, [n]);
-
-  // Tilt toward a fine pointer, eased so the scene glides rather than snaps.
+  // Tilt toward the pointer while it's over the stack; ease back on leave.
   useEffect(() => {
     const el = viewportRef.current;
     if (!el) return;
@@ -122,74 +67,70 @@ export function StackScene({
     let frame = 0;
 
     const tick = () => {
-      x += (targetX - x) * 0.07;
-      y += (targetY - y) * 0.07;
+      x += (targetX - x) * 0.08;
+      y += (targetY - y) * 0.08;
       el.style.setProperty("--tilt-x", x.toFixed(3));
       el.style.setProperty("--tilt-y", y.toFixed(3));
       const settled = Math.abs(targetX - x) + Math.abs(targetY - y) < 0.002;
       frame = settled ? 0 : requestAnimationFrame(tick);
     };
-    const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      targetX = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 1.2), -1, 1);
-      targetY = clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 1.2), -1, 1);
+    const kick = () => {
       if (!frame) frame = requestAnimationFrame(tick);
     };
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      targetX = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
+      targetY = clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 2), -1, 1);
+      kick();
+    };
+    const onLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      kick();
+    };
 
-    window.addEventListener("pointermove", onMove, { passive: true });
+    el.addEventListener("pointermove", onMove, { passive: true });
+    el.addEventListener("pointerleave", onLeave);
     return () => {
-      window.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
       cancelAnimationFrame(frame);
     };
   }, []);
 
   // Mouse over the stack: its height maps onto the layers, top layer first.
-  // (Hit-testing the plates themselves would flicker: the active one moves.)
+  // (Hit-testing the plates themselves would flicker: the focused one moves.)
   const onScrub = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.pointerType !== "mouse") return;
-    hovering.current = true;
     const r = e.currentTarget.getBoundingClientRect();
-    // Continuous position along the stack, in layers (0 = top of layer 1).
     const pos = (((e.clientY - r.top) / r.height - 0.15) / 0.7) * n;
     // Hysteresis: only move once the pointer is well into another layer's
     // band, so resting near a boundary doesn't flicker between two layers.
-    const current = activeRef.current;
+    const current = hoveredRef.current;
     if (current !== null && Math.abs(pos - (current + 0.5)) < 0.8) return;
-    setActive(clamp(Math.floor(pos), 0, n - 1));
+    setHovered(clamp(Math.floor(pos), 0, n - 1));
   };
   // Touch or pen: each tap steps to the next layer.
   const onTap = (e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.pointerType === "mouse") return;
-    holdUntil.current = holdDeadline();
-    setActive((prev) => (prev === null ? 0 : (prev + 1) % n));
-  };
-  const hold = (i: number) => {
-    holdUntil.current = holdDeadline();
-    setActive(i);
+    setPinned((prev) => (prev === null ? 0 : (prev + 1) % n));
   };
 
   const mode =
     variant === "hero" ? styles.scrollSpread : `${styles.inline} ${styles.viewSpread}`;
 
   return (
-    <div ref={rootRef} className={`${styles.figure} ${mode}`}>
+    <div className={`${styles.figure} ${mode}`}>
       <div
         ref={viewportRef}
         role="img"
         aria-label={description}
         className={styles.viewport}
         onPointerMove={onScrub}
-        onPointerLeave={() => {
-          hovering.current = false;
-        }}
+        onPointerLeave={() => setHovered(null)}
         onPointerUp={onTap}
       >
-        <div
-          className={styles.scene}
-          style={{ "--n": n } as CSSProperties}
-          data-live={active !== null ? "" : undefined}
-          aria-hidden
-        >
+        <div className={styles.scene} style={{ "--n": n } as CSSProperties} aria-hidden>
           <div className={styles.floor} />
           {plates.map((plate, i) => (
             <div
@@ -220,22 +161,21 @@ export function StackScene({
             className={styles.legendItem}
             aria-pressed={active === i}
             onPointerEnter={(e) => {
-              if (e.pointerType !== "mouse") return;
-              hovering.current = true;
-              setActive(i);
+              if (e.pointerType === "mouse") setHovered(i);
             }}
-            onPointerLeave={() => {
-              hovering.current = false;
-            }}
-            onFocus={() => hold(i)}
-            onClick={() => hold(i)}
+            onPointerLeave={() => setHovered(null)}
+            onFocus={() => setHovered(i)}
+            onBlur={() => setHovered(null)}
+            onClick={() => setPinned((prev) => (prev === i ? null : i))}
           >
             <span className={styles.legendIndex}>{String(i + 1).padStart(2, "0")}</span>
             {plate.label}
           </button>
         ))}
       </div>
-      <p className={styles.description}>{plates[active ?? 0]?.description}</p>
+      <p className={styles.description}>
+        {active !== null ? plates[active]?.description : idle}
+      </p>
     </div>
   );
 }

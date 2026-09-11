@@ -7,28 +7,11 @@ import { Typewriter } from "@/components/motion/typewriter";
 import { HeroStack } from "@/components/home/hero-stack";
 import { site } from "@/config/site";
 
-const INLINE_LINK =
-  "font-medium text-foreground underline decoration-border decoration-1 underline-offset-4 transition-colors hover:decoration-foreground";
-
-/** The two tools the stack depicts. */
-const SIGNATURE_REPOS = {
-  goldpath: "https://github.com/qorpe/goldpath",
-  specdrift: "https://github.com/qorpe/specdrift",
-};
-
 export async function Hero() {
   const t = await getTranslations("home");
   const roles = t.raw("roles") as string[];
   const lead = t("headlineLead");
   const longest = roles.reduce((a, b) => (b.length > a.length ? b : a), "");
-  const repoLink = (href: string) => {
-    const RepoLink = (chunks: React.ReactNode) => (
-      <a href={href} target="_blank" rel="noreferrer noopener" className={INLINE_LINK}>
-        {chunks}
-      </a>
-    );
-    return RepoLink;
-  };
 
   return (
     <section className="relative overflow-hidden">
@@ -86,15 +69,9 @@ export async function Hero() {
             </div>
           </div>
 
-          {/* Signature: what the headline means, as a system you can turn. */}
+          {/* Signature: what the headline means, as a system you can open. */}
           <div className="intro [animation-delay:140ms]">
             <HeroStack />
-            <p className="mt-1 text-center text-caption text-muted-foreground">
-              {t.rich("signature", {
-                goldpath: repoLink(SIGNATURE_REPOS.goldpath),
-                specdrift: repoLink(SIGNATURE_REPOS.specdrift),
-              })}
-            </p>
           </div>
         </div>
       </Container>
