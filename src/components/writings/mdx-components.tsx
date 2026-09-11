@@ -79,7 +79,11 @@ export const mdxComponents: MDXComponents = {
   td: (props) => <td className="border-t border-border px-3 py-2" {...props} />,
   img: (props) => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img className="mt-6 rounded-[var(--radius-xl)] border border-border" alt="" {...props} />
+    <img
+      className="mt-6 rounded-[var(--radius-xl)] border border-border"
+      alt=""
+      {...props}
+    />
   ),
   Callout,
   Figure,

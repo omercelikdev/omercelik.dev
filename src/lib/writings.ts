@@ -99,7 +99,15 @@ export async function getWritingSlugs(): Promise<string[]> {
 }
 
 const TR_MAP: Record<string, string> = {
-  ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u", â: "a", î: "i", û: "u",
+  ç: "c",
+  ğ: "g",
+  ı: "i",
+  ö: "o",
+  ş: "s",
+  ü: "u",
+  â: "a",
+  î: "i",
+  û: "u",
 };
 
 /** URL-safe slug for a tag ("Golden Paths" -> "golden-paths", "Mühendislik"

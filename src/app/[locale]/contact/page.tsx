@@ -34,9 +34,19 @@ export default async function ContactPage({
 
   const links = [
     { href: site.links.email, label: site.email, Icon: Mail, external: false },
-    { href: site.links.github, label: "GitHub", Icon: GithubIcon, external: true },
+    {
+      href: site.links.github,
+      label: "GitHub",
+      Icon: GithubIcon,
+      external: true,
+    },
     { href: site.links.x, label: "X", Icon: XIcon, external: true },
-    { href: site.links.linkedin, label: "LinkedIn", Icon: LinkedinIcon, external: true },
+    {
+      href: site.links.linkedin,
+      label: "LinkedIn",
+      Icon: LinkedinIcon,
+      external: true,
+    },
   ];
 
   return (

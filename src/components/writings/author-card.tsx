@@ -10,9 +10,19 @@ export function AuthorCard() {
   const footer = useTranslations("footer");
 
   const follow = [
-    { href: site.links.github, label: "GitHub", Icon: GithubIcon, external: true },
+    {
+      href: site.links.github,
+      label: "GitHub",
+      Icon: GithubIcon,
+      external: true,
+    },
     { href: site.links.x, label: "X", Icon: XIcon, external: true },
-    { href: site.links.linkedin, label: "LinkedIn", Icon: LinkedinIcon, external: true },
+    {
+      href: site.links.linkedin,
+      label: "LinkedIn",
+      Icon: LinkedinIcon,
+      external: true,
+    },
     { href: "/feed.xml", label: footer("rss"), Icon: Rss, external: false },
   ];
 

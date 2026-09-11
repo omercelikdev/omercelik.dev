@@ -91,23 +91,28 @@ export function Header() {
       </Container>
 
       {open && (
-        <nav id="mobile-nav" className="border-t border-border bg-surface md:hidden">
+        <nav
+          id="mobile-nav"
+          className="border-t border-border bg-surface md:hidden"
+        >
           <Container className="flex flex-col gap-1 py-3">
-            {[...NAV, { href: "/contact", key: "contact" } as const].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                aria-current={isActive(item.href) ? "page" : undefined}
-                className={`rounded-[var(--radius-md)] px-3 py-2 text-body transition-colors ${
-                  isActive(item.href)
-                    ? "bg-muted text-foreground"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-              >
-                {t(item.key)}
-              </Link>
-            ))}
+            {[...NAV, { href: "/contact", key: "contact" } as const].map(
+              (item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={`rounded-[var(--radius-md)] px-3 py-2 text-body transition-colors ${
+                    isActive(item.href)
+                      ? "bg-muted text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}
+                >
+                  {t(item.key)}
+                </Link>
+              ),
+            )}
           </Container>
         </nav>
       )}

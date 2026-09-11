@@ -22,7 +22,11 @@ export function ContactForm() {
     const message = String(data.get("message") ?? "");
     const subject = encodeURIComponent(t("subject", { name }));
     const body = encodeURIComponent(`${message}\n\n— ${name}`);
-    window.location.assign(`${site.links.email}?subject=${subject}&body=${body}`);
+    // A literal mailto: so it reads (to people and to Next's lint) as the
+    // external link it is, not an in-app navigation.
+    window.location.assign(
+      `mailto:${site.email}?subject=${subject}&body=${body}`,
+    );
   }
 
   return (

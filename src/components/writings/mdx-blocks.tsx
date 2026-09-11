@@ -1,12 +1,21 @@
 import { Children, isValidElement, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
-import { ArchitectureStack, type StackLayer } from "@/components/diagram/architecture-stack";
+import {
+  ArchitectureStack,
+  type StackLayer,
+} from "@/components/diagram/architecture-stack";
 
 const CALLOUT = {
   note: { Icon: Info, tone: "border-info-border bg-info-bg text-info" },
-  tip: { Icon: Lightbulb, tone: "border-success-border bg-success-bg text-success" },
-  warning: { Icon: TriangleAlert, tone: "border-warning-border bg-warning-bg text-warning" },
+  tip: {
+    Icon: Lightbulb,
+    tone: "border-success-border bg-success-bg text-success",
+  },
+  warning: {
+    Icon: TriangleAlert,
+    tone: "border-warning-border bg-warning-bg text-warning",
+  },
 } as const;
 
 /** An aside that stands apart from the running text. In MDX:
@@ -22,7 +31,9 @@ export function Callout({
 }) {
   const { Icon, tone } = CALLOUT[type];
   return (
-    <aside className={`mt-6 flex gap-3 rounded-[var(--radius-xl)] border px-4 py-3.5 ${tone}`}>
+    <aside
+      className={`mt-6 flex gap-3 rounded-[var(--radius-xl)] border px-4 py-3.5 ${tone}`}
+    >
       <Icon className="mt-1 size-4 flex-none" aria-hidden />
       <div className="min-w-0 text-foreground [&>p]:mt-2 [&>p]:text-body [&>p:first-child]:mt-0">
         {title && <p className="font-semibold">{title}</p>}
@@ -63,7 +74,13 @@ export function Figure({
 
 /** The sentence you want remembered, set large in the editorial serif. In MDX:
  *  <PullQuote cite="Optional source">A spec is a promise…</PullQuote> */
-export function PullQuote({ children, cite }: { children: ReactNode; cite?: string }) {
+export function PullQuote({
+  children,
+  cite,
+}: {
+  children: ReactNode;
+  cite?: string;
+}) {
   return (
     <figure className="my-10 border-s-2 border-brand-accent ps-6">
       <blockquote className="font-serif text-quote text-foreground [&>p]:mt-0 [&>p]:font-serif [&>p]:text-quote [&>p]:text-foreground">
@@ -95,7 +112,13 @@ export function Layer(_props: LayerProps) {
  *    <Layer label="Code" detail="generated" />
  *  </LayerStack>
  *  Plain string props only — the MDX pipeline doesn't evaluate expressions. */
-export function LayerStack({ title, children }: { title?: string; children: ReactNode }) {
+export function LayerStack({
+  title,
+  children,
+}: {
+  title?: string;
+  children: ReactNode;
+}) {
   const t = useTranslations("diagram");
   const layers: StackLayer[] = Children.toArray(children)
     .filter(isValidElement)

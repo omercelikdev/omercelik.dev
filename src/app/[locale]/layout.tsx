@@ -35,6 +35,11 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+// Only the locales above exist. Anything else in the first segment (say, a
+// browser's /.well-known/… probe in dev) is a plain 404 — with a static export
+// an unlisted param would otherwise be an error.
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: {
@@ -68,7 +73,9 @@ export async function generateMetadata({
       siteName: site.name,
       title: t("homeTitle"),
       description: t("description"),
-      images: [{ url: SITE_OG_IMAGE, width: 1200, height: 630, alt: site.name }],
+      images: [
+        { url: SITE_OG_IMAGE, width: 1200, height: 630, alt: site.name },
+      ],
     },
     twitter: {
       card: "summary_large_image",

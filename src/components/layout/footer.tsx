@@ -9,9 +9,19 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   const socials = [
-    { href: site.links.github, label: "GitHub", Icon: GithubIcon, external: true },
+    {
+      href: site.links.github,
+      label: "GitHub",
+      Icon: GithubIcon,
+      external: true,
+    },
     { href: site.links.x, label: "X", Icon: XIcon, external: true },
-    { href: site.links.linkedin, label: "LinkedIn", Icon: LinkedinIcon, external: true },
+    {
+      href: site.links.linkedin,
+      label: "LinkedIn",
+      Icon: LinkedinIcon,
+      external: true,
+    },
     { href: site.links.email, label: "Email", Icon: Mail, external: false },
     { href: "/feed.xml", label: t("rss"), Icon: Rss, external: false },
   ];

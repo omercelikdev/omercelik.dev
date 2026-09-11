@@ -41,10 +41,14 @@ export function ArchitectureStack({
       <>
         <div className={styles.head}>
           <span>
-            <span className={styles.index}>{String(i + 1).padStart(2, "0")}</span>
+            <span className={styles.index}>
+              {String(i + 1).padStart(2, "0")}
+            </span>
             <span className={styles.label}>{layer.label}</span>
           </span>
-          {layer.detail && <span className={styles.detail}>{layer.detail}</span>}
+          {layer.detail && (
+            <span className={styles.detail}>{layer.detail}</span>
+          )}
         </div>
         {layer.note && <p className={styles.note}>{layer.note}</p>}
         {layer.body}

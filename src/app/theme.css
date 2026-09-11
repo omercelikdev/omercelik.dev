@@ -31,11 +31,21 @@
   --brand-accent-soft: oklch(0.55 0.2 264 / 0.1);
 
   /* semantic status (kept for method/status chips; rarely used) */
-  --success: oklch(0.55 0.14 152); --success-bg: oklch(0.96 0.03 152); --success-border: oklch(0.88 0.06 152);
-  --warning: oklch(0.62 0.13 70);  --warning-bg: oklch(0.97 0.04 85);  --warning-border: oklch(0.87 0.07 80);
-  --danger:  oklch(0.55 0.2 27);   --danger-bg:  oklch(0.96 0.03 27);  --danger-border:  oklch(0.88 0.07 27);
-  --info:    oklch(0.55 0.2 264);  --info-bg:    oklch(0.96 0.03 264); --info-border:    oklch(0.88 0.06 264);
-  --violet:  oklch(0.51 0.23 277); --violet-bg:  oklch(0.96 0.03 277); --violet-border:  oklch(0.88 0.06 277);
+  --success: oklch(0.55 0.14 152);
+  --success-bg: oklch(0.96 0.03 152);
+  --success-border: oklch(0.88 0.06 152);
+  --warning: oklch(0.62 0.13 70);
+  --warning-bg: oklch(0.97 0.04 85);
+  --warning-border: oklch(0.87 0.07 80);
+  --danger: oklch(0.55 0.2 27);
+  --danger-bg: oklch(0.96 0.03 27);
+  --danger-border: oklch(0.88 0.07 27);
+  --info: oklch(0.55 0.2 264);
+  --info-bg: oklch(0.96 0.03 264);
+  --info-border: oklch(0.88 0.06 264);
+  --violet: oklch(0.51 0.23 277);
+  --violet-bg: oklch(0.96 0.03 277);
+  --violet-border: oklch(0.88 0.06 277);
 
   /* geometry */
   --radius-sm: 6px;
@@ -43,15 +53,20 @@
   --radius-lg: 10px;
   --radius-xl: 12px;
   --radius-2xl: 16px;
-  --hairline: 0.75px;
 
   /* elevation — none on the surface; a soft one only for floating popovers */
   --shadow-surface: none;
-  --shadow-overlay: 0 8px 30px -8px oklch(0.141 0.005 285 / 0.14), 0 2px 8px -3px oklch(0.141 0.005 285 / 0.08);
+  --shadow-overlay:
+    0 8px 30px -8px oklch(0.141 0.005 285 / 0.14),
+    0 2px 8px -3px oklch(0.141 0.005 285 / 0.08);
 
   /* typography */
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --font-sans:
+    var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, "SF Mono", "JetBrains Mono", Menlo,
+    monospace;
   --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
 }
 
@@ -73,13 +88,24 @@
   --brand-accent: oklch(0.72 0.16 262);
   --brand-accent-soft: oklch(0.72 0.16 262 / 0.14);
 
-  --success: oklch(0.72 0.17 152); --success-bg: oklch(0.27 0.05 152); --success-border: oklch(0.4 0.08 152);
-  --warning: oklch(0.8 0.14 85);   --warning-bg: oklch(0.28 0.05 75);  --warning-border: oklch(0.42 0.08 75);
-  --danger:  oklch(0.7 0.18 25);   --danger-bg:  oklch(0.27 0.07 27);  --danger-border:  oklch(0.42 0.1 27);
-  --info:    oklch(0.72 0.16 262); --info-bg:    oklch(0.27 0.06 264); --info-border:    oklch(0.42 0.09 264);
-  --violet:  oklch(0.72 0.16 277); --violet-bg:  oklch(0.27 0.06 277); --violet-border:  oklch(0.42 0.09 277);
+  --success: oklch(0.72 0.17 152);
+  --success-bg: oklch(0.27 0.05 152);
+  --success-border: oklch(0.4 0.08 152);
+  --warning: oklch(0.8 0.14 85);
+  --warning-bg: oklch(0.28 0.05 75);
+  --warning-border: oklch(0.42 0.08 75);
+  --danger: oklch(0.7 0.18 25);
+  --danger-bg: oklch(0.27 0.07 27);
+  --danger-border: oklch(0.42 0.1 27);
+  --info: oklch(0.72 0.16 262);
+  --info-bg: oklch(0.27 0.06 264);
+  --info-border: oklch(0.42 0.09 264);
+  --violet: oklch(0.72 0.16 277);
+  --violet-bg: oklch(0.27 0.06 277);
+  --violet-border: oklch(0.42 0.09 277);
 
-  --shadow-overlay: 0 8px 30px -8px oklch(0 0 0 / 0.5), 0 2px 8px -3px oklch(0 0 0 / 0.4);
+  --shadow-overlay:
+    0 8px 30px -8px oklch(0 0 0 / 0.5), 0 2px 8px -3px oklch(0 0 0 / 0.4);
 }
 
 @media (prefers-color-scheme: dark) {

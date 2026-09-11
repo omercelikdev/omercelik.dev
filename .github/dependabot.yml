@@ -1,0 +1,30 @@
+# Dependency currency is automated, not remembered. Groups take minor and
+# patch updates together; a MAJOR arrives as its own pull request — a major
+# is a decision with a migration story, not a batch item, and a closed one
+# isn't recreated. GitHub Actions are grouped whole (CI proves them).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Next.js and its ESLint config are released together; move them together.
+      nextjs:
+        patterns: ["next", "eslint-config-next"]
+        update-types: [minor, patch]
+      dependencies:
+        dependency-type: production
+        update-types: [minor, patch]
+      dev-dependencies:
+        dependency-type: development
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ["*"]

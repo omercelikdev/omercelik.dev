@@ -22,20 +22,20 @@ export async function GET(
   const post = await getWritingBySlug(slug);
   const lang = post?.lang === "tr" ? "tr" : "en";
   const date = post
-    ? new Intl.DateTimeFormat(lang, { year: "numeric", month: "long", day: "numeric" }).format(
-        new Date(post.date),
-      )
+    ? new Intl.DateTimeFormat(lang, {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }).format(new Date(post.date))
     : "";
 
   return new ImageResponse(
-    (
-      <OgCard
-        eyebrow={lang === "tr" ? "Yazı" : "Writing"}
-        title={post?.title ?? site.name}
-        subtitle={post?.description}
-        footer={[site.name, date].filter(Boolean).join(" · ")}
-      />
-    ),
+    <OgCard
+      eyebrow={lang === "tr" ? "Yazı" : "Writing"}
+      title={post?.title ?? site.name}
+      subtitle={post?.description}
+      footer={[site.name, date].filter(Boolean).join(" · ")}
+    />,
     OG_SIZE,
   );
 }

@@ -23,5 +23,3 @@ export const site = {
     categoryId: "DIC_kwDOSnPY_84DBDCw",
   },
 } as const;
-
-export type SiteConfig = typeof site;

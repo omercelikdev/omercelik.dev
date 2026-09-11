@@ -34,7 +34,16 @@ export function OgCard({
       }}
     >
       {/* the stack motif, bottom layer first so the top one paints last */}
-      <div style={{ position: "absolute", right: 60, top: 150, display: "flex", width: 360, height: 340 }}>
+      <div
+        style={{
+          position: "absolute",
+          right: 60,
+          top: 150,
+          display: "flex",
+          width: 360,
+          height: 340,
+        }}
+      >
         {[3, 2, 1, 0].map((i) => (
           <div
             key={i}
@@ -63,7 +72,9 @@ export function OgCard({
       >
         {/* One text run: Satori puts visible space between adjacent runs, so
             the two-colour wordmark would read "omercelik .dev". */}
-        <div style={{ display: "flex", fontSize: 26, color: MUTED }}>omercelik.dev</div>
+        <div style={{ display: "flex", fontSize: 26, color: MUTED }}>
+          omercelik.dev
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           {eyebrow && (
@@ -92,14 +103,36 @@ export function OgCard({
             {title}
           </div>
           {subtitle && (
-            <div style={{ display: "flex", fontSize: 28, lineHeight: 1.35, color: MUTED }}>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 28,
+                lineHeight: 1.35,
+                color: MUTED,
+              }}
+            >
               {subtitle}
             </div>
           )}
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 22, color: MUTED }}>
-          <div style={{ width: 10, height: 10, borderRadius: 999, background: ACCENT }} />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            fontSize: 22,
+            color: MUTED,
+          }}
+        >
+          <div
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: 999,
+              background: ACCENT,
+            }}
+          />
           {footer}
         </div>
       </div>

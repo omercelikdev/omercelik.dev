@@ -20,7 +20,9 @@ export function ProductCard({ product }: { product: Product }) {
           target="_blank"
           rel="noreferrer noopener"
           className="inline-flex items-center gap-1.5 text-body font-medium tracking-tight transition-colors hover:text-brand-accent"
-          title={siteHref ? `${product.name} — ${t("visitSite")}` : product.name}
+          title={
+            siteHref ? `${product.name} — ${t("visitSite")}` : product.name
+          }
         >
           {product.name}
           {siteHref && (
@@ -47,7 +49,10 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="mono mt-auto flex items-center gap-4 pt-1 text-caption text-muted-foreground">
         {product.language && (
           <span className="inline-flex items-center gap-1.5">
-            <span className="size-1.5 rounded-full bg-brand-accent" aria-hidden />
+            <span
+              className="size-1.5 rounded-full bg-brand-accent"
+              aria-hidden
+            />
             {product.language}
           </span>
         )}

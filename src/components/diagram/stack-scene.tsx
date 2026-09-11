@@ -49,9 +49,10 @@ export function StackScene({
 
   // A mouse entering a layer's hit surface focuses it. Moving into the gap
   // between layers keeps the last one, so the focus doesn't blink off.
-  const onEnterLayer = (i: number) => (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (e.pointerType === "mouse") setHovered(i);
-  };
+  const onEnterLayer =
+    (i: number) => (e: ReactPointerEvent<HTMLDivElement>) => {
+      if (e.pointerType === "mouse") setHovered(i);
+    };
   // Touch or pen: tapping a layer pins it; tapping it again lets go.
   const onTapLayer = (i: number) => (e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.pointerType === "mouse") return;
@@ -59,7 +60,9 @@ export function StackScene({
   };
 
   const mode =
-    variant === "hero" ? styles.scrollSpread : `${styles.inline} ${styles.viewSpread}`;
+    variant === "hero"
+      ? styles.scrollSpread
+      : `${styles.inline} ${styles.viewSpread}`;
 
   return (
     <div className={`${styles.figure} ${mode}`}>
@@ -69,7 +72,11 @@ export function StackScene({
         className={styles.viewport}
         onPointerLeave={() => setHovered(null)}
       >
-        <div className={styles.scene} style={{ "--n": n } as CSSProperties} aria-hidden>
+        <div
+          className={styles.scene}
+          style={{ "--n": n } as CSSProperties}
+          aria-hidden
+        >
           <div className={styles.floor} />
           {/* Bottom layer first, top layer last. Chrome paints a 3D scene by
               depth, but where hit surfaces overlap it picks the one later in
@@ -123,7 +130,9 @@ export function StackScene({
             onBlur={() => setHovered(null)}
             onClick={() => setPinned((prev) => (prev === i ? null : i))}
           >
-            <span className={styles.legendIndex}>{String(i + 1).padStart(2, "0")}</span>
+            <span className={styles.legendIndex}>
+              {String(i + 1).padStart(2, "0")}
+            </span>
             {plate.label}
           </button>
         ))}

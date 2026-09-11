@@ -27,7 +27,9 @@ export function FeaturedPost({ post }: { post: WritingMeta }) {
         {post.title}
       </span>
       {post.description && (
-        <span className="max-w-2xl text-lead text-muted-foreground">{post.description}</span>
+        <span className="max-w-2xl text-lead text-muted-foreground">
+          {post.description}
+        </span>
       )}
       <span className="mono mt-2 flex flex-wrap items-center gap-3 text-caption text-muted-foreground">
         <time dateTime={post.date}>{dateLabel}</time>

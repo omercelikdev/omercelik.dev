@@ -34,7 +34,9 @@ export async function Hero() {
                 className="size-10 rounded-full border border-border object-cover grayscale"
               />
               <p className="text-ui leading-tight">
-                <span className="block font-medium text-foreground">{site.name}</span>
+                <span className="block font-medium text-foreground">
+                  {site.name}
+                </span>
                 <span className="text-muted-foreground">{t("role")}</span>
               </p>
             </div>
@@ -56,7 +58,9 @@ export async function Hero() {
               </span>
             </h1>
 
-            <p className="max-w-xl text-lead text-muted-foreground">{t("subtitle")}</p>
+            <p className="max-w-xl text-lead text-muted-foreground">
+              {t("subtitle")}
+            </p>
 
             <div className="flex flex-wrap items-center gap-3">
               <Link href="/contact" className={buttonClass("primary")}>

@@ -16,10 +16,7 @@ const RSS = { "application/rss+xml": `${site.url}/feed.xml` };
  *  locale. Each locale is canonical for itself; x-default is the default
  *  locale. Pages that set `alternates` replace the layout's wholesale, which
  *  is why the feed link travels with it. */
-export function alternatesFor(
-  locale: string,
-  path = "/",
-): Metadata["alternates"] {
+function alternatesFor(locale: string, path = "/"): Metadata["alternates"] {
   const languages: Record<string, string> = {};
   for (const l of routing.locales) languages[l] = localeUrl(l, path);
   languages["x-default"] = localeUrl(routing.defaultLocale, path);
@@ -42,8 +39,13 @@ export const X_HANDLE = `@${new URL(site.links.x).pathname.replace(/^\/+/, "")}`
 /** Social cards are real .png routes, so every static host serves them with
  *  an image content type (an extensionless file would go out as binary). */
 export const SITE_OG_IMAGE = "/og.png";
-export const articleOgImage = (slug: string) => `/og/${slug}/card.png`;
-const card = (url: string, alt: string) => ({ url, width: 1200, height: 630, alt });
+const articleOgImage = (slug: string) => `/og/${slug}/card.png`;
+const card = (url: string, alt: string) => ({
+  url,
+  width: 1200,
+  height: 630,
+  alt,
+});
 
 /** Title, description, canonical/hreflang and social cards for a page that
  *  exists in every locale. Next merges metadata shallowly, so each page sets
@@ -79,7 +81,9 @@ export function pageMetadata({
       title: socialTitle,
       description,
       locale: ogLocale(locale),
-      alternateLocale: routing.locales.filter((l) => l !== locale).map(ogLocale),
+      alternateLocale: routing.locales
+        .filter((l) => l !== locale)
+        .map(ogLocale),
       images: [card(SITE_OG_IMAGE, site.name)],
     },
     twitter: {
@@ -130,7 +134,7 @@ export function articleMetadata(post: WritingMeta): Metadata {
   };
 }
 
-export const personId = `${site.url}/#person`;
+const personId = `${site.url}/#person`;
 
 /** Site-wide structured data: the person the site is about, and the site.
  *  alternateName covers the spelling people type without Turkish letters. */
@@ -184,7 +188,10 @@ export function profileJsonLd(locale: string) {
   };
 }
 
-const WRITINGS_LABEL: Record<string, string> = { en: "Writings", tr: "Yazılar" };
+const WRITINGS_LABEL: Record<string, string> = {
+  en: "Writings",
+  tr: "Yazılar",
+};
 
 /** An article: BlogPosting plus its breadcrumb trail, in its canonical locale. */
 export function articleJsonLd(post: WritingMeta) {
@@ -204,13 +211,23 @@ export function articleJsonLd(post: WritingMeta) {
         url,
         mainEntityOfPage: url,
         keywords: post.tags?.join(", "),
-        author: { "@type": "Person", "@id": personId, name: site.name, url: localeUrl(locale, "/about") },
+        author: {
+          "@type": "Person",
+          "@id": personId,
+          name: site.name,
+          url: localeUrl(locale, "/about"),
+        },
         publisher: { "@id": personId },
       },
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: site.name, item: localeUrl(locale) },
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: site.name,
+            item: localeUrl(locale),
+          },
           {
             "@type": "ListItem",
             position: 2,

@@ -9,7 +9,9 @@ export default async function LocaleNotFound() {
       <span className="mono text-display font-medium text-faint">404</span>
       <div className="flex flex-col gap-2">
         <h1 className="text-h2 font-medium">{t("title")}</h1>
-        <p className="max-w-sm text-ui text-muted-foreground">{t("subtitle")}</p>
+        <p className="max-w-sm text-ui text-muted-foreground">
+          {t("subtitle")}
+        </p>
       </div>
       <LinkButton href="/" variant="primary">
         {t("home")}

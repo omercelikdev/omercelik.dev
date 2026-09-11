@@ -12,7 +12,24 @@ npm install
 cp .env.example .env.local   # optional: add a GITHUB_TOKEN
 npm run dev                  # http://localhost:3000 → picks /en or /tr
 npm run build                # static site in ./out
+npm run check                # lint + typecheck + format check + tests (as CI)
+npm run format               # apply Prettier
 ```
+
+## Quality gates
+
+- **CI** — `.github/workflows/ci.yml`, on every push to `main` and every pull
+  request: lint, typecheck, format check, tests, then the static build. The
+  build fails if any product card couldn't be fetched, and the job checks the
+  key files in `out/` exist.
+- **Dependabot** — `.github/dependabot.yml`, weekly. Minor and patch updates
+  arrive grouped (Next.js and its ESLint config together); a major version
+  arrives as its own pull request. GitHub Actions are grouped.
+- **Tests** — Vitest, `src/**/*.test.ts`: heading ids match rehype-slug, tag
+  slugs, the SEO helpers, and EN/TR message parity (same keys, same list
+  lengths, no empty strings).
+- **Tooling** — Node 24 (`.nvmrc`), Prettier defaults, `.editorconfig`.
+  Essays under `content/` are left out of formatting on purpose.
 
 ## How it's put together
 
@@ -64,9 +81,9 @@ Create `content/writings/<slug>.mdx`:
 title: "My post"
 description: "One-line summary."
 date: "2026-09-11"
-lang: "en"            # en | tr — the language the piece is written in
+lang: "en" # en | tr — the language the piece is written in
 tags: ["architecture"]
-draft: true           # optional: visible in `npm run dev` only
+draft: true # optional: visible in `npm run dev` only
 series: "Golden paths" # optional, with seriesOrder: 1
 ---
 
@@ -93,6 +110,7 @@ What an article can use:
   ```
 
   String props only — the MDX pipeline doesn't evaluate `{…}` expressions.
+
 - **Featured** — `featured: true` in the frontmatter leads the home page with
   that essay.
 - **GFM** — tables, task lists and footnotes (`[^1]`).
@@ -102,14 +120,14 @@ What an article can use:
 
 ## Configure
 
-| What | Where |
-| --- | --- |
-| Name, email, social links, comments | `src/config/site.ts` |
-| Which repos show as products | `src/config/products.ts` |
-| Colours, radius, shadows | `src/app/theme.css` |
-| Type scale, motion, code styling | `src/app/globals.css` |
-| UI copy (EN / TR) | `src/i18n/messages/*.json` |
-| Supported locales | `src/i18n/routing.ts` |
+| What                                | Where                      |
+| ----------------------------------- | -------------------------- |
+| Name, email, social links, comments | `src/config/site.ts`       |
+| Which repos show as products        | `src/config/products.ts`   |
+| Colours, radius, shadows            | `src/app/theme.css`        |
+| Type scale, motion, code styling    | `src/app/globals.css`      |
+| UI copy (EN / TR)                   | `src/i18n/messages/*.json` |
+| Supported locales                   | `src/i18n/routing.ts`      |
 
 ## Deploy — Cloudflare Workers Builds
 
@@ -127,10 +145,10 @@ Worker static assets, with `404.html` for unknown paths.
 The site ships everything search engines read (sitemap, canonicals,
 structured data); these steps tell them it exists:
 
-1. **Google Search Console** — add a *Domain* property for `omercelik.dev`,
+1. **Google Search Console** — add a _Domain_ property for `omercelik.dev`,
    verify with the DNS TXT record (in Cloudflare DNS), then submit
-   `https://omercelik.dev/sitemap.xml`. Use *URL inspection → Request
-   indexing* for the home page and each new essay.
+   `https://omercelik.dev/sitemap.xml`. Use _URL inspection → Request
+   indexing_ for the home page and each new essay.
 2. **Bing Webmaster Tools** — import the site from Search Console (Bing also
    feeds DuckDuckGo and others).
 3. **Link back to the site** from GitHub, LinkedIn and X profiles — the same

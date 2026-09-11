@@ -107,7 +107,9 @@ export default async function WritingPage({
   return (
     // Wider than the site's 1080px column: the reading column sits centred in
     // the middle track, the table of contents in the right-hand margin.
-    <div className={`mx-auto w-full max-w-[1280px] px-5 sm:px-7 ${PAGE_PADDING}`}>
+    <div
+      className={`mx-auto w-full max-w-[1280px] px-5 sm:px-7 ${PAGE_PADDING}`}
+    >
       <div className="reading-progress" aria-hidden />
       <JsonLd data={articleJsonLd(post)} />
 
@@ -156,10 +158,16 @@ export default async function WritingPage({
               </div>
               <ol className="flex flex-col gap-1.5">
                 {seriesPosts.map((p, i) => (
-                  <li key={p.slug} className="flex items-baseline gap-2.5 text-ui">
+                  <li
+                    key={p.slug}
+                    className="flex items-baseline gap-2.5 text-ui"
+                  >
                     <span className="mono text-faint">{i + 1}.</span>
                     {p.slug === post.slug ? (
-                      <span aria-current="page" className="font-medium text-foreground">
+                      <span
+                        aria-current="page"
+                        className="font-medium text-foreground"
+                      >
                         {p.title}
                       </span>
                     ) : (
@@ -229,18 +237,25 @@ async function PostNav({
             <ArrowLeft className="size-3" aria-hidden />
             {t("older")}
           </span>
-          <span className="text-ui font-medium text-foreground">{older.title}</span>
+          <span className="text-ui font-medium text-foreground">
+            {older.title}
+          </span>
         </Link>
       ) : (
         <span className="max-sm:hidden" />
       )}
       {newer && (
-        <Link href={`/writings/${newer.slug}`} className={`${card} sm:items-end sm:text-end`}>
+        <Link
+          href={`/writings/${newer.slug}`}
+          className={`${card} sm:items-end sm:text-end`}
+        >
           <span className="mono inline-flex items-center gap-1 text-meta uppercase tracking-wider text-faint">
             {t("newer")}
             <ArrowRight className="size-3" aria-hidden />
           </span>
-          <span className="text-ui font-medium text-foreground">{newer.title}</span>
+          <span className="text-ui font-medium text-foreground">
+            {newer.title}
+          </span>
         </Link>
       )}
     </nav>

@@ -18,7 +18,12 @@ const SIGNATURE_REPOS = {
 
 function repoLink(href: string) {
   const RepoLink = (chunks: React.ReactNode) => (
-    <a href={href} target="_blank" rel="noreferrer noopener" className={INLINE_LINK}>
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer noopener"
+      className={INLINE_LINK}
+    >
       {chunks}
     </a>
   );
@@ -26,7 +31,11 @@ function repoLink(href: string) {
 }
 
 /** Three key/value lines — every layer's face has exactly this shape. */
-function Lines({ rows }: { rows: [key: string, value: string, tone?: Tone][] }) {
+function Lines({
+  rows,
+}: {
+  rows: [key: string, value: string, tone?: Tone][];
+}) {
   return (
     <div className={s.code}>
       {rows.map(([key, value, tone]) => (
