@@ -85,11 +85,15 @@ export function StackScene({
         timer = window.setTimeout(tick, 400);
         return;
       }
-      if (steered) {
+      // After someone steered it, give the chosen layer a full step before
+      // moving on. A stack that never started (it was off-screen) doesn't
+      // wait: it starts the moment it comes into view.
+      if (steered && activeRef.current !== null) {
         steered = false;
         timer = window.setTimeout(tick, STEP_MS);
         return;
       }
+      steered = false;
       const prev = activeRef.current;
       const next = prev === null ? 0 : (prev + 1) % n;
       setActive(next);
@@ -192,7 +196,6 @@ export function StackScene({
               key={i}
               className={styles.plate}
               style={{ "--i": i } as CSSProperties}
-              data-flow={active !== null && i === active - 1 ? "" : undefined}
               data-state={
                 active === null
                   ? undefined
@@ -204,7 +207,6 @@ export function StackScene({
               }
             >
               <div className={styles.face}>{plate.face}</div>
-              {i < n - 1 && <span className={styles.riser} />}
             </div>
           ))}
         </div>

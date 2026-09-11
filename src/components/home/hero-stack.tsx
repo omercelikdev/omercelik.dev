@@ -5,11 +5,24 @@ import {
   type StackLayer,
 } from "@/components/diagram/architecture-stack";
 
-const CODE_BARS = [78, 54, 66, 40, 58];
-const SPARK = "M0 26 L12 21 L24 23 L36 15 L48 18 L60 10 L72 14 L84 8 L96 12 L108 5 L120 9";
+type Tone = "accent" | "pass";
 
-/** The hero's stack: a golden path from spec to runtime, each layer drawn
- *  with a hint of what lives there and explained while it's in focus. */
+/** Three key/value lines — every layer's face has exactly this shape. */
+function Lines({ rows }: { rows: [key: string, value: string, tone?: Tone][] }) {
+  return (
+    <div className={s.code}>
+      {rows.map(([key, value, tone]) => (
+        <div key={key}>
+          <span className={s.k}>{key}: </span>
+          <span className={tone ? s[tone] : s.v}>{value}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** The hero's stack: a golden path from spec to runtime, each layer showing
+ *  what lives there and explained below while it's in focus. */
 export function HeroStack() {
   const t = useTranslations("home");
   const d = useTranslations("diagram");
@@ -20,68 +33,65 @@ export function HeroStack() {
       label: "Spec",
       detail: "manifest.yaml",
       body: (
-        <div className={s.code}>
-          <div>
-            <span className={s.k}>service</span>: <span className={s.v}>orders</span>
-          </div>
-          <div>
-            <span className={s.k}>contracts</span>: <span className={s.v}>openapi</span>
-          </div>
-          <div>
-            <span className={s.k}>invariants</span>: <span className={s.v}>12</span>
-          </div>
-        </div>
+        <Lines
+          rows={[
+            ["service", "orders"],
+            ["contracts", "openapi", "accent"],
+            ["invariants", "12"],
+          ]}
+        />
       ),
     },
     {
       label: "Contracts",
       detail: "OpenAPI · AsyncAPI",
       body: (
-        <div className={s.code}>
-          <div>
-            <span className={s.method}>GET</span>/orders/{"{id}"}
-          </div>
-          <div>
-            <span className={s.method}>POST</span>/orders
-          </div>
-          <div>
-            <span className={s.method}>EVT</span>order.created
-          </div>
-        </div>
+        <Lines
+          rows={[
+            ["GET", "/orders/{id}", "accent"],
+            ["POST", "/orders", "accent"],
+            ["event", "order.created", "accent"],
+          ]}
+        />
       ),
     },
     {
       label: "Code",
       detail: "generated · .NET",
       body: (
-        <div className={s.bars}>
-          {CODE_BARS.map((width, i) => (
-            <span key={i} style={{ width: `${width}%` }} />
-          ))}
-        </div>
+        <Lines
+          rows={[
+            ["api", "Orders.Api"],
+            ["domain", "Orders.Domain"],
+            ["tests", "Orders.Tests"],
+          ]}
+        />
       ),
     },
     {
       label: "Verify",
       detail: "specdrift",
       body: (
-        <div className={s.verify}>
-          <div className={s.checks}>
-            {Array.from({ length: 12 }, (_, i) => (
-              <span key={i} />
-            ))}
-          </div>
-          <span className={s.ok}>0 drift</span>
-        </div>
+        <Lines
+          rows={[
+            ["invariants", "12 / 12", "pass"],
+            ["drift", "none", "pass"],
+            ["contracts", "in sync", "pass"],
+          ]}
+        />
       ),
     },
     {
       label: "Runtime",
       detail: "OpenTelemetry",
       body: (
-        <svg className={s.spark} viewBox="0 0 120 32" preserveAspectRatio="none">
-          <path d={SPARK} />
-        </svg>
+        <Lines
+          rows={[
+            ["trace", "order.created"],
+            ["span", "POST /orders"],
+            ["status", "ok", "pass"],
+          ]}
+        />
       ),
     },
   ].map((layer, i) => ({ ...layer, description: descriptions[i] }));

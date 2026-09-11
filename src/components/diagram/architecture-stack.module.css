@@ -3,10 +3,10 @@
    Custom properties drive it, all registered so they can animate:
    --tilt-x / --tilt-y (−1…1) follow the pointer, and --spread (0…1) opens the
    stack as the page scrolls. StackScene marks one layer active at a time
-   (data-state on each plate): it slides forward and lights up, the layers
-   above it fade so it can be read, and the signal's path so far lights the
-   connectors. Without JavaScript, scroll-driven animations or with reduced
-   motion it is a still, readable isometric diagram.
+   (data-state on each plate): it lifts out of the stack to float above it,
+   fully readable, while the others stay in place with their contents dimmed.
+   Without JavaScript, scroll-driven animations or with reduced motion it is a
+   still, readable isometric diagram.
 
    Sizes here are in px on purpose: this is an illustration. The legend and
    description use the site's type scale values (11px meta, 13px ui). */
@@ -33,9 +33,14 @@
 
 .viewport {
   --scale: 1;
+  /* where the active layer floats to: sideways, a touch forward, and above
+     the top of the stack */
+  --pull-x: 56px;
+  --pull-y: 14px;
+  --float: 28px;
   position: relative;
   display: grid;
-  height: 470px;
+  height: 500px;
   place-items: center;
   perspective: 1500px;
   perspective-origin: 50% 30%;
@@ -44,34 +49,34 @@
    the reading column. */
 .inline .viewport {
   --scale: 0.8;
-  height: 420px;
+  height: 440px;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 16px;
 }
 @media (max-width: 640px) {
   .viewport {
-    --scale: 0.78;
-    height: 390px;
+    --scale: 0.74;
+    --pull-x: 34px;
+    height: 420px;
   }
   .inline .viewport {
-    --scale: 0.66;
-    height: 340px;
+    --scale: 0.64;
+    height: 360px;
   }
 }
 
 .scene {
   /* distance between layers; grows as the stack opens */
   --gap: calc(30px + var(--spread) * 50px);
-  /* how far the layers above the active one lift to open the stack */
-  --lift: 38px;
   position: relative;
   width: 300px;
   height: 184px;
   transform-style: preserve-3d;
-  /* keep the middle of the stack, not its top layer, in the middle of the
-     frame: the stack rises (n − 1) gaps, so shift down by a share of that */
-  translate: 0 calc(var(--gap) * (var(--n) - 1) * 0.39);
+  /* A fixed offset, not one tied to --gap: the bottom layer stays put and
+     the stack only grows upward as it opens, so it never runs into the
+     legend below. */
+  translate: 0 calc((var(--n) - 1) * 26px);
   transform: scale(var(--scale)) rotateX(calc(56deg - var(--tilt-y) * 7deg))
     rotateZ(calc(-40deg + var(--tilt-x) * 10deg));
 }
@@ -159,37 +164,7 @@
   color: var(--faint);
 }
 
-/* Connector from a layer down to the next: a dashed post with a signal. */
-.riser {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1px;
-  height: var(--gap);
-  transform-origin: top;
-  transform: rotateX(-90deg);
-  transition: height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--border-strong) 0 3px,
-    transparent 3px 7px
-  );
-}
-.riser::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--brand-accent) 45%,
-    transparent
-  );
-  transition: opacity 0.45s ease;
-}
-
-/* ---- Layer contents ---- */
+/* ---- Layer contents: the same three key/value lines on every layer ---- */
 .code {
   display: flex;
   flex-direction: column;
@@ -197,65 +172,16 @@
   font-size: 11.5px;
 }
 .k {
-  color: var(--foreground);
+  color: var(--muted-foreground);
 }
 .v {
+  color: var(--foreground);
+}
+.accent {
   color: var(--brand-accent);
 }
-.method {
-  display: inline-block;
-  min-width: 38px;
-  font-weight: 600;
-  color: var(--brand-accent);
-}
-.bars {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding-top: 2px;
-}
-.bars > span {
-  display: block;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--muted);
-}
-.bars > span:nth-child(3n + 2) {
-  background: var(--brand-accent-soft);
-}
-.verify {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-}
-.checks {
-  display: grid;
-  grid-template-columns: repeat(6, 14px);
-  gap: 5px;
-}
-.checks > span {
-  width: 14px;
-  height: 14px;
-  border: 1px solid var(--success-border);
-  border-radius: 4px;
-  background: var(--success-bg);
-}
-.ok {
-  font-weight: 600;
+.pass {
   color: var(--success);
-}
-.spark {
-  width: 100%;
-  height: 46px;
-  overflow: visible;
-}
-.spark path {
-  fill: none;
-  stroke: var(--brand-accent);
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
 }
 /* Under the label, on the same visible front strip. */
 .note {
@@ -267,37 +193,34 @@
 }
 
 /* ---- Layer states (set by StackScene) ----
-   The stack opens at the active layer like a fanned deck: the layers above
-   lift and draw back, the active one comes forward and lights up, and the
-   rest step down a notch in emphasis. Nothing disappears — the structure
-   stays readable while the focus moves. */
-.plate[data-state="above"] {
-  translate: 0 -24px var(--lift);
-}
+   The active layer lifts out of the stack: it rises to float just above the
+   top layer (a layer i steps below the top sits i gaps down, so it climbs
+   i gaps plus --float), drifts sideways, and lights up — nothing covers it,
+   so every line on it reads. The others hold their places with their
+   contents dimmed; the empty slot shows where the card came from. The same
+   motion for every layer. */
 .plate[data-state="active"] {
-  translate: 0 18px 10px;
+  translate: var(--pull-x) var(--pull-y)
+    calc(var(--i) * var(--gap) + var(--float));
 }
 .plate[data-state="active"] > .face {
   border-color: var(--brand-accent);
-  background: color-mix(in oklch, var(--background) 97%, transparent);
+  background: var(--background);
   box-shadow:
     0 0 0 1px color-mix(in oklch, var(--brand-accent) 70%, transparent),
-    0 24px 60px -24px color-mix(in oklch, var(--brand-accent) 55%, transparent);
+    0 28px 60px -26px color-mix(in oklch, var(--brand-accent) 55%, transparent);
 }
 .face > * {
   transition: opacity 0.45s ease;
 }
 .plate[data-state="above"] > .face > *,
 .plate[data-state="below"] > .face > * {
-  opacity: 0.5;
-}
-/* The connector into the active layer stretches across the opened gap. */
-.plate[data-flow] > .riser {
-  height: calc(var(--gap) + var(--lift));
+  opacity: 0.45;
 }
 
 /* ---- Legend + description (below the stack) ---- */
 .legend {
+  margin-top: 14px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -359,14 +282,6 @@
     animation: light 6s ease-in-out infinite;
     animation-delay: calc(1.4s + var(--i) * 0.5s);
   }
-  .scene:not([data-live]) .riser::after {
-    animation: signal 6s linear infinite;
-    animation-delay: calc(1.65s + var(--i) * 0.5s);
-  }
-  /* Each time the focus moves, one pulse runs down into the new layer. */
-  .plate[data-flow] > .riser::after {
-    animation: signal-in 0.9s ease-out 0.15s both;
-  }
 
   @supports (animation-timeline: scroll()) {
     /* Hero: the stack opens over the first stretch of scrolling. */
@@ -394,7 +309,7 @@
   .plate,
   .plate::before,
   .face,
-  .riser::after {
+  .face > * {
     transition: none;
   }
 }
@@ -417,34 +332,6 @@
     box-shadow:
       0 0 0 1px var(--brand-accent),
       0 0 36px -6px color-mix(in oklch, var(--brand-accent) 55%, transparent);
-  }
-}
-@keyframes signal {
-  0% {
-    opacity: 1;
-    transform: translateY(-100%);
-  }
-  7% {
-    opacity: 1;
-    transform: translateY(100%);
-  }
-  8%,
-  100% {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-}
-@keyframes signal-in {
-  0% {
-    opacity: 1;
-    transform: translateY(-100%);
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(100%);
   }
 }
 @keyframes spread {
