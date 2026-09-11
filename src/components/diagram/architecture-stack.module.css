@@ -3,12 +3,13 @@
    Calm by design — nothing moves on its own. Pointing at the stack (or at a
    layer in the legend, or tapping it) opens it at that layer: the layers
    above lift and draw back, the focused one comes forward and lights up, and
-   its description shows below. While the pointer is over it the scene tilts
-   a few degrees toward it, and the stack opens a little as the page scrolls.
-   Without JavaScript or with reduced motion it is a still, readable diagram.
+   its description shows below. The stack also opens a little as the page
+   scrolls. It never tilts or sways, so the layers stay exactly where the
+   pointer expects them. Without JavaScript or with reduced motion it is a
+   still, readable diagram.
 
-   Custom properties drive it, registered so they can animate: --tilt-x /
-   --tilt-y (−1…1) and --spread (0…1).
+   --spread (0…1) drives the scroll opening; it is registered so it can
+   animate.
 
    Sizes are px on purpose: this is an illustration. The legend and
    description use the site's type scale values (11px meta, 13px ui). */
@@ -17,16 +18,6 @@
   syntax: "<number>";
   inherits: true;
   initial-value: 0.55;
-}
-@property --tilt-x {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
-@property --tilt-y {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
 }
 
 .figure {
@@ -74,8 +65,7 @@
   /* A fixed offset, not one tied to --gap: the bottom layer stays put and the
      stack only grows upward as it opens, so it never runs into the legend. */
   translate: 0 calc((var(--n) - 1) * 26px);
-  transform: scale(var(--scale)) rotateX(calc(56deg - var(--tilt-y) * 4deg))
-    rotateZ(calc(-40deg + var(--tilt-x) * 5deg));
+  transform: scale(var(--scale)) rotateX(56deg) rotateZ(-40deg);
 }
 
 /* Blueprint floor the stack stands on. */
@@ -102,6 +92,23 @@
   transform-style: preserve-3d;
   transform: translateZ(calc((var(--n) - 1 - var(--i)) * var(--gap)));
   transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  /* the hit surfaces below take the pointer; the visible layers move */
+  pointer-events: none;
+}
+
+/* One invisible hit surface per layer, fixed at the layer's resting place:
+   pointing at the part of a layer you can see selects that layer, and the
+   stack opening above it doesn't pull the target out from under the pointer.
+   Painted after the plates in 3D order only by depth, never visible. */
+.hit {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  transform: translateZ(calc((var(--n) - 1 - var(--i)) * var(--gap)));
+  cursor: pointer;
+}
+.floor {
+  pointer-events: none;
 }
 /* The slab's underside, a few pixels down: gives each layer thickness. */
 .plate::before {
@@ -198,8 +205,10 @@
 .plate[data-state="above"] {
   translate: 0 -24px var(--lift);
 }
+/* A short step forward: far enough to read as "out", short enough that the
+   focused layer doesn't slide over the next layer's hit strip. */
 .plate[data-state="active"] {
-  translate: 0 18px 10px;
+  translate: 0 12px 10px;
 }
 .plate[data-state="active"] > .face {
   border-color: var(--brand-accent);

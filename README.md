@@ -30,11 +30,13 @@ npm run build                # static site in ./out
   JavaScript, and `prefers-reduced-motion` switches it all off.
 - **Signature diagram** — `src/components/diagram/`: an isometric stack of
   architecture layers in CSS 3D (no WebGL), calm by design — nothing moves on
-  its own. Pointing at the stack opens it at that layer (the layers above lift
+  its own. Pointing at a layer opens the stack there (the layers above lift
   and draw back, the focused one comes forward and lights up, its description
   shows below); the legend does the same on hover or keyboard focus and pins
-  a layer on click; on touch each tap steps forward. It tilts a few degrees
-  toward the pointer while over it and opens a little as the page scrolls.
+  a layer on click; on touch, tapping a layer pins it. Invisible hit surfaces
+  at the layers' resting positions decide which layer is under the pointer,
+  so the focus doesn't jump while the stack opens. It opens a little as the page
+  scrolls and never tilts, so the layers stay where the pointer expects them.
   Without JavaScript or with reduced motion it's a still diagram.
 - **SEO** — `src/lib/seo.ts`: every page gets its title, description,
   canonical, hreflang, Open Graph and X card from `pageMetadata` /

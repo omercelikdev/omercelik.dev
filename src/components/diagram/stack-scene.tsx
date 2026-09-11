@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  useEffect,
-  useRef,
   useState,
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
@@ -17,16 +15,19 @@ export interface ScenePlate {
   face: ReactNode;
 }
 
-const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
-
 /** The interactive half of ArchitectureStack. Calm by design — nothing moves
  *  on its own:
- *  - a mouse over the stack opens it at the layer under the pointer (the
- *    stack's height maps onto the layers, top first), and the scene tilts a
- *    few degrees toward the pointer;
+ *  - pointing at a layer opens the stack at that layer;
  *  - the legend focuses a layer on hover or keyboard focus; a click pins it;
- *  - on touch, each tap steps to the next layer.
- *  Leaving returns the stack to rest, or to the pinned layer. */
+ *  - on touch, tapping a layer pins it (tap again to let go).
+ *  Leaving returns the stack to rest, or to the pinned layer.
+ *
+ *  Which layer is "under the pointer" comes from invisible hit surfaces, one
+ *  per layer, fixed at the layers' resting positions. The visible layers move
+ *  when the stack opens; if they were the hit targets, the focus would jump as
+ *  the geometry shifted under a still pointer. For the same reason the scene
+ *  never tilts toward the pointer: a target that moves while you reach for
+ *  it is one you miss. */
 export function StackScene({
   plates,
   description,
@@ -45,75 +46,16 @@ export function StackScene({
   const [hovered, setHovered] = useState<number | null>(null);
   const [pinned, setPinned] = useState<number | null>(null);
   const active = hovered ?? pinned;
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const hoveredRef = useRef<number | null>(null);
 
-  useEffect(() => {
-    hoveredRef.current = hovered;
-  }, [hovered]);
-
-  // Tilt toward the pointer while it's over the stack; ease back on leave.
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (!finePointer.matches || reducedMotion.matches) return;
-
-    let targetX = 0;
-    let targetY = 0;
-    let x = 0;
-    let y = 0;
-    let frame = 0;
-
-    const tick = () => {
-      x += (targetX - x) * 0.08;
-      y += (targetY - y) * 0.08;
-      el.style.setProperty("--tilt-x", x.toFixed(3));
-      el.style.setProperty("--tilt-y", y.toFixed(3));
-      const settled = Math.abs(targetX - x) + Math.abs(targetY - y) < 0.002;
-      frame = settled ? 0 : requestAnimationFrame(tick);
-    };
-    const kick = () => {
-      if (!frame) frame = requestAnimationFrame(tick);
-    };
-    const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      targetX = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
-      targetY = clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 2), -1, 1);
-      kick();
-    };
-    const onLeave = () => {
-      targetX = 0;
-      targetY = 0;
-      kick();
-    };
-
-    el.addEventListener("pointermove", onMove, { passive: true });
-    el.addEventListener("pointerleave", onLeave);
-    return () => {
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerleave", onLeave);
-      cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  // Mouse over the stack: its height maps onto the layers, top layer first.
-  // (Hit-testing the plates themselves would flicker: the focused one moves.)
-  const onScrub = (e: ReactPointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== "mouse") return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const pos = (((e.clientY - r.top) / r.height - 0.15) / 0.7) * n;
-    // Hysteresis: only move once the pointer is well into another layer's
-    // band, so resting near a boundary doesn't flicker between two layers.
-    const current = hoveredRef.current;
-    if (current !== null && Math.abs(pos - (current + 0.5)) < 0.8) return;
-    setHovered(clamp(Math.floor(pos), 0, n - 1));
+  // A mouse entering a layer's hit surface focuses it. Moving into the gap
+  // between layers keeps the last one, so the focus doesn't blink off.
+  const onEnterLayer = (i: number) => (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse") setHovered(i);
   };
-  // Touch or pen: each tap steps to the next layer.
-  const onTap = (e: ReactPointerEvent<HTMLDivElement>) => {
+  // Touch or pen: tapping a layer pins it; tapping it again lets go.
+  const onTapLayer = (i: number) => (e: ReactPointerEvent<HTMLDivElement>) => {
     if (e.pointerType === "mouse") return;
-    setPinned((prev) => (prev === null ? 0 : (prev + 1) % n));
+    setPinned((prev) => (prev === i ? null : i));
   };
 
   const mode =
@@ -122,16 +64,29 @@ export function StackScene({
   return (
     <div className={`${styles.figure} ${mode}`}>
       <div
-        ref={viewportRef}
         role="img"
         aria-label={description}
         className={styles.viewport}
-        onPointerMove={onScrub}
         onPointerLeave={() => setHovered(null)}
-        onPointerUp={onTap}
       >
         <div className={styles.scene} style={{ "--n": n } as CSSProperties} aria-hidden>
           <div className={styles.floor} />
+          {/* Bottom layer first, top layer last. Chrome paints a 3D scene by
+              depth, but where hit surfaces overlap it picks the one later in
+              the DOM — so DOM order has to match depth order, or pointing at
+              a layer would select the one beneath it. */}
+          {plates
+            .map((_, i) => i)
+            .reverse()
+            .map((i) => (
+              <div
+                key={`hit-${i}`}
+                className={styles.hit}
+                style={{ "--i": i } as CSSProperties}
+                onPointerEnter={onEnterLayer(i)}
+                onPointerUp={onTapLayer(i)}
+              />
+            ))}
           {plates.map((plate, i) => (
             <div
               key={i}
