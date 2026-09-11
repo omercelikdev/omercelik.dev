@@ -63,6 +63,8 @@
 .scene {
   /* distance between layers; grows as the stack opens */
   --gap: calc(30px + var(--spread) * 50px);
+  /* how far the layers above the active one lift to open the stack */
+  --lift: 38px;
   position: relative;
   width: 300px;
   height: 184px;
@@ -166,6 +168,7 @@
   height: var(--gap);
   transform-origin: top;
   transform: rotateX(-90deg);
+  transition: height 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   background: repeating-linear-gradient(
     to bottom,
     var(--border-strong) 0 3px,
@@ -263,27 +266,34 @@
   line-height: 1.5;
 }
 
-/* ---- Layer states (set by StackScene) ---- */
+/* ---- Layer states (set by StackScene) ----
+   The stack opens at the active layer like a fanned deck: the layers above
+   lift and draw back, the active one comes forward and lights up, and the
+   rest step down a notch in emphasis. Nothing disappears — the structure
+   stays readable while the focus moves. */
+.plate[data-state="above"] {
+  translate: 0 -24px var(--lift);
+}
 .plate[data-state="active"] {
-  /* slide forward out of the stack, and lift a little */
-  translate: 0 30px 18px;
+  translate: 0 18px 10px;
 }
 .plate[data-state="active"] > .face {
   border-color: var(--brand-accent);
   background: color-mix(in oklch, var(--background) 97%, transparent);
   box-shadow:
-    0 0 0 1px var(--brand-accent),
-    0 22px 50px -20px color-mix(in oklch, var(--brand-accent) 60%, transparent);
+    0 0 0 1px color-mix(in oklch, var(--brand-accent) 70%, transparent),
+    0 24px 60px -24px color-mix(in oklch, var(--brand-accent) 55%, transparent);
 }
-/* Layers above the active one step aside so it can be read… */
-.plate[data-state="above"] > .face,
-.plate[data-state="above"]::before {
-  opacity: 0.16;
+.face > * {
+  transition: opacity 0.45s ease;
 }
-/* …and their connectors show the path the signal has travelled. */
-.plate[data-state="above"] > .riser::after {
-  opacity: 1;
-  background: var(--brand-accent);
+.plate[data-state="above"] > .face > *,
+.plate[data-state="below"] > .face > * {
+  opacity: 0.5;
+}
+/* The connector into the active layer stretches across the opened gap. */
+.plate[data-flow] > .riser {
+  height: calc(var(--gap) + var(--lift));
 }
 
 /* ---- Legend + description (below the stack) ---- */
@@ -353,6 +363,10 @@
     animation: signal 6s linear infinite;
     animation-delay: calc(1.65s + var(--i) * 0.5s);
   }
+  /* Each time the focus moves, one pulse runs down into the new layer. */
+  .plate[data-flow] > .riser::after {
+    animation: signal-in 0.9s ease-out 0.15s both;
+  }
 
   @supports (animation-timeline: scroll()) {
     /* Hero: the stack opens over the first stretch of scrolling. */
@@ -415,6 +429,19 @@
     transform: translateY(100%);
   }
   8%,
+  100% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+@keyframes signal-in {
+  0% {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+  70% {
+    opacity: 1;
+  }
   100% {
     opacity: 0;
     transform: translateY(100%);

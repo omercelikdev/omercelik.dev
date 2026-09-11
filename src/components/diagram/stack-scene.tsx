@@ -145,8 +145,13 @@ export function StackScene({
     if (e.pointerType !== "mouse") return;
     hovering.current = true;
     const r = e.currentTarget.getBoundingClientRect();
-    const f = (e.clientY - r.top) / r.height;
-    setActive(clamp(Math.floor(((f - 0.15) / 0.7) * n), 0, n - 1));
+    // Continuous position along the stack, in layers (0 = top of layer 1).
+    const pos = (((e.clientY - r.top) / r.height - 0.15) / 0.7) * n;
+    // Hysteresis: only move once the pointer is well into another layer's
+    // band, so resting near a boundary doesn't flicker between two layers.
+    const current = activeRef.current;
+    if (current !== null && Math.abs(pos - (current + 0.5)) < 0.8) return;
+    setActive(clamp(Math.floor(pos), 0, n - 1));
   };
   // Touch or pen: each tap steps to the next layer.
   const onTap = (e: ReactPointerEvent<HTMLDivElement>) => {
@@ -187,6 +192,7 @@ export function StackScene({
               key={i}
               className={styles.plate}
               style={{ "--i": i } as CSSProperties}
+              data-flow={active !== null && i === active - 1 ? "" : undefined}
               data-state={
                 active === null
                   ? undefined
