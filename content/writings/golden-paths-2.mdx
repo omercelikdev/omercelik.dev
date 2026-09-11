@@ -6,6 +6,7 @@ lang: "en"
 tags: ["golden-paths", "spec-driven", "example"]
 series: "Golden paths"
 seriesOrder: 2
+draft: true
 ---
 
 > Example post, part two of the series.
@@ -27,5 +28,12 @@ contracts:
 invariants:
   - every endpoint has an idempotency key
 ```
+
+<LayerStack title="Where each guarantee lives">
+  <Layer label="Spec" detail="manifest.yaml" note="What must be true." />
+  <Layer label="Contracts" detail="OpenAPI" note="How it is spoken." />
+  <Layer label="Code" detail="generated" note="What actually runs." />
+  <Layer label="Verify" detail="specdrift" note="Proof the three agree." />
+</LayerStack>
 
 Humans approve, guardrails verify, drift gets caught early. That's the whole idea.

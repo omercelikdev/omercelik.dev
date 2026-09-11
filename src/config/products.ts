@@ -1,6 +1,7 @@
 /** Curated list of repositories to surface as "products".
  *
- *  - `repo`      : the GitHub repo name under the site owner's account.
+ *  - `repo`      : the GitHub repo — a bare name for one under the site owner's
+ *                  account, or "owner/name" for one elsewhere (an organisation).
  *  - `featured`  : show on the home page's featured strip (top 3 by order).
  *  - `highlight` : optional override for the card blurb (falls back to the
  *                  repo's GitHub description). Use it for repos with no/short
@@ -23,26 +24,26 @@ export interface ProductEntry {
 
 export const products: ProductEntry[] = [
   {
-    repo: "goldpath",
+    repo: "qorpe/goldpath",
     featured: true,
     accent: "violet",
     highlight:
       "AI-native, spec-driven enterprise .NET accelerator — composable libraries, templates, AI skills and guardrails on a paved golden path. Not a framework.",
   },
   {
-    repo: "specdrift",
+    repo: "qorpe/specdrift",
     featured: true,
     accent: "info",
     highlight:
       "Deterministic spec lint for manifest-driven golden paths — validates cross-artifact invariants and detects manifest-vs-repo drift, served over MCP. LLMs call it; it never calls an LLM.",
   },
   {
-    repo: "mediant",
+    repo: "qorpe/mediant",
     featured: true,
     accent: "success",
   },
   {
-    repo: "mockifyr",
+    repo: "qorpe/mockifyr",
     accent: "warning",
   },
   {

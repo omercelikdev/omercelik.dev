@@ -1,25 +1,22 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "description": "Independent engineer working on AI-driven, spec-driven architecture — libraries and platforms for enterprises, and products that make real work simpler."
+    "homeTitle": "Ömer Çelik — Software Engineer",
+    "description": "Software engineer building open-source developer infrastructure: AI-native, spec-driven golden paths and composable .NET libraries."
   },
   "nav": {
-    "home": "Home",
     "products": "Products",
     "writings": "Writings",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "skip": "Skip to content",
+    "menu": "Menu"
   },
   "theme": {
-    "toggle": "Toggle theme",
-    "light": "Light",
-    "dark": "Dark"
-  },
-  "lang": {
-    "label": "Language"
+    "toggle": "Toggle theme"
   },
   "home": {
-    "eyebrow": "AI-native · spec-driven · .NET",
+    "role": "Software engineer",
     "headlineLead": "I build",
     "roles": [
       "AI-native infrastructure",
@@ -27,9 +24,19 @@
       "composable .NET libraries",
       "developer tooling"
     ],
-    "subtitle": "Software engineer building open-source developer infrastructure — AI-native, spec-driven golden paths and composable .NET libraries. I care about architecture, correctness, and tools that make the right thing the default.",
+    "subtitle": "Open-source developer infrastructure where a precise specification becomes a correct, testable system — and AI works inside the guardrails, not around them. I care about architecture, correctness, and tools that make the right thing the default.",
     "ctaContact": "Get in touch",
     "ctaWritings": "Read the writing",
+    "signature": "A golden path, layer by layer — <goldpath>goldpath</goldpath> scaffolds it, <specdrift>specdrift</specdrift> keeps it honest.",
+    "stackDescription": "Diagram: a golden path as five stacked layers — spec, contracts, code, verification and runtime — with a signal flowing from the spec down to production.",
+    "featured": "Featured essay",
+    "layers": [
+      "What must be true — one manifest is the single source of truth.",
+      "How services speak — OpenAPI and AsyncAPI, versioned with the code.",
+      "What runs — generated on the golden path, not hand-rolled.",
+      "The proof — specdrift checks that the code still matches the spec.",
+      "What production does — traced end to end with OpenTelemetry."
+    ],
     "sec1": "what I do",
     "sec2": "products & selected work",
     "sec3": "writings",
@@ -55,43 +62,60 @@
   },
   "products": {
     "title": "Products",
-    "subtitle": "Open-source tools and projects, synced live from GitHub.",
-    "stars": "stars",
-    "forks": "forks",
-    "viewRepo": "View on GitHub",
-    "updated": "Updated {date}",
-    "empty": "Nothing to show here yet."
+    "subtitle": "Open-source tools and projects. The details on each card come straight from GitHub.",
+    "empty": "Nothing to show here yet.",
+    "visitSite": "Visit site"
   },
   "writings": {
     "title": "Writings",
-    "subtitle": "Essays and notes on AI-driven architecture, systems and the craft. Each piece stays in the language it was written in.",
+    "subtitle": "Essays and notes on architecture, systems and the craft of building software. Each piece stays in the language it was written in.",
     "readingTime": "{minutes} min read",
     "empty": "No posts yet — check back soon.",
     "backToList": "All writing",
-    "tags": "Tags",
     "series": "Series",
-    "publishedOn": "Published {date}",
-    "tagged": "Tagged"
+    "tagged": "Tagged",
+    "rss": "RSS feed",
+    "toc": "On this page",
+    "newer": "Newer",
+    "older": "Older",
+    "copy": "Copy code",
+    "copied": "Copied",
+    "writtenBy": "Written by"
   },
   "about": {
-    "title": "About",
+    "title": "Hi, I'm Ömer.",
+    "metaTitle": "About",
+    "metaDescription": "Ömer Çelik is a software engineer building open-source developer infrastructure — spec-driven golden paths and composable .NET libraries.",
     "subtitle": "Who I am and what I work on.",
-    "photoAlt": "Ömer Çelik",
-    "body": "I'm Ömer — a software engineer. I build open-source developer infrastructure: AI-native, spec-driven golden paths and composable .NET libraries, where precise specifications become correct, testable systems and AI works inside the guardrails. I care about architecture, correctness, and tools that make the right thing the default. This is a placeholder bio — edit it in the message files to say exactly what you want, in every language."
+    "photoAlt": "Portrait of Ömer Çelik",
+    "body": [
+      "I'm a software engineer. Most of my work sits where architecture meets tooling: I build open-source developer infrastructure — AI-native, spec-driven golden paths and composable .NET libraries.",
+      "The idea behind all of it is simple: a precise specification should turn into a correct, testable system, and AI should work inside the guardrails rather than around them. I care about architecture, correctness, and tools that make the right thing the default.",
+      "This site is where I put what I build and what I learn along the way. I write in English and Turkish; each piece stays in the language it was written in."
+    ],
+    "nowTitle": "Working on",
+    "toolboxTitle": "Toolbox",
+    "toolbox": [
+      "C# / .NET",
+      "TypeScript",
+      "Model Context Protocol",
+      "OpenAPI",
+      "OpenTelemetry",
+      "CQRS",
+      "Native AOT"
+    ],
+    "elsewhereTitle": "Elsewhere"
   },
   "contact": {
     "title": "Get in touch",
-    "subtitle": "Questions, ideas, or feedback on the work — my inbox is open. I read everything.",
+    "subtitle": "Questions, ideas, or feedback on the work — my inbox is open, and I read everything.",
     "nameLabel": "Name",
-    "emailLabel": "Email",
     "messageLabel": "Message",
     "namePlaceholder": "Your name",
-    "emailPlaceholder": "you@company.com",
     "messagePlaceholder": "What would you like to build or discuss?",
-    "submit": "Send message",
-    "sending": "Sending…",
-    "success": "Thanks — your message is on its way. I'll get back to you soon.",
-    "error": "Something went wrong. Please try again, or email me directly.",
+    "subject": "Message from {name}",
+    "submit": "Open in your mail app",
+    "note": "Nothing is sent from this page — it opens your own mail app with the message filled in.",
     "orReach": "Or reach me directly"
   },
   "cta": {
@@ -100,10 +124,11 @@
     "button": "Get in touch"
   },
   "footer": {
-    "tagline": "Independent engineer. AI-driven, spec-driven architecture and products, built in the open.",
-    "pages": "Pages",
-    "elsewhere": "Elsewhere",
-    "builtWith": "Built with Next.js"
+    "tagline": "Software engineer. Open-source developer infrastructure, built in the open.",
+    "rss": "RSS feed"
+  },
+  "diagram": {
+    "layers": "Layers"
   },
   "notFound": {
     "title": "Page not found",

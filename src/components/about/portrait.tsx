@@ -9,7 +9,7 @@ export function Portrait({ alt }: { alt: string }) {
   const [failed, setFailed] = useState(false);
 
   return (
-    <div className="relative aspect-square w-full max-w-[300px] overflow-hidden rounded-[var(--radius-2xl)] border border-border bg-muted">
+    <div className="relative aspect-square w-full max-w-[240px] overflow-hidden rounded-[var(--radius-2xl)] border border-border bg-muted">
       {!failed ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -20,7 +20,7 @@ export function Portrait({ alt }: { alt: string }) {
         />
       ) : (
         <div className="grid size-full place-items-center">
-          <span className="text-6xl font-medium text-faint">ÖÇ</span>
+          <span className="text-display font-medium text-faint">ÖÇ</span>
         </div>
       )}
     </div>

@@ -12,8 +12,10 @@ function currentTheme(): "light" | "dark" {
 }
 
 /** Giscus comments (GitHub Discussions). Renders nothing until repoId +
- *  categoryId are set in site.comments. Theme follows the site toggle live. */
-export function Comments() {
+ *  categoryId are set in site.comments. Theme follows the site toggle live.
+ *  Threads are keyed by the post slug, not the path, so /en/… and /tr/… of
+ *  the same article share one discussion. */
+export function Comments({ term, lang }: { term: string; lang: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const c = site.comments;
   const enabled = Boolean(c.repoId && c.categoryId);
@@ -29,13 +31,14 @@ export function Comments() {
     s.setAttribute("data-repo-id", c.repoId);
     s.setAttribute("data-category", c.category);
     s.setAttribute("data-category-id", c.categoryId);
-    s.setAttribute("data-mapping", "pathname");
+    s.setAttribute("data-mapping", "specific");
+    s.setAttribute("data-term", term);
     s.setAttribute("data-strict", "0");
     s.setAttribute("data-reactions-enabled", "1");
     s.setAttribute("data-emit-metadata", "0");
     s.setAttribute("data-input-position", "bottom");
     s.setAttribute("data-theme", currentTheme());
-    s.setAttribute("data-lang", "en");
+    s.setAttribute("data-lang", lang);
     s.setAttribute("loading", "lazy");
 
     const el = ref.current;
@@ -56,7 +59,7 @@ export function Comments() {
     });
 
     return () => observer.disconnect();
-  }, [enabled, c]);
+  }, [enabled, c, term, lang]);
 
   if (!enabled) return null;
   return <div ref={ref} className="mt-16 border-t border-border pt-10" />;

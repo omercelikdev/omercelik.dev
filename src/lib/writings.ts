@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 
@@ -18,6 +19,10 @@ export interface WritingFrontmatter {
   series?: string;
   /** Position within the series (1-based); used to order series posts. */
   seriesOrder?: number;
+  /** Lead the home page with this piece (the newest featured one wins). */
+  featured?: boolean;
+  /** Date of the last meaningful revision (ISO), if revised after `date`. */
+  updated?: string;
 }
 
 export interface WritingMeta extends WritingFrontmatter {
@@ -51,6 +56,8 @@ function parse(fileName: string, raw: string): Writing {
     draft: fm.draft ?? false,
     series: fm.series,
     seriesOrder: fm.seriesOrder,
+    featured: fm.featured ?? false,
+    updated: fm.updated,
     readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
     content,
   };
@@ -92,7 +99,15 @@ export async function getWritingSlugs(): Promise<string[]> {
 }
 
 const TR_MAP: Record<string, string> = {
-  ç: "c", ğ: "g", ı: "i", ö: "o", ş: "s", ü: "u", â: "a", î: "i", û: "u",
+  ç: "c",
+  ğ: "g",
+  ı: "i",
+  ö: "o",
+  ş: "s",
+  ü: "u",
+  â: "a",
+  î: "i",
+  û: "u",
 };
 
 /** URL-safe slug for a tag ("Golden Paths" -> "golden-paths", "Mühendislik"
@@ -132,6 +147,53 @@ export async function getWritingsByTag(slug: string): Promise<WritingMeta[]> {
   return (await getAllWritings()).filter((w) =>
     (w.tags ?? []).some((t) => tagSlug(t) === slug),
   );
+}
+
+/** The posts either side of `slug` in the newest-first list. */
+export async function getAdjacentWritings(slug: string): Promise<{
+  newer: WritingMeta | null;
+  older: WritingMeta | null;
+}> {
+  const all = await getAllWritings();
+  const i = all.findIndex((w) => w.slug === slug);
+  if (i === -1) return { newer: null, older: null };
+  return { newer: all[i - 1] ?? null, older: all[i + 1] ?? null };
+}
+
+export interface Heading {
+  depth: 2 | 3;
+  text: string;
+  id: string;
+}
+
+/** h2/h3 headings of an MDX body, for the table of contents. Ids come from the
+ *  same slugger rehype-slug uses, fed every heading in order, so duplicate
+ *  titles get the same "-1", "-2" suffixes as the rendered anchors. */
+export function extractHeadings(source: string): Heading[] {
+  const slugger = new GithubSlugger();
+  const headings: Heading[] = [];
+  let inFence = false;
+
+  for (const line of source.split("\n")) {
+    if (/^\s*(```|~~~)/.test(line)) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+
+    const match = /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
+    if (!match) continue;
+
+    // Rendered heading text: markdown syntax stripped, as rehype-slug sees it.
+    const text = match[2]
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/(\*\*|__|\*|_)(.+?)\1/g, "$2");
+    const id = slugger.slug(text);
+    const depth = match[1].length;
+    if (depth === 2 || depth === 3) headings.push({ depth, text, id });
+  }
+  return headings;
 }
 
 /** All posts in a series, ordered by seriesOrder (then date). */

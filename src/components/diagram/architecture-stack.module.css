@@ -1,0 +1,318 @@
+/* The site's signature diagram: architecture layers stacked in CSS 3D.
+
+   Calm by design — nothing moves on its own. Pointing at the stack (or at a
+   layer in the legend, or tapping it) opens it at that layer: the layers
+   above lift and draw back, the focused one comes forward and lights up, and
+   its description shows below. The stack also opens a little as the page
+   scrolls. It never tilts or sways, so the layers stay exactly where the
+   pointer expects them. Without JavaScript or with reduced motion it is a
+   still, readable diagram.
+
+   --spread (0…1) drives the scroll opening; it is registered so it can
+   animate.
+
+   Sizes are px on purpose: this is an illustration. The legend and
+   description use the site's type scale values (11px meta, 13px ui). */
+
+@property --spread {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.55;
+}
+
+.figure {
+  margin: 0;
+}
+
+.viewport {
+  --scale: 1;
+  position: relative;
+  display: grid;
+  height: 470px;
+  place-items: center;
+  perspective: 1500px;
+  perspective-origin: 50% 30%;
+}
+/* In an article the diagram is a framed figure, so nothing spills out of
+   the reading column. */
+.inline .viewport {
+  --scale: 0.8;
+  height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+@media (max-width: 640px) {
+  .viewport {
+    --scale: 0.76;
+    height: 400px;
+  }
+  .inline .viewport {
+    --scale: 0.64;
+    height: 350px;
+  }
+}
+
+.scene {
+  /* distance between layers; grows as the stack opens on scroll */
+  --gap: calc(30px + var(--spread) * 50px);
+  /* how far the layers above the focused one lift to open the stack */
+  --lift: 38px;
+  position: relative;
+  width: 300px;
+  height: 184px;
+  transform-style: preserve-3d;
+  /* A fixed offset, not one tied to --gap: the bottom layer stays put and the
+     stack only grows upward as it opens, so it never runs into the legend. */
+  translate: 0 calc((var(--n) - 1) * 26px);
+  transform: scale(var(--scale)) rotateX(56deg) rotateZ(-40deg);
+}
+
+/* Blueprint floor the stack stands on. */
+.floor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 480px;
+  height: 380px;
+  translate: -50% -50%;
+  transform: translateZ(-22px);
+  opacity: 0.85;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 20%, transparent 80%);
+  mask-image: radial-gradient(closest-side, #000 20%, transparent 80%);
+}
+
+.plate {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc((var(--n) - 1 - var(--i)) * var(--gap)));
+  transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  /* the hit surfaces below take the pointer; the visible layers move */
+  pointer-events: none;
+}
+
+/* One invisible hit surface per layer, fixed at the layer's resting place:
+   pointing at the part of a layer you can see selects that layer, and the
+   stack opening above it doesn't pull the target out from under the pointer.
+   Painted after the plates in 3D order only by depth, never visible. */
+.hit {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  transform: translateZ(calc((var(--n) - 1 - var(--i)) * var(--gap)));
+}
+.floor {
+  pointer-events: none;
+}
+/* The slab's underside, a few pixels down: gives each layer thickness. */
+.plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--muted) 70%, transparent);
+  transform: translateZ(-6px);
+}
+
+/* Everything on a layer sits along its front edge — the strip that stays in
+   view below the layer above, and the part the open stack reveals — so both
+   the name and the contents read. */
+.face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: color-mix(in oklch, var(--background) 90%, transparent);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+  transition:
+    border-color 0.4s ease,
+    box-shadow 0.4s ease,
+    background-color 0.4s ease;
+}
+.face > * {
+  transition: opacity 0.35s ease;
+}
+
+.head {
+  order: 2;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.index {
+  color: var(--faint);
+}
+.label {
+  margin-inline-start: 6px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--foreground);
+}
+.detail {
+  font-size: 10px;
+  color: var(--faint);
+}
+/* Under the label (article diagrams). */
+.note {
+  order: 3;
+  margin-top: -4px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ---- Layer contents: the same three key/value lines on every layer ---- */
+.code {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11.5px;
+}
+.k {
+  color: var(--muted-foreground);
+}
+.v {
+  color: var(--foreground);
+}
+.accent {
+  color: var(--brand-accent);
+}
+.pass {
+  color: var(--success);
+}
+
+/* ---- Focus (set by StackScene) ----
+   The stack opens at the focused layer: layers above it lift and draw back,
+   the focused one comes forward and lights up, the rest dim their contents.
+   Nothing disappears; the structure stays readable. */
+.plate[data-state="above"] {
+  translate: 0 -24px var(--lift);
+}
+/* A short step forward: far enough to read as "out", short enough that the
+   focused layer doesn't slide over the next layer's hit strip. */
+.plate[data-state="active"] {
+  translate: 0 12px 10px;
+}
+.plate[data-state="active"] > .face {
+  border-color: var(--brand-accent);
+  background: color-mix(in oklch, var(--background) 97%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--brand-accent) 70%, transparent),
+    0 24px 60px -24px color-mix(in oklch, var(--brand-accent) 55%, transparent);
+}
+.plate[data-state="above"] > .face > *,
+.plate[data-state="below"] > .face > * {
+  opacity: 0.45;
+}
+
+/* ---- Legend + description (below the stack) ---- */
+.legend {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 6px;
+}
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+.legendItem:hover {
+  color: var(--foreground);
+}
+.legendItem[aria-pressed="true"] {
+  border-color: color-mix(in oklch, var(--brand-accent) 35%, transparent);
+  background: var(--brand-accent-soft);
+  color: var(--brand-accent);
+}
+.legendIndex {
+  color: var(--faint);
+}
+.legendItem[aria-pressed="true"] .legendIndex {
+  color: inherit;
+}
+.description {
+  max-width: 34rem;
+  min-height: 3.2em;
+  margin: 8px auto 0;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+  color: var(--muted-foreground);
+}
+
+/* ---- Motion ---- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Layers settle into place once, on load, top layer last. Backwards fill
+     only, so the focus transitions own `translate` afterwards. */
+  .plate {
+    animation: settle 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: calc(0.15s + (var(--n) - var(--i)) * 0.08s);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    /* Hero: the stack opens over the first stretch of scrolling. */
+    .scrollSpread .scene {
+      animation: spread linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 65vh;
+    }
+    /* In articles: it opens as the diagram crosses the viewport. */
+    .viewSpread .scene {
+      animation: spread linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 50%;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plate,
+  .face,
+  .face > * {
+    transition: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    translate: 0 0 110px;
+  }
+}
+@keyframes spread {
+  from {
+    --spread: 0.55;
+  }
+  to {
+    --spread: 1;
+  }
+}

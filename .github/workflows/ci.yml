@@ -1,0 +1,55 @@
+# Every push to main and every pull request: the same checks as
+# `npm run check`, then the production build — the static export Cloudflare
+# deploys — with a guard that every product card made it in.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run format:check
+      - run: npm test
+
+      - name: Build (static export)
+        shell: bash
+        env:
+          # Product cards come from the GitHub API at build time; the job
+          # token lifts the anonymous rate limit (60 requests an hour per IP).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee build.log
+          # A failed product fetch only warns (the site still builds), so
+          # CI is where a missing card turns into a failure.
+          if grep -q "\[products\]" build.log; then
+            echo "::error::Some product cards failed to load — see [products] lines above."
+            exit 1
+          fi
+
+      - name: Check the static output
+        run: |
+          for f in index.html 404.html about.html writings.html sitemap.xml robots.txt feed.xml og.png favicon.ico; do
+            test -f "out/$f" || { echo "::error::out/$f is missing"; exit 1; }
+          done

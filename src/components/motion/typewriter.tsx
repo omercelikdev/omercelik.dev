@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 
-/** Types each phrase in, holds, deletes, moves to the next — looping. Used for
- *  the hero's rotating focus areas. Purely cosmetic; the full first phrase is
- *  rendered on the server for SEO/no-JS via `children` fallback if provided. */
+/** Holds a phrase, deletes it, types the next — looping. Used for the hero's
+ *  rotating focus areas. Starts on the first phrase in full, so the server
+ *  HTML (and anyone without JavaScript) gets a complete headline. */
 export function Typewriter({
   phrases,
   typingMs = 55,
   deletingMs = 28,
-  holdMs = 1600,
+  holdMs = 1800,
 }: {
   phrases: string[];
   typingMs?: number;
@@ -17,7 +17,7 @@ export function Typewriter({
   holdMs?: number;
 }) {
   const [index, setIndex] = useState(0);
-  const [text, setText] = useState("");
+  const [text, setText] = useState(phrases[0] ?? "");
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
@@ -28,9 +28,13 @@ export function Typewriter({
       return () => clearTimeout(t);
     }
     if (deleting && text === "") {
-      setDeleting(false);
-      setIndex((i) => (i + 1) % phrases.length);
-      return;
+      // A short beat before the next phrase starts typing. Scheduled rather
+      // than set synchronously so the effect never cascades a render.
+      const t = setTimeout(() => {
+        setDeleting(false);
+        setIndex((i) => (i + 1) % phrases.length);
+      }, typingMs);
+      return () => clearTimeout(t);
     }
 
     const t = setTimeout(

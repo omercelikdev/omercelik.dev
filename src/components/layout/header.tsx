@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
-import { Link, usePathname } from "@/i18n/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Container } from "./container";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { LangSwitcher } from "./lang-switcher";
 import { buttonClass } from "@/components/ui/button";
 import { site } from "@/config/site";
 
@@ -43,7 +43,7 @@ export function Header() {
         <Link
           href="/"
           aria-label={site.domain}
-          className="mono -ms-2.5 flex-none rounded-[var(--radius-md)] px-2.5 py-1.5 text-[16px] font-semibold tracking-tight transition-colors hover:bg-muted"
+          className="mono -ms-2.5 flex-none rounded-[var(--radius-md)] px-2.5 py-1.5 text-body font-semibold tracking-tight transition-colors hover:bg-muted"
         >
           omercelik<span className="text-brand-accent">.dev</span>
         </Link>
@@ -53,7 +53,8 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded-[var(--radius-md)] px-3 py-1.5 text-[13px] transition-colors ${
+              aria-current={isActive(item.href) ? "page" : undefined}
+              className={`rounded-[var(--radius-md)] px-3 py-1.5 text-ui transition-colors ${
                 isActive(item.href)
                   ? "bg-muted text-foreground"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -65,18 +66,22 @@ export function Header() {
         </nav>
 
         <div className="ms-auto flex items-center gap-2">
+          {/* max-sm:hidden, not `hidden sm:inline-flex`: buttonClass sets
+              inline-flex, and between two plain display utilities the
+              stylesheet order wins — a variant always comes later. */}
           <Link
             href="/contact"
-            className={`${buttonClass("outline")} hidden sm:inline-flex`}
+            className={`${buttonClass("outline")} max-sm:hidden`}
           >
             {t("contact")}
           </Link>
-          <LangSwitcher />
           <ThemeToggle />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            aria-label="Menu"
+            aria-label={t("menu")}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
             className="grid size-9 place-items-center rounded-[var(--radius-lg)] border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground md:hidden"
           >
             {open ? <X className="size-4" /> : <Menu className="size-4" />}
@@ -85,22 +90,28 @@ export function Header() {
       </Container>
 
       {open && (
-        <nav className="border-t border-border bg-surface md:hidden">
+        <nav
+          id="mobile-nav"
+          className="border-t border-border bg-surface md:hidden"
+        >
           <Container className="flex flex-col gap-1 py-3">
-            {[...NAV, { href: "/contact", key: "contact" }].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className={`rounded-[var(--radius-md)] px-3 py-2 text-sm transition-colors ${
-                  isActive(item.href)
-                    ? "bg-muted text-foreground"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-              >
-                {t(item.key)}
-              </Link>
-            ))}
+            {[...NAV, { href: "/contact", key: "contact" } as const].map(
+              (item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={isActive(item.href) ? "page" : undefined}
+                  className={`rounded-[var(--radius-md)] px-3 py-2 text-body transition-colors ${
+                    isActive(item.href)
+                      ? "bg-muted text-foreground"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  }`}
+                >
+                  {t(item.key)}
+                </Link>
+              ),
+            )}
           </Container>
         </nav>
       )}

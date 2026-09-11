@@ -49,6 +49,44 @@
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+}
+
+/* Type scale — the only font sizes the UI uses (`text-meta` … `text-display`).
+   Small steps for interface chrome, a 17px reading size for articles, fluid
+   headings. Pick from here instead of reaching for text-[13px]. */
+@theme {
+  --text-meta: 11px;
+  --text-meta--line-height: 1.45;
+  --text-caption: 12px;
+  --text-caption--line-height: 1.5;
+  --text-ui: 13px;
+  --text-ui--line-height: 1.55;
+  --text-control: 14px;
+  --text-control--line-height: 1.4;
+  --text-body: 15px;
+  --text-body--line-height: 1.65;
+  /* form fields: 16px, or iOS zooms the page on focus */
+  --text-field: 16px;
+  --text-field--line-height: 1.5;
+  --text-lead: 17px;
+  --text-lead--line-height: 1.6;
+  --text-prose: 17px;
+  --text-prose--line-height: 1.75;
+  --text-h3: 1.125rem;
+  --text-h3--line-height: 1.4;
+  --text-h2: 1.375rem;
+  --text-h2--line-height: 1.3;
+  --text-h2--letter-spacing: -0.015em;
+  --text-h1: clamp(2rem, 4vw, 2.75rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.03em;
+  --text-quote: 1.625rem;
+  --text-quote--line-height: 1.35;
+  --text-quote--letter-spacing: -0.01em;
+  --text-display: clamp(2.25rem, 4.6vw, 3.4rem);
+  --text-display--line-height: 1.06;
+  --text-display--letter-spacing: -0.035em;
 }
 
 @layer base {
@@ -65,8 +103,8 @@
     background: var(--surface);
     color: var(--foreground);
     font-family: var(--font-sans);
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -91,42 +129,110 @@
 @media (prefers-reduced-motion: no-preference) {
   html,
   html * {
-    transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
   }
 }
 
-/* ---- Motion ---- */
+/* ---- Motion ----
+   Content is always visible by default. Motion is layered on top only where
+   the browser supports it and the visitor hasn't asked for less of it — no
+   JavaScript involved, so nothing waits on hydration to appear. */
 @keyframes reveal-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes caret-blink {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 /* dashes travelling along a connector path (flowing arrow) */
 @keyframes dash-flow {
-  to { stroke-dashoffset: -28; }
+  to {
+    stroke-dashoffset: -28;
+  }
 }
 /* a left→right wave across pipeline stages */
 @keyframes stage-pulse {
-  0%, 100% { opacity: 0.3; }
-  50%      { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 /* soft pulse ring on the active/running node */
 @keyframes node-ring {
-  0%   { transform: scale(1);   opacity: 0.5; }
-  100% { transform: scale(2.2); opacity: 0; }
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
 }
-.reveal {
-  opacity: 0;
-}
-.reveal.in {
-  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+@media (prefers-reduced-motion: no-preference) {
+  /* Page-load entrance for above-the-fold content. */
+  .intro {
+    animation: reveal-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  /* Scroll-linked entrance, driven by the element's own visibility. Browsers
+     without scroll-driven animations simply show the content as-is. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .reveal, .reveal.in { opacity: 1; animation: none; transform: none; }
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Article reading progress: a hairline across the top, driven by the page's
+   own scroll position. Hidden where scroll-driven animations aren't there. */
+.reading-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 50;
+  display: none;
+  height: 2px;
+  background: var(--brand-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reading-progress {
+      display: block;
+      animation: reading-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes reading-progress {
+  to {
+    transform: scaleX(1);
+  }
 }
 .caret {
   display: inline-block;
@@ -148,23 +254,68 @@ code[data-theme] span {
 :root[data-theme="dark"] code[data-theme] span {
   color: var(--shiki-dark);
 }
-code[data-line] {
+/* Block code: figure > (figcaption title) > .code-block > pre > code > [data-line].
+   Lines are full-width rows so highlighted lines paint edge to edge. */
+pre > code[data-language] {
+  display: grid;
+}
+pre [data-line] {
+  padding: 0 1rem;
+}
+[data-highlighted-line] {
+  background: var(--brand-accent-soft);
+  box-shadow: inset 2px 0 0 var(--brand-accent);
+}
+[data-highlighted-chars] {
+  border-radius: 3px;
+  background: var(--brand-accent-soft);
+  padding: 0 2px;
+}
+code[data-line-numbers] {
+  counter-reset: line;
+}
+code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
   display: inline-block;
-  width: 100%;
+  width: 1.25rem;
+  margin-inline-end: 1rem;
+  text-align: right;
+  color: var(--faint);
 }
 figcaption[data-rehype-pretty-code-title] {
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
   border: 1px solid var(--border);
   border-bottom: 0;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   background: var(--muted);
   padding: 8px 14px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--text-caption);
   color: var(--muted-foreground);
 }
-figcaption[data-rehype-pretty-code-title] + pre {
+figcaption[data-rehype-pretty-code-title] + .code-block {
   margin-top: 0;
+}
+figcaption[data-rehype-pretty-code-title] + .code-block pre {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+/* GFM footnotes (remark-gfm renders section.footnotes at the end). */
+.footnotes {
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.25rem;
+}
+.footnotes :is(ol, li, p) {
+  font-size: var(--text-ui);
+  line-height: 1.6;
+  color: var(--muted-foreground);
+}
+[data-footnote-ref] {
+  margin-inline-start: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  text-decoration: none;
 }
