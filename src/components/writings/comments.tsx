@@ -33,7 +33,11 @@ export function Comments({ term, lang }: { term: string; lang: string }) {
     s.setAttribute("data-category-id", c.categoryId);
     s.setAttribute("data-mapping", "specific");
     s.setAttribute("data-term", term);
-    s.setAttribute("data-strict", "0");
+    // Exact matching: GitHub's search is fuzzy, so without it
+    // "golden-paths-1" could pick up the thread for "golden-paths-10".
+    // Has to be on before the first thread exists — threads created without
+    // it don't carry the hash strict mode matches on.
+    s.setAttribute("data-strict", "1");
     s.setAttribute("data-reactions-enabled", "1");
     s.setAttribute("data-emit-metadata", "0");
     s.setAttribute("data-input-position", "bottom");

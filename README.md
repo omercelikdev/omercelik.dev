@@ -70,8 +70,13 @@ npm run format               # apply Prettier
   unauthenticated requests are limited to 60 an hour per IP, and a failed
   request drops that card from the build (with a `[products]` warning in the
   build log).
-- **Contact** — no backend: the form opens the visitor's own mail app with the
-  message filled in, and says so.
+- **Contact** — the form posts to `/api/contact`, the one piece of the site
+  that isn't a static file: a small Worker script (`worker/`) that checks the
+  request, verifies a Cloudflare Turnstile token (spam protection, invisible
+  unless Cloudflare wants a click) and emails the message through Resend, with
+  the visitor's address as Reply-To. A honeypot field drops simple bots. Until
+  a Turnstile site key is set in `src/config/site.ts`, the page shows a plain
+  email link instead of the form. Setup: see _Contact form_ below.
 
 ## Writing
 
@@ -123,6 +128,7 @@ What an article can use:
 | What                                | Where                       |
 | ----------------------------------- | --------------------------- |
 | Name, email, social links, comments | `src/config/site.ts`        |
+| Contact form recipient and sender   | `wrangler.jsonc` (`vars`)   |
 | Which repos show as products        | `src/config/products.ts`    |
 | Colours, radius, shadows            | `src/app/theme.css`         |
 | Type scale, motion, code styling    | `src/app/globals.css`       |
@@ -138,6 +144,41 @@ Worker static assets, with `404.html` for unknown paths.
 2. Add a `GITHUB_TOKEN` build variable — a token with no permissions is enough
    to read public repositories.
 3. Attach the `omercelik.dev` custom domain to the Worker.
+
+## Contact form — Resend and Turnstile
+
+Both are free at this scale (Resend: 3,000 emails a month, 100 a day;
+Turnstile: unlimited). Mail for `omercelik.dev` stays on Google Workspace:
+Resend only sends, from the `mail.omercelik.dev` subdomain, so the root MX
+records are never touched.
+
+1. **Resend** — at resend.com, add the domain `mail.omercelik.dev` and add
+   the DNS records it lists in Cloudflare DNS (SPF and DKIM TXT records and
+   an MX record, all under `mail.omercelik.dev`). Wait for _Verified_, then
+   create an API key with _Sending access_ for that domain only.
+2. **Turnstile** — in the Cloudflare dashboard, _Turnstile → Add widget_:
+   hostname `omercelik.dev`, mode _Managed_. Copy the **site key** into
+   `turnstileSiteKey` in `src/config/site.ts` (it's public) and keep the
+   **secret key** for the next step.
+3. **Secrets** — in the Worker's _Settings → Variables and Secrets_, add
+   `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` as _Secret_ (or run
+   `npx wrangler secret put RESEND_API_KEY`). They never go in the repo.
+4. Deploy, send yourself a message from `/contact`, and check Resend's
+   _Emails_ log if it doesn't arrive.
+
+Without the secrets the endpoint answers 503 and the form points visitors to
+the email address, so a half-finished setup never loses a message silently.
+
+**Try it locally** — copy `.env.example` to `.env.local` and
+`.dev.vars.example` to `.dev.vars` (Cloudflare's test keys, and a dry run that
+logs the email instead of sending it), then:
+
+```bash
+npm run preview   # static build + wrangler dev → http://localhost:8787
+```
+
+`npm run dev` serves the pages but not the Worker, so the form can't send
+there. After changing `wrangler.jsonc`, run `npm run cf-typegen`.
 
 ## After the first deploy — search engines
 

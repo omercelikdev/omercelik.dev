@@ -22,4 +22,11 @@ export const site = {
     category: "Announcements",
     categoryId: "DIC_kwDOSnPY_84DBDCw",
   },
+  /** The contact form, sent by worker/contact.ts. The Turnstile site key is
+   *  public (it ships in the page), so it lives here; the secret key stays in
+   *  Cloudflare. Left empty, the page offers a plain email link instead. */
+  contact: {
+    endpoint: "/api/contact",
+    turnstileSiteKey: "",
+  },
 } as const;
