@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { routing, rtlLocales, type Locale } from "@/i18n/routing";
+import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { JsonLd } from "@/components/seo/json-ld";
 import { site } from "@/config/site";
+import { siteJsonLd } from "@/lib/seo";
 import "../globals.css";
 
 const geist = Geist({
@@ -64,22 +66,33 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-
-  const dir = rtlLocales.includes(locale as Locale) ? "rtl" : "ltr";
+  const nav = await getTranslations("nav");
+  const home = await getTranslations("home");
 
   return (
     <html
       lang={locale}
-      dir={dir}
       suppressHydrationWarning
+      // Smooth scrolling for in-page anchors (see globals.css), which Next
+      // turns off during route changes so navigation still jumps to the top.
+      data-scroll-behavior="smooth"
       className={`${geist.variable} ${geistMono.variable}`}
     >
       <body className="min-h-dvh bg-surface antialiased">
+        <a
+          href="#main"
+          className="sr-only rounded-[var(--radius-lg)] bg-primary px-3.5 py-2 text-ui font-semibold text-primary-foreground focus:not-sr-only focus:fixed focus:start-4 focus:top-3 focus:z-50"
+        >
+          {nav("skip")}
+        </a>
+        <JsonLd data={siteJsonLd(locale, home("role"))} />
         <ThemeProvider>
           <NextIntlClientProvider>
             <div className="flex min-h-dvh flex-col">
               <Header />
-              <main className="flex-1">{children}</main>
+              <main id="main" className="flex-1">
+                {children}
+              </main>
               <Footer />
             </div>
           </NextIntlClientProvider>

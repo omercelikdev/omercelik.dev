@@ -1,35 +1,35 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "description": "Yapay zekâ odaklı, spesifikasyon güdümlü mimari üzerine çalışan bağımsız mühendis — kurumlar için kütüphaneler ve platformlar, gerçek işi kolaylaştıran ürünler."
+    "description": "Açık kaynak geliştirici altyapısı geliştiren yazılım mühendisi — yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve birleştirilebilir .NET kütüphaneleri. Mimari ve zanaat üzerine notlar."
   },
   "nav": {
-    "home": "Ana Sayfa",
     "products": "Ürünler",
     "writings": "Yazılar",
     "about": "Hakkında",
-    "contact": "İletişim"
+    "contact": "İletişim",
+    "skip": "İçeriğe geç",
+    "menu": "Menü"
   },
   "theme": {
-    "toggle": "Temayı değiştir",
-    "light": "Açık",
-    "dark": "Koyu"
+    "toggle": "Temayı değiştir"
   },
   "lang": {
-    "label": "Dil"
+    "switchTo": "Dili değiştir: {language}"
   },
   "home": {
-    "eyebrow": "Yapay zekâ temelli · spesifikasyon güdümlü · .NET",
-    "headlineLead": "İnşa ediyorum",
+    "role": "Yazılım mühendisi",
+    "headlineLead": "Geliştirdiklerim:",
     "roles": [
-      "yapay zekâ temelli altyapı",
+      "yapay zekâ temelli altyapılar",
       "spec güdümlü altın yollar",
       "modüler .NET kütüphaneleri",
       "geliştirici araçları"
     ],
-    "subtitle": "Açık kaynak geliştirici altyapısı geliştiren yazılım mühendisi — yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve birleştirilebilir .NET kütüphaneleri. Mimariyi, doğruluğu ve doğru olanı varsayılan hâline getiren araçları önemsiyorum.",
+    "subtitle": "Kesin bir spesifikasyonun doğru ve test edilebilir bir sisteme dönüştüğü, yapay zekânın korkulukların etrafından değil içinden çalıştığı açık kaynak geliştirici altyapısı. Mimariyi, doğruluğu ve doğru olanı varsayılan hâline getiren araçları önemsiyorum.",
     "ctaContact": "İletişime geç",
     "ctaWritings": "Yazıları oku",
+    "signature": "Yukarıda: <goldpath>goldpath</goldpath> altın yolu kurar, <specdrift>specdrift</specdrift> onu dürüst tutar. İkisi de açık kaynak.",
     "sec1": "ne yapıyorum",
     "sec2": "ürünler ve seçili çalışmalar",
     "sec3": "yazılar",
@@ -55,44 +55,60 @@
   },
   "products": {
     "title": "Ürünler",
-    "subtitle": "Açık kaynak araçlar ve projeler, GitHub'dan canlı senkronize edilir.",
-    "stars": "yıldız",
-    "forks": "çatal",
-    "viewRepo": "GitHub'da görüntüle",
-    "updated": "Güncellendi {date}",
-    "empty": "Burada henüz gösterilecek bir şey yok."
+    "subtitle": "Açık kaynak araçlar ve projeler. Kartlardaki ayrıntılar doğrudan GitHub'dan gelir.",
+    "empty": "Burada henüz gösterilecek bir şey yok.",
+    "visitSite": "Siteyi ziyaret et"
   },
   "writings": {
     "title": "Yazılar",
-    "subtitle": "Yapay zekâ odaklı mimari, sistemler ve zanaat üzerine denemeler ve notlar. Her yazı, yazıldığı dilde kalır.",
+    "subtitle": "Mimari, sistemler ve yazılım geliştirme zanaatı üzerine denemeler ve notlar. Her yazı, yazıldığı dilde kalır.",
     "readingTime": "{minutes} dk okuma",
     "empty": "Henüz yazı yok — yakında tekrar uğrayın.",
     "backToList": "Tüm yazılar",
-    "tags": "Etiketler",
-    "publishedOn": "Yayımlandı {date}",
     "series": "Seri",
-    "tagged": "Etiketli"
+    "tagged": "Etiket",
+    "rss": "RSS akışı",
+    "toc": "Bu sayfada",
+    "newer": "Daha yeni",
+    "older": "Daha eski",
+    "copy": "Kodu kopyala",
+    "copied": "Kopyalandı",
+    "writtenBy": "Yazan"
   },
   "about": {
-    "title": "Hakkında",
+    "title": "Merhaba, ben Ömer.",
+    "metaTitle": "Hakkında",
     "subtitle": "Kimim ve ne üzerine çalışıyorum.",
-    "photoAlt": "Ömer Çelik",
-    "body": "Ben Ömer — bir yazılım mühendisiyim. Açık kaynak geliştirici altyapısı geliştiriyorum: yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve birleştirilebilir .NET kütüphaneleri; burada kesin spesifikasyonlar doğru ve test edilebilir sistemlere dönüşür ve yapay zekâ, korkuluklar içinde çalışır. Mimariyi, doğruluğu ve doğru olanı varsayılan hâline getiren araçları önemsiyorum. Bu bir yer tutucu biyografidir — her dilde tam olarak ne istediğinizi söylemek için mesaj dosyalarında düzenleyin."
+    "photoAlt": "Ömer Çelik'in portresi",
+    "body": [
+      "Yazılım mühendisiyim. İşlerimin çoğu mimari ile araçların kesiştiği yerde duruyor: açık kaynak geliştirici altyapısı geliştiriyorum — yapay zekâ temelli, spesifikasyon güdümlü altın yollar ve birleştirilebilir .NET kütüphaneleri.",
+      "Hepsinin arkasındaki fikir basit: kesin bir spesifikasyon doğru ve test edilebilir bir sisteme dönüşmeli, yapay zekâ da korkulukların etrafından dolaşmak yerine içinde çalışmalı. Mimariyi, doğruluğu ve doğru olanı varsayılan hâline getiren araçları önemsiyorum.",
+      "Bu site, geliştirdiklerimi ve yol boyunca öğrendiklerimi koyduğum yer. İngilizce ve Türkçe yazıyorum; her yazı yazıldığı dilde kalır."
+    ],
+    "nowTitle": "Üzerinde çalıştıklarım",
+    "toolboxTitle": "Araç kutusu",
+    "toolbox": [
+      "C# / .NET",
+      "TypeScript",
+      "Model Context Protocol",
+      "OpenAPI",
+      "OpenTelemetry",
+      "CQRS",
+      "Native AOT"
+    ],
+    "elsewhereTitle": "Diğer yerler"
   },
   "contact": {
     "title": "İletişime geç",
-    "subtitle": "İş hakkında sorular, fikirler ya da geri bildirimler — gelen kutum açık. Her şeyi okuyorum.",
+    "subtitle": "İş hakkında sorular, fikirler ya da geri bildirimler — gelen kutum açık, hepsini okuyorum.",
     "nameLabel": "İsim",
-    "emailLabel": "E-posta",
     "messageLabel": "Mesaj",
     "namePlaceholder": "Adınız",
-    "emailPlaceholder": "siz@sirket.com",
     "messagePlaceholder": "Ne inşa etmek ya da konuşmak istersiniz?",
-    "submit": "Mesaj gönder",
-    "sending": "Gönderiliyor…",
-    "success": "Teşekkürler — mesajınız yola çıktı. En kısa sürede size döneceğim.",
-    "error": "Bir şeyler ters gitti. Lütfen tekrar deneyin ya da doğrudan bana e-posta gönderin.",
-    "orReach": "Ya da bana doğrudan ulaşın"
+    "subject": "{name} tarafından mesaj",
+    "submit": "E-posta uygulamasında aç",
+    "note": "Bu sayfadan hiçbir şey gönderilmez — mesaj doldurulmuş hâlde kendi e-posta uygulamanız açılır.",
+    "orReach": "Ya da doğrudan ulaşın"
   },
   "cta": {
     "title": "Bağlantı kuralım",
@@ -100,10 +116,8 @@
     "button": "İletişime geç"
   },
   "footer": {
-    "tagline": "Bağımsız mühendis. Yapay zekâ odaklı, spesifikasyon güdümlü mimari ve ürünler, açıkça inşa edilir.",
-    "pages": "Sayfalar",
-    "elsewhere": "Diğer yerler",
-    "builtWith": "Next.js ile geliştirildi"
+    "tagline": "Yazılım mühendisi. Açık kaynak geliştirici altyapısı, açıkta inşa ediliyor.",
+    "rss": "RSS akışı"
   },
   "notFound": {
     "title": "Sayfa bulunamadı",

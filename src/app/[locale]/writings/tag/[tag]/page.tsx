@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { PostRow } from "@/components/writings/post-row";
 import { Link } from "@/i18n/navigation";
 import { getAllTags, getWritingsByTag } from "@/lib/writings";
@@ -29,7 +30,7 @@ export async function generateMetadata({
   if (!name) return {};
   return {
     title: `${t("tagged")}: ${name}`,
-    alternates: alternatesFor(`/writings/tag/${tag}`),
+    alternates: alternatesFor(locale, `/writings/tag/${tag}`),
   };
 }
 
@@ -46,23 +47,25 @@ export default async function TagPage({
   const posts = await getWritingsByTag(tag);
 
   return (
-    <Container className="pt-28 pb-16 sm:pt-32">
+    <Container className={PAGE_PADDING}>
       <Link
         href="/writings"
-        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+        className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
-        <ArrowLeft className="size-3.5 rtl:rotate-180" />
+        <ArrowLeft className="size-3.5" />
         {t("backToList")}
       </Link>
 
-      <header className="mt-6 mb-10 flex flex-col gap-3">
-        <span className="mono text-[13px] text-faint">
-          {t("tagged")} · {posts.length}
-        </span>
-        <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-medium tracking-[-0.03em]">
-          {name}
-        </h1>
-      </header>
+      <div className="mt-6">
+        <PageHeader
+          eyebrow={
+            <span className="mono text-ui text-faint">
+              {t("tagged")} · {posts.length}
+            </span>
+          }
+          title={name}
+        />
+      </div>
 
       <div className="border-t border-border">
         {posts.map((post) => (

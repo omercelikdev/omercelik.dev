@@ -10,11 +10,12 @@ const TONE: Record<Tone, string> = {
   warning: "text-warning bg-warning-bg border-warning-border",
   danger: "text-danger bg-danger-bg border-danger-border",
   violet: "text-violet bg-violet-bg border-violet-border",
-  neutral: "text-muted-foreground bg-muted border-border",
+  neutral: "text-muted-foreground border-border",
 };
 
-/** Mono chip — the universal status/label pattern from the design system. */
-export function Chip({
+/** Mono label for small facts: language codes, statuses ("EN", "spec-lint
+ *  passed"). Every label on the site uses this. */
+export function Label({
   children,
   tone = "neutral",
   className = "",
@@ -25,20 +26,19 @@ export function Chip({
 }) {
   return (
     <span
-      className={`mono inline-flex items-center rounded-[var(--radius-md)] border px-2 py-0.5 text-[11px] font-bold ${TONE[tone]} ${className}`}
+      className={`mono inline-flex flex-none items-center gap-1.5 rounded-full border px-2 py-0.5 text-meta font-medium ${TONE[tone]} ${className}`}
     >
       {children}
     </span>
   );
 }
 
-/** Soft pill for tags (sans, lighter weight). */
+const TAG =
+  "inline-flex items-center rounded-full border border-border px-2.5 py-0.5 text-caption text-muted-foreground";
+
+/** Topic pill — post tags and repository topics look the same everywhere. */
 export function Tag({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-flex items-center rounded-[var(--radius-md)] border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-      {children}
-    </span>
-  );
+  return <span className={TAG}>{children}</span>;
 }
 
 /** Clickable tag → the tag's filter page. */
@@ -46,7 +46,7 @@ export function TagLink({ tag }: { tag: string }) {
   return (
     <Link
       href={`/writings/tag/${tagSlug(tag)}`}
-      className="inline-flex items-center rounded-[var(--radius-md)] border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+      className={`${TAG} transition-colors hover:border-border-strong hover:text-foreground`}
     >
       {tag}
     </Link>

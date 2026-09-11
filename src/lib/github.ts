@@ -52,21 +52,42 @@ function headers(): HeadersInit {
   return h;
 }
 
+/** Product data is baked in at build time, so a failed request means a card
+ *  quietly missing until the next deploy. Say so loudly in the build log. */
+function warnFailure(path: string, status: number) {
+  const hint =
+    status === 403 || status === 429
+      ? " — rate limited; set GITHUB_TOKEN in the build environment"
+      : "";
+  console.warn(`[products] GitHub API ${status} for ${path}${hint}`);
+}
+
+// Requests run once per build (static export); force-cache also keeps the dev
+// server from spending the API quota on every reload.
 async function fetchRepo(repo: string): Promise<GitHubRepo | null> {
-  const res = await fetch(
-    `https://api.github.com/repos/${site.githubUsername}/${repo}`,
-    { headers: headers(), next: { revalidate: 3600 } },
-  );
-  if (!res.ok) return null;
+  const fullName = repo.includes("/") ? repo : `${site.githubUsername}/${repo}`;
+  const path = `repos/${fullName}`;
+  const res = await fetch(`https://api.github.com/${path}`, {
+    headers: headers(),
+    cache: "force-cache",
+  });
+  if (!res.ok) {
+    warnFailure(path, res.status);
+    return null;
+  }
   return (await res.json()) as GitHubRepo;
 }
 
 async function fetchAllRepos(): Promise<GitHubRepo[]> {
-  const res = await fetch(
-    `https://api.github.com/users/${site.githubUsername}/repos?per_page=100&sort=updated`,
-    { headers: headers(), next: { revalidate: 3600 } },
-  );
-  if (!res.ok) return [];
+  const path = `users/${site.githubUsername}/repos?per_page=100&sort=updated`;
+  const res = await fetch(`https://api.github.com/${path}`, {
+    headers: headers(),
+    cache: "force-cache",
+  });
+  if (!res.ok) {
+    warnFailure(path, res.status);
+    return [];
+  }
   return (await res.json()) as GitHubRepo[];
 }
 
@@ -99,9 +120,19 @@ function toProduct(
   };
 }
 
+let productsOnce: Promise<Product[]> | undefined;
+
 /** Returns the curated product list (or an auto-list by stars when the curated
- *  config is empty). Never throws — degrades to an empty list on API failure. */
-export async function getProducts(): Promise<Product[]> {
+ *  config is empty). Never throws — degrades to an empty list on API failure.
+ *  Fetched once per process: several pages show products, and without this
+ *  every one of them (in every build worker, on every dev render) would spend
+ *  its own share of the API quota. Restart the dev server to refetch. */
+export function getProducts(): Promise<Product[]> {
+  productsOnce ??= loadProducts();
+  return productsOnce;
+}
+
+async function loadProducts(): Promise<Product[]> {
   try {
     if (products.length > 0) {
       const results = await Promise.all(
@@ -125,7 +156,8 @@ export async function getProducts(): Promise<Product[]> {
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
       .slice(0, 9)
       .map((r) => toProduct(r, { featured: true }));
-  } catch {
+  } catch (error) {
+    console.warn("[products] GitHub API request failed:", error);
     return [];
   }
 }

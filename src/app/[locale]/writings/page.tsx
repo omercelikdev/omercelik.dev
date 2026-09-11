@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Rss } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { PostRow } from "@/components/writings/post-row";
 import { TagLink } from "@/components/ui/badge";
 import { getAllTags, getAllWritings } from "@/lib/writings";
@@ -16,7 +18,7 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("subtitle"),
-    alternates: alternatesFor("/writings"),
+    alternates: alternatesFor(locale, "/writings"),
   };
 }
 
@@ -31,26 +33,24 @@ export default async function WritingsPage({
   const [posts, tags] = await Promise.all([getAllWritings(), getAllTags()]);
 
   return (
-    <Container className="pt-28 pb-16 sm:pt-32">
-      <header className="mb-8 flex flex-col gap-3">
-        <h1 className="text-[clamp(2rem,4vw,2.75rem)] font-medium tracking-[-0.03em]">
-          {t("title")}
-        </h1>
-        <p className="max-w-xl text-[15px] text-muted-foreground">
-          {t("subtitle")}
-        </p>
-      </header>
-
-      {tags.length > 0 && (
-        <div className="mb-10 flex flex-wrap gap-1.5">
+    <Container className={PAGE_PADDING}>
+      <PageHeader title={t("title")} subtitle={t("subtitle")}>
+        <div className="mt-4 flex flex-wrap items-center gap-1.5">
           {tags.map(({ tag }) => (
             <TagLink key={tag} tag={tag} />
           ))}
+          <a
+            href="/feed.xml"
+            className="mono ms-auto inline-flex items-center gap-1.5 text-caption text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <Rss className="size-3.5" />
+            {t("rss")}
+          </a>
         </div>
-      )}
+      </PageHeader>
 
       {posts.length === 0 ? (
-        <p className="border-t border-border py-16 text-center text-sm text-muted-foreground">
+        <p className="border-t border-border py-16 text-center text-ui text-muted-foreground">
           {t("empty")}
         </p>
       ) : (

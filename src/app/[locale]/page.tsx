@@ -12,8 +12,13 @@ import { getFeaturedProducts } from "@/lib/github";
 import { getLatestWritings } from "@/lib/writings";
 import { alternatesFor } from "@/lib/seo";
 
-export function generateMetadata(): Metadata {
-  return { alternates: alternatesFor("/") };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: alternatesFor(locale, "/") };
 }
 
 export default async function HomePage({
@@ -36,7 +41,7 @@ export default async function HomePage({
 
       <Container>
         {/* 01 — what I do */}
-        <section className="py-20">
+        <section className="py-14 sm:py-16">
           <Reveal>
             <SectionHead index="01" label={t("sec1")} />
           </Reveal>
@@ -45,7 +50,7 @@ export default async function HomePage({
 
         {/* 02 — products */}
         {products.length > 0 && (
-          <section className="py-20">
+          <section className="py-14 sm:py-16">
             <Reveal>
               <SectionHead
                 index="02"
@@ -65,7 +70,7 @@ export default async function HomePage({
 
         {/* 03 — writing */}
         {writings.length > 0 && (
-          <section className="py-20">
+          <section className="py-14 sm:py-16">
             <Reveal>
               <SectionHead
                 index="03"
@@ -75,7 +80,9 @@ export default async function HomePage({
             </Reveal>
             <div>
               {writings.map((post) => (
-                <PostRow key={post.slug} post={post} />
+                <Reveal key={post.slug}>
+                  <PostRow post={post} />
+                </Reveal>
               ))}
             </div>
           </section>

@@ -47,7 +47,7 @@ export default function OpenGraphImage() {
             {site.name}
           </div>
           <div style={{ fontSize: 28, color: "#71717a", maxWidth: 820, lineHeight: 1.3 }}>
-            AI-driven, spec-driven architecture — libraries, platforms &amp; products.
+            Software engineer — open-source developer infrastructure, AI-native and spec-driven.
           </div>
         </div>
 

@@ -1,0 +1,10 @@
+// Workers Builds config: the Next.js static export (`npm run build` → ./out)
+// served as Worker assets — the same setup as the *.qorpe.com sites.
+{
+  "name": "omercelik-dev",
+  "compatibility_date": "2025-01-01",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}

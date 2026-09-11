@@ -2,18 +2,33 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ArrowLeft, Clock, Layers } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, Layers } from "lucide-react";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import { Container } from "@/components/layout/container";
-import { Chip, TagLink } from "@/components/ui/badge";
+import { PAGE_PADDING } from "@/components/ui/page-header";
+import { Label, TagLink } from "@/components/ui/badge";
 import { Link } from "@/i18n/navigation";
 import { mdxComponents } from "@/components/writings/mdx-components";
 import { Comments } from "@/components/writings/comments";
-import { getSeriesPosts, getWritingBySlug, getWritingSlugs } from "@/lib/writings";
-import { alternatesFor } from "@/lib/seo";
+import { Toc } from "@/components/writings/toc";
+import { AuthorCard } from "@/components/writings/author-card";
+import { JsonLd } from "@/components/seo/json-ld";
+import {
+  extractHeadings,
+  getAdjacentWritings,
+  getSeriesPosts,
+  getWritingBySlug,
+  getWritingSlugs,
+  type WritingMeta,
+} from "@/lib/writings";
+import { articleLocale, localeUrl, personId } from "@/lib/seo";
+import { site } from "@/config/site";
+
+/** A table of contents earns its space from three sections up. */
+const TOC_MIN_HEADINGS = 3;
 
 export async function generateStaticParams() {
   const slugs = await getWritingSlugs();
@@ -31,8 +46,18 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.description,
-    alternates: alternatesFor(`/writings/${slug}`),
-    openGraph: { title: post.title, description: post.description, type: "article" },
+    // Both UI languages render this article; the copy in the language it was
+    // written in is the canonical one.
+    alternates: {
+      canonical: localeUrl(articleLocale(post.lang), `/writings/${slug}`),
+    },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      type: "article",
+      publishedTime: post.date,
+      tags: post.tags,
+    },
   };
 }
 
@@ -53,7 +78,13 @@ export default async function WritingPage({
     day: "numeric",
   }).format(new Date(post.date));
 
-  const seriesPosts = post.series ? await getSeriesPosts(post.series) : [];
+  const [seriesPosts, adjacent] = await Promise.all([
+    post.series ? getSeriesPosts(post.series) : Promise.resolve([]),
+    getAdjacentWritings(slug),
+  ]);
+  const headings = extractHeadings(post.content);
+  const showToc = headings.length >= TOC_MIN_HEADINGS;
+  const canonical = localeUrl(articleLocale(post.lang), `/writings/${slug}`);
 
   const { content } = await compileMDX({
     source: post.content,
@@ -68,87 +99,174 @@ export default async function WritingPage({
             {
               theme: { light: "github-light", dark: "github-dark" },
               keepBackground: false,
+              // Fences without a language still get the block treatment.
+              defaultLang: "plaintext",
             },
           ],
-          [rehypeAutolinkHeadings, { behavior: "wrap" }],
+          [
+            rehypeAutolinkHeadings,
+            {
+              behavior: "append",
+              properties: {
+                className: ["heading-anchor"],
+                ariaHidden: true,
+                tabIndex: -1,
+              },
+              content: { type: "text", value: "#" },
+            },
+          ],
         ],
       },
     },
   });
 
   return (
-    <Container className="pt-28 pb-24 sm:pt-32">
-      <article className="mx-auto max-w-2xl">
-        <Link
-          href="/writings"
-          className="inline-flex items-center gap-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="size-3.5 rtl:rotate-180" />
-          {t("backToList")}
-        </Link>
+    <Container className={PAGE_PADDING}>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.description,
+          datePublished: post.date,
+          inLanguage: post.lang,
+          url: canonical,
+          mainEntityOfPage: canonical,
+          keywords: post.tags?.join(", "),
+          author: { "@type": "Person", "@id": personId, name: site.name },
+        }}
+      />
 
-        <header className="mt-6 flex flex-col gap-4 border-b border-border pb-8">
-          <h1 className="text-[clamp(1.9rem,4vw,2.6rem)] font-medium tracking-[-0.03em] text-balance">
-            {post.title}
-          </h1>
-          {post.description && (
-            <p className="text-[15px] leading-relaxed text-muted-foreground">
-              {post.description}
-            </p>
+      <div className="xl:grid xl:grid-cols-[minmax(0,42rem)_13rem] xl:justify-between xl:gap-12">
+        <article className="min-w-0 max-w-2xl">
+          <Link
+            href="/writings"
+            className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <ArrowLeft className="size-3.5" />
+            {t("backToList")}
+          </Link>
+
+          <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
+            <h1 className="text-h1 font-medium text-balance">{post.title}</h1>
+            {post.description && (
+              <p className="text-lead text-muted-foreground">
+                {post.description}
+              </p>
+            )}
+            <div className="mono flex flex-wrap items-center gap-3 text-caption text-muted-foreground">
+              <time dateTime={post.date}>{dateLabel}</time>
+              <span className="text-faint">·</span>
+              <span className="inline-flex items-center gap-1">
+                <Clock className="size-3.5" aria-hidden />
+                {t("readingTime", { minutes: post.readingMinutes })}
+              </span>
+              <Label className="uppercase">{post.lang}</Label>
+            </div>
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {post.tags.map((tag) => (
+                  <TagLink key={tag} tag={tag} />
+                ))}
+              </div>
+            )}
+          </header>
+
+          {post.series && seriesPosts.length > 1 && (
+            <nav className="mt-8 rounded-[var(--radius-xl)] border border-border p-5">
+              <div className="mono mb-3 flex items-center gap-2 text-meta uppercase tracking-wider text-faint">
+                <Layers className="size-3.5" aria-hidden />
+                {t("series")} · {post.series}
+              </div>
+              <ol className="flex flex-col gap-1.5">
+                {seriesPosts.map((p, i) => (
+                  <li key={p.slug} className="flex items-baseline gap-2.5 text-ui">
+                    <span className="mono text-faint">{i + 1}.</span>
+                    {p.slug === post.slug ? (
+                      <span aria-current="page" className="font-medium text-foreground">
+                        {p.title}
+                      </span>
+                    ) : (
+                      <Link
+                        href={`/writings/${p.slug}`}
+                        className="text-muted-foreground decoration-1 underline-offset-[5px] transition-colors hover:text-foreground hover:underline"
+                      >
+                        {p.title}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </nav>
           )}
-          <div className="mono flex flex-wrap items-center gap-3 text-[12px] text-muted-foreground">
-            <time dateTime={post.date}>{dateLabel}</time>
-            <span className="text-faint">·</span>
-            <span className="inline-flex items-center gap-1">
-              <Clock className="size-3.5" />
-              {t("readingTime", { minutes: post.readingMinutes })}
-            </span>
-            <Chip tone="neutral" className="uppercase">
-              {post.lang}
-            </Chip>
+
+          {showToc && (
+            <details className="mt-8 rounded-[var(--radius-xl)] border border-border px-5 py-4 xl:hidden">
+              <summary className="mono cursor-pointer text-meta uppercase tracking-wider text-faint">
+                {t("toc")}
+              </summary>
+              <Toc headings={headings} label={t("toc")} className="mt-4" />
+            </details>
+          )}
+
+          <div dir="auto" className="mt-2">
+            {content}
           </div>
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {post.tags.map((tag) => (
-                <TagLink key={tag} tag={tag} />
-              ))}
-            </div>
-          )}
-        </header>
 
-        {/* Series navigator */}
-        {post.series && seriesPosts.length > 1 && (
-          <nav className="mt-8 rounded-[var(--radius-xl)] border border-border p-5">
-            <div className="mono mb-3 flex items-center gap-2 text-[11px] uppercase tracking-wider text-faint">
-              <Layers className="size-3.5" />
-              {t("series")} · {post.series}
+          <AuthorCard />
+          <PostNav newer={adjacent.newer} older={adjacent.older} />
+          <Comments term={slug} lang={locale} />
+        </article>
+
+        {showToc && (
+          <aside className="hidden xl:block">
+            <div className="sticky top-24">
+              <p className="mono mb-3 text-meta uppercase tracking-wider text-faint">
+                {t("toc")}
+              </p>
+              <Toc headings={headings} label={t("toc")} />
             </div>
-            <ol className="flex flex-col gap-1.5">
-              {seriesPosts.map((p, i) => (
-                <li key={p.slug} className="flex items-baseline gap-2.5 text-[13px]">
-                  <span className="mono text-faint">{i + 1}.</span>
-                  {p.slug === post.slug ? (
-                    <span className="font-medium text-foreground">{p.title}</span>
-                  ) : (
-                    <Link
-                      href={`/writings/${p.slug}`}
-                      className="text-muted-foreground decoration-1 underline-offset-[5px] transition-colors hover:text-foreground hover:underline"
-                    >
-                      {p.title}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
+          </aside>
         )}
-
-        <div dir="auto" className="mt-2">
-          {content}
-        </div>
-
-        <Comments />
-      </article>
+      </div>
     </Container>
+  );
+}
+
+async function PostNav({
+  newer,
+  older,
+}: {
+  newer: WritingMeta | null;
+  older: WritingMeta | null;
+}) {
+  if (!newer && !older) return null;
+  const t = await getTranslations("writings");
+  const card =
+    "group flex flex-col gap-1.5 rounded-[var(--radius-xl)] border border-border p-4 transition-colors hover:border-foreground/35";
+
+  return (
+    <nav className="mt-6 grid gap-3 sm:grid-cols-2">
+      {older ? (
+        <Link href={`/writings/${older.slug}`} className={card}>
+          <span className="mono inline-flex items-center gap-1 text-meta uppercase tracking-wider text-faint">
+            <ArrowLeft className="size-3" aria-hidden />
+            {t("older")}
+          </span>
+          <span className="text-ui font-medium text-foreground">{older.title}</span>
+        </Link>
+      ) : (
+        <span className="max-sm:hidden" />
+      )}
+      {newer && (
+        <Link href={`/writings/${newer.slug}`} className={`${card} sm:items-end sm:text-end`}>
+          <span className="mono inline-flex items-center gap-1 text-meta uppercase tracking-wider text-faint">
+            {t("newer")}
+            <ArrowRight className="size-3" aria-hidden />
+          </span>
+          <span className="text-ui font-medium text-foreground">{newer.title}</span>
+        </Link>
+      )}
+    </nav>
   );
 }

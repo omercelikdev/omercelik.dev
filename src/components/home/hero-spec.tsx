@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Label } from "@/components/ui/badge";
 
 function Check({ className = "size-3.5" }: { className?: string }) {
   return (
@@ -35,19 +36,19 @@ const LINES: ReactNode[] = [
 function ManifestCard() {
   return (
     <div className="overflow-hidden rounded-[var(--radius-2xl)] border border-border bg-background">
-      <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-        <div className="flex items-center gap-2.5">
+      <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5">
+        <div className="flex min-w-0 items-center gap-2.5">
           <Dots />
-          <span className="mono text-[12px] text-muted-foreground">
+          <span className="mono truncate text-caption text-muted-foreground">
             manifest<span className="text-faint">.yaml</span>
           </span>
         </div>
-        <span className="mono inline-flex items-center gap-1.5 rounded-full border border-success-border bg-success-bg px-2 py-0.5 text-[10.5px] font-medium text-success">
+        <Label tone="success">
           <Check />
           spec-lint passed
-        </span>
+        </Label>
       </div>
-      <div className="mono flex gap-4 px-4 py-4 text-[12.5px] leading-[1.7]">
+      <div className="mono flex gap-4 px-4 py-4 text-caption leading-[1.75]">
         <div aria-hidden className="select-none text-right text-faint">
           {LINES.map((_, i) => (
             <div key={i}>{i + 1}</div>
@@ -76,18 +77,16 @@ const TERM: ReactNode[] = [
 function TerminalCard() {
   return (
     <div className="overflow-hidden rounded-[var(--radius-2xl)] border border-border bg-background">
-      <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-        <div className="flex items-center gap-2.5">
+      <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-2.5">
+        <div className="flex min-w-0 items-center gap-2.5">
           <Dots />
-          <span className="mono text-[12px] text-muted-foreground">
+          <span className="mono truncate text-caption text-muted-foreground">
             ~/orders <span className="text-faint">— zsh</span>
           </span>
         </div>
-        <span className="mono inline-flex items-center gap-1.5 rounded-full border border-border bg-muted px-2 py-0.5 text-[10.5px] text-muted-foreground">
-          AI-native
-        </span>
+        <Label>AI-native</Label>
       </div>
-      <div className="mono flex flex-col gap-0.5 px-4 py-4 text-[12.5px] leading-[1.7]">
+      <div className="mono flex flex-col gap-0.5 px-4 py-4 text-caption leading-[1.75]">
         {TERM.map((line, i) => (
           <div key={i}>{line}</div>
         ))}
@@ -120,7 +119,7 @@ function StageMark({ state }: { state: State }) {
 
 function PipelineBar() {
   return (
-    <div className="mono flex items-center gap-2.5 rounded-[var(--radius-2xl)] border border-border bg-background px-5 py-3 text-[11px] text-muted-foreground">
+    <div className="mono flex items-center gap-2.5 rounded-[var(--radius-2xl)] border border-border bg-background px-5 py-3 text-meta text-muted-foreground">
       {STAGES.map((stage, i) => (
         <div key={stage.label} className="flex flex-1 items-center gap-2.5 last:flex-none">
           <span className="inline-flex items-center gap-1.5">
