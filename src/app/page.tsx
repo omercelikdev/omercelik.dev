@@ -1,28 +1,99 @@
-import { routing } from "@/i18n/routing";
-import { site } from "@/config/site";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { Container } from "@/components/layout/container";
+import { SectionHead } from "@/components/ui/section";
+import { Hero } from "@/components/home/hero";
+import { Capabilities } from "@/components/home/capabilities";
+import { CtaBand } from "@/components/home/cta-band";
+import { ProductCard } from "@/components/products/product-card";
+import { PostRow } from "@/components/writings/post-row";
+import { FeaturedPost } from "@/components/writings/featured-post";
+import { Reveal } from "@/components/motion/reveal";
+import { getFeaturedProducts } from "@/lib/github";
+import { getLatestWritings } from "@/lib/writings";
+import { pageMetadata } from "@/lib/seo";
 
-const FALLBACK = `/${routing.defaultLocale}`;
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta");
+  return pageMetadata({
+    path: "/",
+    title: t("homeTitle"),
+    description: t("description"),
+    absoluteTitle: true,
+  });
+}
 
-// A static host has no server to negotiate the language, so the root page does
-// it in the browser: the first supported language the visitor prefers, else
-// English. The <noscript> refresh covers visitors without JavaScript.
-const PICK_LOCALE = `(function(){var s=${JSON.stringify(routing.locales)};var p=navigator.languages||[navigator.language||""];for(var i=0;i<p.length;i++){var l=String(p[i]).slice(0,2).toLowerCase();if(s.indexOf(l)>-1){location.replace("/"+l);return}}location.replace(${JSON.stringify(FALLBACK)})})()`;
+export default async function HomePage() {
+  const t = await getTranslations("home");
 
-export default function RootPage() {
+  const [products, latest] = await Promise.all([
+    getFeaturedProducts(),
+    getLatestWritings(5),
+  ]);
+  // A featured essay leads the section; the list below skips it.
+  const featured = latest.find((post) => post.featured) ?? null;
+  const writings = latest.filter((post) => post !== featured).slice(0, 4);
+
   return (
-    <html lang={routing.defaultLocale}>
-      <head>
-        <title>{site.name}</title>
-        <meta name="robots" content="noindex" />
-        <link rel="canonical" href={`${site.url}${FALLBACK}`} />
-        <script dangerouslySetInnerHTML={{ __html: PICK_LOCALE }} />
-        <noscript>
-          <meta httpEquiv="refresh" content={`0; url=${FALLBACK}`} />
-        </noscript>
-      </head>
-      <body>
-        <a href={FALLBACK}>{site.domain}</a>
-      </body>
-    </html>
+    <>
+      <Hero />
+
+      <Container>
+        {/* 01 — what I do */}
+        <section className="py-14 sm:py-16">
+          <Reveal>
+            <SectionHead index="01" label={t("sec1")} />
+          </Reveal>
+          <Capabilities />
+        </section>
+
+        {/* 02 — products */}
+        {products.length > 0 && (
+          <section className="py-14 sm:py-16">
+            <Reveal>
+              <SectionHead
+                index="02"
+                label={t("sec2")}
+                action={{ href: "/products", label: t("viewAll") }}
+              />
+            </Reveal>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {products.map((product) => (
+                <Reveal key={product.fullName}>
+                  <ProductCard product={product} />
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 03 — writing */}
+        {(featured || writings.length > 0) && (
+          <section className="py-14 sm:py-16">
+            <Reveal>
+              <SectionHead
+                index="03"
+                label={t("sec3")}
+                action={{ href: "/writings", label: t("viewAll") }}
+              />
+            </Reveal>
+            {featured && (
+              <Reveal>
+                <FeaturedPost post={featured} />
+              </Reveal>
+            )}
+            <div>
+              {writings.map((post) => (
+                <Reveal key={post.slug}>
+                  <PostRow post={post} />
+                </Reveal>
+              ))}
+            </div>
+          </section>
+        )}
+      </Container>
+
+      <CtaBand />
+    </>
   );
 }

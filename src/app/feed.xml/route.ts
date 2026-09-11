@@ -1,5 +1,5 @@
 import { site } from "@/config/site";
-import { articleLocale, localeUrl } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/seo";
 import { getAllWritings } from "@/lib/writings";
 
 // Generated at build time (reads content from disk) so it works on runtimes
@@ -20,7 +20,7 @@ export async function GET() {
 
   const items = writings
     .map((w) => {
-      const url = localeUrl(articleLocale(w.lang), `/writings/${w.slug}`);
+      const url = absoluteUrl(`/writings/${w.slug}`);
       return `    <item>
       <title>${escape(w.title)}</title>
       <link>${url}</link>
@@ -36,7 +36,7 @@ export async function GET() {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${escape(site.name)} — Writing</title>
-    <link>${localeUrl("en", "/writings")}</link>
+    <link>${absoluteUrl("/writings")}</link>
     <description>Essays and notes on architecture, systems and the craft of building software.</description>
     <language>en</language>
     <lastBuildDate>${new Date(updated).toUTCString()}</lastBuildDate>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { ArrowLeft, ArrowRight, Clock, Layers } from "lucide-react";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
@@ -9,7 +10,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypePrettyCode from "rehype-pretty-code";
 import { PAGE_PADDING } from "@/components/ui/page-header";
 import { Label, TagLink } from "@/components/ui/badge";
-import { Link } from "@/i18n/navigation";
 import { mdxComponents } from "@/components/writings/mdx-components";
 import { Comments } from "@/components/writings/comments";
 import { Toc } from "@/components/writings/toc";
@@ -36,28 +36,25 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getWritingBySlug(slug);
   if (!post) return {};
-  // Both UI languages render this article; the copy in the language it was
-  // written in is the canonical one (see articleMetadata).
   return articleMetadata(post);
 }
 
 export default async function WritingPage({
   params,
 }: {
-  params: Promise<{ locale: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { locale, slug } = await params;
-  setRequestLocale(locale);
+  const { slug } = await params;
   const t = await getTranslations("writings");
   const post = await getWritingBySlug(slug);
   if (!post) notFound();
 
-  const dateLabel = new Intl.DateTimeFormat(locale, {
+  const dateLabel = new Intl.DateTimeFormat("en", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -124,11 +121,15 @@ export default async function WritingPage({
           </Link>
 
           <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
-            <h1 className="font-serif text-h1 font-medium tracking-[-0.015em] text-balance">
+            {/* The interface is English; the piece is in its own language. */}
+            <h1
+              lang={post.lang}
+              className="font-serif text-h1 font-medium tracking-[-0.015em] text-balance"
+            >
               {post.title}
             </h1>
             {post.description && (
-              <p className="text-lead text-muted-foreground">
+              <p lang={post.lang} className="text-lead text-muted-foreground">
                 {post.description}
               </p>
             )}
@@ -193,13 +194,13 @@ export default async function WritingPage({
             </details>
           )}
 
-          <div dir="auto" className="mt-2">
+          <div lang={post.lang} dir="auto" className="mt-2">
             {content}
           </div>
 
           <AuthorCard />
           <PostNav newer={adjacent.newer} older={adjacent.older} />
-          <Comments term={slug} lang={locale} />
+          <Comments term={slug} lang="en" />
         </article>
 
         {showToc && (
@@ -237,7 +238,10 @@ async function PostNav({
             <ArrowLeft className="size-3" aria-hidden />
             {t("older")}
           </span>
-          <span className="text-ui font-medium text-foreground">
+          <span
+            lang={older.lang}
+            className="text-ui font-medium text-foreground"
+          >
             {older.title}
           </span>
         </Link>
@@ -253,7 +257,10 @@ async function PostNav({
             {t("newer")}
             <ArrowRight className="size-3" aria-hidden />
           </span>
-          <span className="text-ui font-medium text-foreground">
+          <span
+            lang={newer.lang}
+            className="text-ui font-medium text-foreground"
+          >
             {newer.title}
           </span>
         </Link>

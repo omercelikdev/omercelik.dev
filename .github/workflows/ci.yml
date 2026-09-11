@@ -50,6 +50,6 @@ jobs:
 
       - name: Check the static output
         run: |
-          for f in index.html 404.html en.html tr.html sitemap.xml robots.txt feed.xml og.png; do
+          for f in index.html 404.html about.html writings.html sitemap.xml robots.txt feed.xml og.png favicon.ico; do
             test -f "out/$f" || { echo "::error::out/$f is missing"; exit 1; }
           done

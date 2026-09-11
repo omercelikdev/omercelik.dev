@@ -10,7 +10,7 @@ Built with **Next.js 16** (App Router, static export), **React 19**,
 ```bash
 npm install
 cp .env.example .env.local   # optional: add a GITHUB_TOKEN
-npm run dev                  # http://localhost:3000 → picks /en or /tr
+npm run dev                  # http://localhost:3000
 npm run build                # static site in ./out
 npm run check                # lint + typecheck + format check + tests (as CI)
 npm run format               # apply Prettier
@@ -26,8 +26,7 @@ npm run format               # apply Prettier
   arrive grouped (Next.js and its ESLint config together); a major version
   arrives as its own pull request. GitHub Actions are grouped.
 - **Tests** — Vitest, `src/**/*.test.ts`: heading ids match rehype-slug, tag
-  slugs, the SEO helpers, and EN/TR message parity (same keys, same list
-  lengths, no empty strings).
+  slugs, the SEO helpers, and the UI messages (no empty strings or lists).
 - **Tooling** — Node 24 (`.nvmrc`), Prettier defaults, `.editorconfig`.
   Essays under `content/` are left out of formatting on purpose.
 
@@ -35,10 +34,12 @@ npm run format               # apply Prettier
 
 - **Static export** — `output: "export"`: every page is plain HTML generated at
   build time. There is no server and no proxy/middleware.
-- **Languages** — English and Turkish UI, every URL prefixed (`/en/…`,
-  `/tr/…`). The root `/` picks the visitor's language in the browser
-  (`src/app/page.tsx`). Articles stay in the language they were written in, and
-  that language's copy is the canonical URL.
+- **Language** — the interface is English, with no locale prefix in URLs. UI
+  copy lives in `src/i18n/messages/en.json` (next-intl, for ICU plurals and
+  rich text). An article can be written in Turkish: its `lang` frontmatter
+  sets the `lang` attribute on its text and the locale of its social card.
+- **Theme** — follows the operating system until the visitor picks light or
+  dark with the toggle.
 - **Design tokens** — colours, radius and elevation live in
   `src/app/theme.css`; the type scale (`text-meta` … `text-display`) in
   `src/app/globals.css`. Use the scale rather than arbitrary sizes.
@@ -56,7 +57,7 @@ npm run format               # apply Prettier
   scrolls and never tilts, so the layers stay where the pointer expects them.
   Without JavaScript or with reduced motion it's a still diagram.
 - **SEO** — `src/lib/seo.ts`: every page gets its title, description,
-  canonical, hreflang, Open Graph and X card from `pageMetadata` /
+  canonical, Open Graph and X card from `pageMetadata` /
   `articleMetadata` (Next merges metadata shallowly, so pages set the whole
   block). Structured data: Person + WebSite everywhere, ProfilePage on About,
   BlogPosting + BreadcrumbList on articles. Social cards are real `.png`
@@ -115,19 +116,17 @@ What an article can use:
   that essay.
 - **GFM** — tables, task lists and footnotes (`[^1]`).
 - **Table of contents** — appears automatically from three h2/h3 headings up.
-- **Comments** — Giscus (GitHub Discussions), one thread per post shared by
-  both languages.
+- **Comments** — Giscus (GitHub Discussions), one thread per post.
 
 ## Configure
 
-| What                                | Where                      |
-| ----------------------------------- | -------------------------- |
-| Name, email, social links, comments | `src/config/site.ts`       |
-| Which repos show as products        | `src/config/products.ts`   |
-| Colours, radius, shadows            | `src/app/theme.css`        |
-| Type scale, motion, code styling    | `src/app/globals.css`      |
-| UI copy (EN / TR)                   | `src/i18n/messages/*.json` |
-| Supported locales                   | `src/i18n/routing.ts`      |
+| What                                | Where                       |
+| ----------------------------------- | --------------------------- |
+| Name, email, social links, comments | `src/config/site.ts`        |
+| Which repos show as products        | `src/config/products.ts`    |
+| Colours, radius, shadows            | `src/app/theme.css`         |
+| Type scale, motion, code styling    | `src/app/globals.css`       |
+| UI copy                             | `src/i18n/messages/en.json` |
 
 ## Deploy — Cloudflare Workers Builds
 

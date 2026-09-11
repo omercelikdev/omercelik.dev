@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { buttonClass } from "@/components/ui/button";
 import { Reveal } from "@/components/motion/reveal";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 
 /** Confident call-to-action band shown before the footer. */
 export async function CtaBand() {

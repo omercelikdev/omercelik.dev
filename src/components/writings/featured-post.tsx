@@ -1,6 +1,6 @@
-import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
-import { Link } from "@/i18n/navigation";
 import { Label } from "@/components/ui/badge";
 import type { WritingMeta } from "@/lib/writings";
 
@@ -8,8 +8,7 @@ import type { WritingMeta } from "@/lib/writings";
 export function FeaturedPost({ post }: { post: WritingMeta }) {
   const t = useTranslations("home");
   const w = useTranslations("writings");
-  const locale = useLocale();
-  const dateLabel = new Intl.DateTimeFormat(locale, {
+  const dateLabel = new Intl.DateTimeFormat("en", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -23,11 +22,17 @@ export function FeaturedPost({ post }: { post: WritingMeta }) {
       <span className="mono text-meta uppercase tracking-wider text-brand-accent">
         {t("featured")}
       </span>
-      <span className="max-w-3xl font-serif text-h1 font-medium tracking-[-0.015em] text-balance text-foreground">
+      <span
+        lang={post.lang}
+        className="max-w-3xl font-serif text-h1 font-medium tracking-[-0.015em] text-balance text-foreground"
+      >
         {post.title}
       </span>
       {post.description && (
-        <span className="max-w-2xl text-lead text-muted-foreground">
+        <span
+          lang={post.lang}
+          className="max-w-2xl text-lead text-muted-foreground"
+        >
           {post.description}
         </span>
       )}

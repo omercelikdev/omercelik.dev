@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Rss } from "lucide-react";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { site } from "@/config/site";
 
 /** Byline at the end of an article: who wrote it, and where to follow. */

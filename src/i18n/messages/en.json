@@ -15,9 +15,6 @@
   "theme": {
     "toggle": "Toggle theme"
   },
-  "lang": {
-    "switchTo": "Switch to {language}"
-  },
   "home": {
     "role": "Software engineer",
     "headlineLead": "I build",

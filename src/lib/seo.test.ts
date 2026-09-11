@@ -1,45 +1,41 @@
 import { describe, expect, it } from "vitest";
-import { articleLocale, localeUrl, pageMetadata } from "./seo";
+import { absoluteUrl, articleMetadata, pageMetadata } from "./seo";
+import type { WritingMeta } from "./writings";
 
 const SITE = "https://omercelik.dev";
 
-describe("localeUrl", () => {
-  it("prefixes every locale, the default one included", () => {
-    expect(localeUrl("en")).toBe(`${SITE}/en`);
-    expect(localeUrl("tr", "/about")).toBe(`${SITE}/tr/about`);
+describe("absoluteUrl", () => {
+  it("joins the site URL and a path", () => {
+    expect(absoluteUrl("/")).toBe(SITE);
+    expect(absoluteUrl("/about")).toBe(`${SITE}/about`);
   });
 });
 
 describe("pageMetadata", () => {
   const meta = pageMetadata({
-    locale: "tr",
     path: "/about",
-    title: "Hakkında",
-    description: "Kimim ve ne üzerine çalışıyorum.",
+    title: "About",
+    description: "Who I am and what I work on.",
   });
 
-  it("is canonical for its own locale", () => {
-    expect(meta.alternates?.canonical).toBe(`${SITE}/tr/about`);
-  });
-
-  it("lists every locale, plus x-default on the default locale", () => {
-    expect(meta.alternates?.languages).toEqual({
-      en: `${SITE}/en/about`,
-      tr: `${SITE}/tr/about`,
-      "x-default": `${SITE}/en/about`,
+  it("is canonical at its own URL and links the feed", () => {
+    expect(meta.alternates).toEqual({
+      canonical: `${SITE}/about`,
+      types: { "application/rss+xml": `${SITE}/feed.xml` },
     });
   });
 
-  it("gives the social card the page's own URL and locale", () => {
-    expect(meta.openGraph?.url).toBe(`${SITE}/tr/about`);
-    expect(meta.openGraph?.locale).toBe("tr_TR");
+  it("gives the social card the page's URL", () => {
+    expect(meta.openGraph).toMatchObject({
+      url: `${SITE}/about`,
+      locale: "en_US",
+      title: "About · Ömer Çelik",
+    });
   });
 
   it("brands the title except when asked not to", () => {
-    expect(meta.title).toBe("Hakkında");
-    expect(meta.openGraph?.title).toBe("Hakkında · Ömer Çelik");
+    expect(meta.title).toBe("About");
     const home = pageMetadata({
-      locale: "en",
       path: "/",
       title: "Ömer Çelik — Software Engineer",
       description: "…",
@@ -51,7 +47,6 @@ describe("pageMetadata", () => {
   it("keeps thin pages out of the index but crawlable", () => {
     expect(meta.robots).toBeUndefined();
     const tag = pageMetadata({
-      locale: "en",
       path: "/writings/tag/net",
       title: "Tagged: .net",
       description: "…",
@@ -61,9 +56,27 @@ describe("pageMetadata", () => {
   });
 });
 
-describe("articleLocale", () => {
-  it("is the language the article is written in, if the UI has it", () => {
-    expect(articleLocale("tr")).toBe("tr");
-    expect(articleLocale("de")).toBe("en");
+describe("articleMetadata", () => {
+  const post: WritingMeta = {
+    slug: "mockifyr-neden",
+    title: "Mockifyr'ı neden yazdım",
+    description: "Bağımsız bir API mock motoru.",
+    date: "2026-07-05",
+    lang: "tr",
+    tags: ["mockifyr"],
+    readingMinutes: 1,
+  };
+  const meta = articleMetadata(post);
+
+  it("is canonical at /writings/<slug>", () => {
+    expect(meta.alternates?.canonical).toBe(`${SITE}/writings/mockifyr-neden`);
+  });
+
+  it("uses the article's own card, in the article's language", () => {
+    expect(meta.openGraph).toMatchObject({
+      type: "article",
+      locale: "tr_TR",
+      images: [{ url: "/og/mockifyr-neden/card.png" }],
+    });
   });
 });

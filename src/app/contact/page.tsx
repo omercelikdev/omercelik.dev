@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Mail } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { ContactForm } from "@/components/contact/contact-form";
@@ -8,28 +8,16 @@ import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
 import { site } from "@/config/site";
 import { pageMetadata } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "contact" });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("contact");
   return pageMetadata({
-    locale,
     path: "/contact",
     title: t("title"),
     description: t("subtitle"),
   });
 }
 
-export default async function ContactPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+export default async function ContactPage() {
   const t = await getTranslations("contact");
 
   const links = [

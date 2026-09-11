@@ -1,37 +1,19 @@
 import type { Metadata } from "next";
-import { hasLocale } from "next-intl";
-import { routing } from "@/i18n/routing";
 import { site } from "@/config/site";
 import type { WritingMeta } from "@/lib/writings";
 
-/** Absolute URL for a logical path in a locale: ("tr", "/about") →
- *  https://omercelik.dev/tr/about. Every locale is prefixed. */
-export function localeUrl(locale: string, path = "/"): string {
-  return `${site.url}/${locale}${path === "/" ? "" : path}`;
+/** Absolute URL for a path on the site: "/about" → https://omercelik.dev/about,
+ *  "/" → https://omercelik.dev. */
+export function absoluteUrl(path = "/"): string {
+  return `${site.url}${path === "/" ? "" : path}`;
 }
 
 const RSS = { "application/rss+xml": `${site.url}/feed.xml` };
 
-/** Canonical + hreflang (+ the RSS feed) for a page that exists in every
- *  locale. Each locale is canonical for itself; x-default is the default
- *  locale. Pages that set `alternates` replace the layout's wholesale, which
- *  is why the feed link travels with it. */
-function alternatesFor(locale: string, path = "/"): Metadata["alternates"] {
-  const languages: Record<string, string> = {};
-  for (const l of routing.locales) languages[l] = localeUrl(l, path);
-  languages["x-default"] = localeUrl(routing.defaultLocale, path);
-  return { canonical: localeUrl(locale, path), languages, types: RSS };
-}
-
-/** The locale an article belongs to: the one it was written in. Both UI
- *  languages render the same text, so that copy is the canonical one. */
-export function articleLocale(lang: string): string {
-  return hasLocale(routing.locales, lang) ? lang : routing.defaultLocale;
-}
-
+/** Open Graph locale for a piece of content. The interface is English;
+ *  articles can be written in Turkish, and their cards say so. */
 const OG_LOCALE: Record<string, string> = { en: "en_US", tr: "tr_TR" };
-const ogLocale = (locale: string) =>
-  OG_LOCALE[locale] ?? OG_LOCALE[routing.defaultLocale];
+const ogLocale = (lang: string) => OG_LOCALE[lang] ?? OG_LOCALE.en;
 
 /** The site's X handle, for X/Twitter cards. */
 export const X_HANDLE = `@${new URL(site.links.x).pathname.replace(/^\/+/, "")}`;
@@ -47,18 +29,16 @@ const card = (url: string, alt: string) => ({
   alt,
 });
 
-/** Title, description, canonical/hreflang and social cards for a page that
- *  exists in every locale. Next merges metadata shallowly, so each page sets
- *  the whole openGraph/twitter block rather than relying on the layout's. */
+/** Title, description, canonical and social cards for a page. Next merges
+ *  metadata shallowly, so each page sets the whole openGraph/twitter block
+ *  rather than relying on the layout's. */
 export function pageMetadata({
-  locale,
   path,
   title,
   description,
   absoluteTitle = false,
   noindex = false,
 }: {
-  locale: string;
   path: string;
   title: string;
   description: string;
@@ -67,12 +47,14 @@ export function pageMetadata({
   /** Thin listing pages: keep them out of the index, but follow their links. */
   noindex?: boolean;
 }): Metadata {
-  const url = localeUrl(locale, path);
+  const url = absoluteUrl(path);
   const socialTitle = absoluteTitle ? title : `${title} · ${site.name}`;
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
-    alternates: alternatesFor(locale, path),
+    // Pages that set `alternates` replace the layout's wholesale, which is
+    // why the feed link travels with the canonical.
+    alternates: { canonical: url, types: RSS },
     ...(noindex && { robots: { index: false, follow: true } }),
     openGraph: {
       type: "website",
@@ -80,10 +62,7 @@ export function pageMetadata({
       siteName: site.name,
       title: socialTitle,
       description,
-      locale: ogLocale(locale),
-      alternateLocale: routing.locales
-        .filter((l) => l !== locale)
-        .map(ogLocale),
+      locale: ogLocale("en"),
       images: [card(SITE_OG_IMAGE, site.name)],
     },
     twitter: {
@@ -97,12 +76,11 @@ export function pageMetadata({
   };
 }
 
-/** Metadata for an article: canonical in the language it's written in, its
- *  own social card, and the article fields search engines and feeds read. */
+/** Metadata for an article: its own social card, in the language it's
+ *  written in, and the article fields search engines and feeds read. */
 export function articleMetadata(post: WritingMeta): Metadata {
-  const locale = articleLocale(post.lang);
-  const url = localeUrl(locale, `/writings/${post.slug}`);
-  const about = localeUrl(locale, "/about");
+  const url = absoluteUrl(`/writings/${post.slug}`);
+  const about = absoluteUrl("/about");
   const image = card(articleOgImage(post.slug), post.title);
   return {
     title: post.title,
@@ -116,7 +94,7 @@ export function articleMetadata(post: WritingMeta): Metadata {
       siteName: site.name,
       title: post.title,
       description: post.description,
-      locale: ogLocale(locale),
+      locale: ogLocale(post.lang),
       publishedTime: post.date,
       modifiedTime: post.updated ?? post.date,
       authors: [about],
@@ -139,12 +117,10 @@ const personId = `${site.url}/#person`;
 /** Site-wide structured data: the person the site is about, and the site.
  *  alternateName covers the spelling people type without Turkish letters. */
 export function siteJsonLd({
-  locale,
   jobTitle,
   description,
   knowsAbout,
 }: {
-  locale: string;
   jobTitle: string;
   description: string;
   knowsAbout: string[];
@@ -157,7 +133,7 @@ export function siteJsonLd({
         "@id": personId,
         name: site.name,
         alternateName: ["Omer Celik", site.githubUsername],
-        url: localeUrl(locale),
+        url: site.url,
         image: `${site.url}/omer.jpg`,
         jobTitle,
         description,
@@ -170,7 +146,7 @@ export function siteJsonLd({
         url: site.url,
         name: site.name,
         alternateName: site.domain,
-        inLanguage: routing.locales,
+        inLanguage: "en",
         publisher: { "@id": personId },
       },
     ],
@@ -178,25 +154,18 @@ export function siteJsonLd({
 }
 
 /** The About page as a profile page — Google's type for a page about a person. */
-export function profileJsonLd(locale: string) {
+export function profileJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    url: localeUrl(locale, "/about"),
-    inLanguage: locale,
+    url: absoluteUrl("/about"),
     mainEntity: { "@id": personId },
   };
 }
 
-const WRITINGS_LABEL: Record<string, string> = {
-  en: "Writings",
-  tr: "Yazılar",
-};
-
-/** An article: BlogPosting plus its breadcrumb trail, in its canonical locale. */
+/** An article: BlogPosting plus its breadcrumb trail. */
 export function articleJsonLd(post: WritingMeta) {
-  const locale = articleLocale(post.lang);
-  const url = localeUrl(locale, `/writings/${post.slug}`);
+  const url = absoluteUrl(`/writings/${post.slug}`);
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -215,24 +184,19 @@ export function articleJsonLd(post: WritingMeta) {
           "@type": "Person",
           "@id": personId,
           name: site.name,
-          url: localeUrl(locale, "/about"),
+          url: absoluteUrl("/about"),
         },
         publisher: { "@id": personId },
       },
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: site.name,
-            item: localeUrl(locale),
-          },
+          { "@type": "ListItem", position: 1, name: site.name, item: site.url },
           {
             "@type": "ListItem",
             position: 2,
-            name: WRITINGS_LABEL[locale] ?? WRITINGS_LABEL.en,
-            item: localeUrl(locale, "/writings"),
+            name: "Writings",
+            item: absoluteUrl("/writings"),
           },
           { "@type": "ListItem", position: 3, name: post.title, item: url },
         ],

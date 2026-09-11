@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 
 /** Monospace section header: "01 / label" on the lead side, optional link on
  *  the trailing side. Matches the reference's quiet, indexed sections. */

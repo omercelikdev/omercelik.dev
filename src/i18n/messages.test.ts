@@ -1,40 +1,40 @@
 import { describe, expect, it } from "vitest";
 import en from "./messages/en.json";
-import tr from "./messages/tr.json";
 
-/** A message tree with every string replaced by its type: same shape ⇔ same
- *  keys, and the same number of entries in every list. */
-function shape(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(shape);
-  if (value && typeof value === "object") {
-    return Object.fromEntries(
-      Object.entries(value)
-        .map(([key, child]) => [key, shape(child)] as const)
-        .sort(([a], [b]) => a.localeCompare(b)),
-    );
-  }
-  return typeof value;
-}
-
-function strings(value: unknown, path = ""): [string, string][] {
-  if (typeof value === "string") return [[path, value]];
-  if (value && typeof value === "object") {
+function entries(value: unknown, path = ""): [string, unknown][] {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
     return Object.entries(value).flatMap(([key, child]) =>
-      strings(child, path ? `${path}.${key}` : key),
+      entries(child, path ? `${path}.${key}` : key),
     );
   }
-  return [];
+  if (Array.isArray(value)) {
+    return [
+      [path, value],
+      ...value.flatMap((child, i) => entries(child, `${path}.${i}`)),
+    ];
+  }
+  return [[path, value]];
 }
 
 describe("UI messages", () => {
-  it("have the same keys and list lengths in English and Turkish", () => {
-    expect(shape(tr)).toEqual(shape(en));
-  });
+  const all = entries(en);
 
   it("have no empty strings", () => {
-    const empty = [...strings(en), ...strings(tr)].filter(
-      ([, text]) => text.trim() === "",
-    );
+    const empty = all
+      .filter(([, v]) => typeof v === "string" && v.trim() === "")
+      .map(([path]) => path);
     expect(empty).toEqual([]);
+  });
+
+  it("have no empty lists", () => {
+    const empty = all
+      .filter(([, v]) => Array.isArray(v) && v.length === 0)
+      .map(([path]) => path);
+    expect(empty).toEqual([]);
+  });
+
+  it("describe every layer of the hero stack", () => {
+    // HeroStack pairs these with its five layers by position.
+    expect(en.home.layers).toHaveLength(5);
   });
 });

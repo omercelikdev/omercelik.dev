@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 
 type Variant = "primary" | "outline" | "ghost";
 type Size = "md" | "sm";
@@ -18,7 +18,7 @@ export function buttonClass(variant: Variant = "primary", size: Size = "md") {
   return `inline-flex items-center justify-center gap-2 rounded-[var(--radius-lg)] font-semibold transition-colors ${VARIANT[variant]} ${SIZE[size]}`;
 }
 
-/** Internal, locale-aware link styled as a button. */
+/** Internal link styled as a button. */
 export function LinkButton({
   href,
   variant = "primary",

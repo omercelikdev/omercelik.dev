@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { buttonClass } from "@/components/ui/button";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 import { Typewriter } from "@/components/motion/typewriter";
 import { HeroStack } from "@/components/home/hero-stack";
 import { site } from "@/config/site";

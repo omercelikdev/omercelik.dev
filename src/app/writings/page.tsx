@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Rss } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
@@ -8,28 +8,16 @@ import { TagLink } from "@/components/ui/badge";
 import { getAllTags, getAllWritings } from "@/lib/writings";
 import { pageMetadata } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "writings" });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("writings");
   return pageMetadata({
-    locale,
     path: "/writings",
     title: t("title"),
     description: t("subtitle"),
   });
 }
 
-export default async function WritingsPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+export default async function WritingsPage() {
   const t = await getTranslations("writings");
   const [posts, tags] = await Promise.all([getAllWritings(), getAllTags()]);
 

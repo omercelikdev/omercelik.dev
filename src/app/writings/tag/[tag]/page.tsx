@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { PostRow } from "@/components/writings/post-row";
-import { Link } from "@/i18n/navigation";
 import { getAllTags, getWritingsByTag } from "@/lib/writings";
 import { pageMetadata } from "@/lib/seo";
 
@@ -22,16 +22,15 @@ async function tagName(slug: string): Promise<string | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string; tag: string }>;
+  params: Promise<{ tag: string }>;
 }): Promise<Metadata> {
-  const { locale, tag } = await params;
+  const { tag } = await params;
   const name = await tagName(tag);
-  const t = await getTranslations({ locale, namespace: "writings" });
+  const t = await getTranslations("writings");
   if (!name) return {};
   // Tag pages are thin lists of posts that live elsewhere: out of the index,
   // but crawlable, so they still lead search engines to the articles.
   return pageMetadata({
-    locale,
     path: `/writings/tag/${tag}`,
     title: `${t("tagged")}: ${name}`,
     description: t("subtitle"),
@@ -42,10 +41,9 @@ export async function generateMetadata({
 export default async function TagPage({
   params,
 }: {
-  params: Promise<{ locale: string; tag: string }>;
+  params: Promise<{ tag: string }>;
 }) {
-  const { locale, tag } = await params;
-  setRequestLocale(locale);
+  const { tag } = await params;
   const t = await getTranslations("writings");
   const name = await tagName(tag);
   if (!name) notFound();

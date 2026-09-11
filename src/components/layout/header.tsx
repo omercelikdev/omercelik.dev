@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
-import { Link, usePathname } from "@/i18n/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Container } from "./container";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-import { LangSwitcher } from "./lang-switcher";
 import { buttonClass } from "@/components/ui/button";
 import { site } from "@/config/site";
 
@@ -75,7 +75,6 @@ export function Header() {
           >
             {t("contact")}
           </Link>
-          <LangSwitcher />
           <ThemeToggle />
           <button
             type="button"

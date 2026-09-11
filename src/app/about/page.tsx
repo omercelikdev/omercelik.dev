@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { ArrowRight, ArrowUpRight, Mail, Rss } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Portrait } from "@/components/about/portrait";
@@ -7,21 +8,14 @@ import { PAGE_PADDING } from "@/components/ui/page-header";
 import { Tag } from "@/components/ui/badge";
 import { buttonClass } from "@/components/ui/button";
 import { GithubIcon, LinkedinIcon, XIcon } from "@/components/ui/brand-icons";
-import { Link } from "@/i18n/navigation";
-import { getFeaturedProducts } from "@/lib/github";
 import { JsonLd } from "@/components/seo/json-ld";
+import { getFeaturedProducts } from "@/lib/github";
 import { pageMetadata, profileJsonLd } from "@/lib/seo";
 import { site } from "@/config/site";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "about" });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("about");
   return pageMetadata({
-    locale,
     path: "/about",
     title: t("metaTitle"),
     description: t("metaDescription"),
@@ -31,13 +25,7 @@ export async function generateMetadata({
 const SUBHEAD =
   "mono mb-4 border-b border-border pb-3 text-ui font-normal text-muted-foreground";
 
-export default async function AboutPage({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
-  const { locale } = await params;
-  setRequestLocale(locale);
+export default async function AboutPage() {
   const t = await getTranslations("about");
   const nav = await getTranslations("nav");
   const footer = await getTranslations("footer");
@@ -67,7 +55,7 @@ export default async function AboutPage({
 
   return (
     <Container className={PAGE_PADDING}>
-      <JsonLd data={profileJsonLd(locale)} />
+      <JsonLd data={profileJsonLd()} />
       <div className="grid gap-12 lg:grid-cols-[240px_1fr] lg:gap-16">
         <aside className="intro flex flex-col gap-8 lg:sticky lg:top-24 lg:self-start">
           <Portrait alt={t("photoAlt")} />

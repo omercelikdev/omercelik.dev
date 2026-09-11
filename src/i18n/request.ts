@@ -1,15 +1,8 @@
 import { getRequestConfig } from "next-intl/server";
-import { hasLocale } from "next-intl";
-import { routing } from "./routing";
+import messages from "./messages/en.json";
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  const requested = await requestLocale;
-  const locale = hasLocale(routing.locales, requested)
-    ? requested
-    : routing.defaultLocale;
-
-  return {
-    locale,
-    messages: (await import(`./messages/${locale}.json`)).default,
-  };
-});
+/** The site is English-only. next-intl stays as the home of the UI copy
+ *  (messages/en.json, with ICU plurals and rich text), not for routing. The
+ *  fixed locale also keeps every page statically rendered: nothing reads the
+ *  request to decide which language to use. */
+export default getRequestConfig(async () => ({ locale: "en", messages }));
