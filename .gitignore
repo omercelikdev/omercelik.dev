@@ -32,12 +32,15 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
 
-# cloudflare
+# cloudflare — local Worker secrets live in .dev.vars
 .wrangler/
+.dev.vars*
+!.dev.vars.example
 
 # local agent settings (the shared .claude/launch.json is committed)
 .claude/settings.local.json

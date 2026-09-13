@@ -1,0 +1,11 @@
+# Local secrets for `npm run preview` (wrangler dev). Copy to .dev.vars —
+# which git ignores. Production secrets are set in Cloudflare, never here.
+
+# Cloudflare's test secret: always passes, and pairs with the test site key
+# (NEXT_PUBLIC_TURNSTILE_SITE_KEY in .env.local).
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+
+# Log the email instead of sending it, so no Resend key is needed locally.
+# Remove it and set RESEND_API_KEY to send a real test email.
+CONTACT_DRY_RUN=1
+# RESEND_API_KEY=re_...

@@ -1,10 +1,22 @@
 // Workers Builds config: the Next.js static export (`npm run build` → ./out)
-// served as Worker assets — the same setup as the *.qorpe.com sites.
+// served as Worker assets — the same setup as the *.qorpe.com sites — plus a
+// small script for the contact form (worker/). Only /api/* runs the script;
+// every other request is a static file.
 {
   "name": "omercelik-dev",
-  "compatibility_date": "2025-01-01",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "./out",
+    "binding": "ASSETS",
     "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"],
   },
+  // Secrets (RESEND_API_KEY, TURNSTILE_SECRET_KEY) are set in Cloudflare,
+  // not here — see README → Contact form.
+  "vars": {
+    "CONTACT_TO": "omer@omercelik.dev",
+    "CONTACT_FROM": "omercelik.dev <contact@mail.omercelik.dev>",
+  },
+  "observability": { "enabled": true },
 }
