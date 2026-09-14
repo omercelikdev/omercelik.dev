@@ -20,6 +20,19 @@ updates:
       dev-dependencies:
         dependency-type: development
         update-types: [minor, patch]
+    # Majors held on purpose. Each note says when to lift the hold.
+    ignore:
+      # Types follow the Node runtime (.nvmrc): move them with a Node upgrade.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # eslint-config-next's plugins don't run on ESLint 10 yet
+      # (eslint-plugin-react crashes). Lift once eslint-config-next supports it.
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      # typescript-eslint (via eslint-config-next) supports TypeScript < 6.1.
+      # Lift once it supports the next major.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /
