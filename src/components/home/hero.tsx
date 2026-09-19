@@ -3,23 +3,19 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { buttonClass } from "@/components/ui/button";
-import { Counter } from "@/components/motion/counter";
 import { Typewriter } from "@/components/motion/typewriter";
 import { HeroStack } from "@/components/home/hero-stack";
 import { profile } from "@/config/profile";
 import { site } from "@/config/site";
 
-const showTodo = process.env.NODE_ENV !== "production";
-
-/** One column, top to bottom: "I build" and what (typed), the explanation
- *  on one long line, the actions, three large proof tiles, and the golden
- *  path as a row of layers explained beside them. */
+/** Top to bottom: "I build" and what (typed), the explanation on one line,
+ *  the actions, then the golden path — the stack on the left, its layers
+ *  listed and explained on the right. */
 export async function Hero() {
   const t = await getTranslations("home");
   const phrases = t.raw("phrases") as string[];
   const lead = t("headlineLead");
   const longest = phrases.reduce((a, b) => (b.length > a.length ? b : a), "");
-  const facts = profile.facts.filter((f) => showTodo || !f.todo);
 
   return (
     <section className="relative overflow-hidden">
@@ -60,7 +56,7 @@ export async function Hero() {
         </h1>
 
         <div className="mt-6 flex flex-col gap-7">
-          <p className="intro max-w-4xl text-lead text-muted-foreground [animation-delay:140ms]">
+          <p className="intro text-lead text-muted-foreground [animation-delay:140ms]">
             {t("subtitle")}
           </p>
           <div className="intro flex flex-wrap items-center gap-3 [animation-delay:210ms]">
@@ -72,30 +68,7 @@ export async function Hero() {
               {t("ctaWritings")}
             </Link>
           </div>
-          <dl className="intro grid grid-cols-3 gap-3 [animation-delay:280ms] max-sm:grid-cols-1">
-            {facts.map((fact) => (
-              <div
-                key={fact.label}
-                className="flex min-h-[112px] flex-col justify-end gap-1 rounded-[var(--radius-xl)] border border-border p-5 transition-colors hover:border-foreground"
-              >
-                <dd className="text-h1 font-medium tabular-nums text-foreground">
-                  {fact.countTo !== undefined ? (
-                    <Counter to={fact.countTo} suffix={fact.suffix} />
-                  ) : (
-                    fact.value
-                  )}
-                </dd>
-                <dt className="text-caption text-muted-foreground">
-                  {fact.label}
-                  {fact.todo && (
-                    <span className="mono ms-1 text-faint">· todo</span>
-                  )}
-                </dt>
-              </div>
-            ))}
-          </dl>
-
-          <div className="intro mt-4 [animation-delay:340ms]">
+          <div className="intro mt-2 [animation-delay:280ms]">
             <HeroStack />
           </div>
         </div>

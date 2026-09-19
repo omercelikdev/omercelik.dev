@@ -18,10 +18,10 @@ export function ReadingShell({
 }) {
   return (
     <div
-      className={`mx-auto w-full max-w-[1180px] px-5 sm:px-7 ${PAGE_PADDING}`}
+      className={`mx-auto w-full max-w-[1080px] px-5 sm:px-7 ${PAGE_PADDING}`}
     >
       {before}
-      <div className="lg:grid lg:grid-cols-[minmax(0,42rem)_minmax(200px,224px)] lg:justify-center lg:gap-x-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)] xl:gap-x-14">
+      <div className="lg:grid lg:grid-cols-[minmax(0,42rem)_minmax(200px,224px)] lg:justify-center lg:gap-x-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,40rem)_minmax(0,1fr)] xl:gap-x-12">
         <article className="mx-auto min-w-0 max-w-2xl lg:mx-0 lg:max-w-none xl:col-start-2">
           {children}
         </article>

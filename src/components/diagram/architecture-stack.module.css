@@ -221,6 +221,76 @@
   opacity: 0.45;
 }
 
+/* ---- Hero: stack on the left, the layers listed on the right ---- */
+.hero {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 1024px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 40px;
+  }
+}
+.hero .legend {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.hero .legendItem {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 2px 8px;
+  padding: 12px 6px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-align: start;
+  text-transform: none;
+  color: var(--muted-foreground);
+}
+.hero .legendItem .legendIndex {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding-top: 3px;
+}
+.hero .legendLabel {
+  font-weight: 500;
+  color: var(--foreground);
+}
+.hero .legendDesc {
+  display: none;
+  grid-column: 2;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+.hero .legendItem[aria-pressed="true"] {
+  background: none;
+  color: var(--foreground);
+}
+.hero .legendItem[aria-pressed="true"] .legendLabel {
+  color: var(--brand-accent);
+}
+.hero .legendItem[aria-pressed="true"] .legendDesc {
+  display: block;
+}
+.hero .description {
+  max-width: none;
+  min-height: 0;
+  margin: 12px 0 0;
+  text-align: start;
+}
+.hero .description:empty {
+  display: none;
+}
+
 /* ---- Legend + description (below the stack) ---- */
 .legend {
   margin-top: 12px;
@@ -268,105 +338,6 @@
   line-height: 1.55;
   text-align: center;
   color: var(--muted-foreground);
-}
-
-/* ---- Row: the same layers, side by side ----
-   Same slabs, same tilt family, same focus behaviour; the layers sit along
-   the floor instead of on top of each other, and the focused one lifts
-   straight up. The description moves to a panel on the right. */
-.row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px;
-  grid-template-areas:
-    "scene panel"
-    "legend panel";
-  column-gap: 24px;
-  align-items: start;
-}
-.row .viewport {
-  --scale: 0.7;
-  --w: 186px;
-  --h: 132px;
-  --step: 202px;
-  grid-area: scene;
-  height: 190px;
-  justify-items: start;
-  perspective: 1800px;
-  perspective-origin: 0% 20%;
-}
-.row .scene {
-  width: calc(var(--n) * var(--step) - (var(--step) - var(--w)));
-  height: var(--h);
-  translate: 0 0;
-  transform: scale(var(--scale)) rotateX(46deg);
-  transform-origin: 0 50%;
-}
-.row .floor {
-  width: 1300px;
-  height: 320px;
-}
-.row .plate,
-.row .hit {
-  inset: auto;
-  top: 0;
-  left: calc(var(--i) * var(--step));
-  width: var(--w);
-  height: var(--h);
-  transform: none;
-}
-.row .face {
-  gap: 8px;
-  padding: 10px 12px;
-}
-.row .plate[data-state="above"],
-.row .plate[data-state="below"] {
-  translate: 0 0 0;
-}
-.row .plate[data-state="active"] {
-  translate: 0 -6px 26px;
-}
-.row .legend {
-  grid-area: legend;
-  justify-content: flex-start;
-  margin-top: 4px;
-}
-.row .description {
-  grid-area: panel;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-width: none;
-  margin: 0;
-  padding: 16px 18px;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  text-align: start;
-}
-.descriptionHead {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--foreground);
-}
-@media (max-width: 1023px) {
-  .row {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "scene"
-      "legend"
-      "panel";
-  }
-  .row .viewport {
-    --scale: 0.62;
-    height: 190px;
-  }
-}
-@media (max-width: 640px) {
-  .row .viewport {
-    --scale: 0.42;
-    height: 140px;
-  }
 }
 
 /* ---- Motion ---- */

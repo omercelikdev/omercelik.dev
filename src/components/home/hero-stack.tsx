@@ -125,7 +125,6 @@ export function HeroStack() {
 
   return (
     <ArchitectureStack
-      variant="row"
       layers={layers}
       description={t("stackDescription")}
       legendLabel={d("layers")}

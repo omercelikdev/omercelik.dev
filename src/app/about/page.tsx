@@ -80,6 +80,22 @@ export default async function AboutPage() {
               ))}
             </ul>
           </div>
+          <dl className="grid gap-2 border-t border-border pt-4">
+            <p className="mono text-caption text-faint">{t("glanceTitle")}</p>
+            {profile.facts
+              .filter((f) => showTodo || !f.todo)
+              .map((fact) => (
+                <div
+                  key={fact.label}
+                  className="flex items-baseline justify-between gap-3 text-ui"
+                >
+                  <dt className="text-muted-foreground">{fact.label}</dt>
+                  <dd className="font-medium tabular-nums text-foreground">
+                    {fact.value}
+                  </dd>
+                </div>
+              ))}
+          </dl>
           {profile.cvUrl && (
             <a href={profile.cvUrl} className={buttonClass("outline")}>
               <Download className="size-4" />

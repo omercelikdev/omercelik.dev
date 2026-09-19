@@ -40,7 +40,7 @@ export function StackScene({
   legendLabel: string;
   /** Shown under the stack while no layer is in focus. */
   idle?: ReactNode;
-  variant: "hero" | "inline" | "row";
+  variant: "hero" | "inline";
 }) {
   const n = plates.length;
   const [hovered, setHovered] = useState<number | null>(null);
@@ -59,32 +59,10 @@ export function StackScene({
     setPinned((prev) => (prev === i ? null : i));
   };
 
-  const mode =
-    variant === "hero"
-      ? styles.scrollSpread
-      : variant === "row"
-        ? styles.row
-        : `${styles.inline} ${styles.viewSpread}`;
-
-  // The row lays the layers side by side and explains the focused one in a
-  // panel beside them; the stacks explain it underneath.
-  const panel = (
-    <p className={styles.description} aria-live="polite">
-      {active !== null ? (
-        <>
-          <span className={styles.descriptionHead}>
-            <span className={styles.legendIndex}>
-              {String(active + 1).padStart(2, "0")}
-            </span>{" "}
-            {plates[active]?.label}
-          </span>
-          {plates[active]?.description}
-        </>
-      ) : (
-        idle
-      )}
-    </p>
-  );
+  const hero = variant === "hero";
+  const mode = hero
+    ? `${styles.hero} ${styles.scrollSpread}`
+    : `${styles.inline} ${styles.viewSpread}`;
 
   return (
     <div className={`${styles.figure} ${mode}`}>
@@ -137,29 +115,45 @@ export function StackScene({
         </div>
       </div>
 
-      <div className={styles.legend} role="group" aria-label={legendLabel}>
-        {plates.map((plate, i) => (
-          <button
-            key={i}
-            type="button"
-            className={styles.legendItem}
-            aria-pressed={active === i}
-            onPointerEnter={(e) => {
-              if (e.pointerType === "mouse") setHovered(i);
-            }}
-            onPointerLeave={() => setHovered(null)}
-            onFocus={() => setHovered(i)}
-            onBlur={() => setHovered(null)}
-            onClick={() => setPinned((prev) => (prev === i ? null : i))}
-          >
-            <span className={styles.legendIndex}>
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            {plate.label}
-          </button>
-        ))}
+      {/* In the hero the legend is a list beside the stack, and the focused
+          layer's description opens under its own entry; in an article the
+          legend is a row of pills with the description underneath. */}
+      <div className={styles.side}>
+        <div className={styles.legend} role="group" aria-label={legendLabel}>
+          {plates.map((plate, i) => (
+            <button
+              key={i}
+              type="button"
+              className={styles.legendItem}
+              aria-pressed={active === i}
+              onPointerEnter={(e) => {
+                if (e.pointerType === "mouse") setHovered(i);
+              }}
+              onPointerLeave={() => setHovered(null)}
+              onFocus={() => setHovered(i)}
+              onBlur={() => setHovered(null)}
+              onClick={() => setPinned((prev) => (prev === i ? null : i))}
+            >
+              <span className={styles.legendIndex}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className={styles.legendLabel}>{plate.label}</span>
+              {hero && (
+                <span className={styles.legendDesc}>{plate.description}</span>
+              )}
+            </button>
+          ))}
+        </div>
+        <p className={styles.description} aria-live="polite">
+          {hero
+            ? active === null
+              ? idle
+              : null
+            : active !== null
+              ? plates[active]?.description
+              : idle}
+        </p>
       </div>
-      {panel}
     </div>
   );
 }

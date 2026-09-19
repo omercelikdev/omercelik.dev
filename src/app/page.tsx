@@ -65,21 +65,6 @@ export default async function HomePage() {
           </Reveal>
         )}
 
-        {labs.length > 0 && (
-          <Reveal as="section" className="py-14 sm:py-16">
-            <SectionHead
-              title={t("labsTitle")}
-              intro={t("labsIntro")}
-              action={{ href: "/labs", label: t("allLabs") }}
-            />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {labs.map((lab) => (
-                <LabCard key={lab.slug} lab={lab} />
-              ))}
-            </div>
-          </Reveal>
-        )}
-
         <Reveal as="section" className="py-14 sm:py-16">
           <QorpeBand />
           <OpenSource featuredOnly action />
@@ -99,6 +84,21 @@ export default async function HomePage() {
               ))}
             </div>
             <NewsletterBox />
+          </Reveal>
+        )}
+
+        {labs.length > 0 && (
+          <Reveal as="section" className="py-14 sm:py-16">
+            <SectionHead
+              title={t("labsTitle")}
+              intro={t("labsIntro")}
+              action={{ href: "/labs", label: t("allLabs") }}
+            />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {labs.map((lab) => (
+                <LabCard key={lab.slug} lab={lab} />
+              ))}
+            </div>
           </Reveal>
         )}
       </Container>

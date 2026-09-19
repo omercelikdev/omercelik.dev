@@ -18,7 +18,7 @@
   },
   "home": {
     "role": "Software architect",
-    "headlineLead": "I build",
+    "headlineLead": "I build:",
     "phrases": [
       "enterprise .NET systems you can prove",
       "AI that works inside the guardrails",
@@ -86,9 +86,7 @@
     "role": "Role",
     "period": "Period",
     "stack": "Stack",
-    "onThisPage": "On this page",
-    "all": "All",
-    "filterLabel": "Filter by sector"
+    "onThisPage": "On this page"
   },
   "labs": {
     "title": "Labs",
@@ -98,9 +96,7 @@
     "readTheEssay": "The essay behind this demo",
     "topic": "Topic",
     "runsWhere": "Runs where",
-    "runsWhereText": "In your browser, on mock data. Nothing leaves the page.",
-    "all": "All",
-    "filterLabel": "Filter by topic"
+    "runsWhereText": "In your browser, on mock data. Nothing leaves the page."
   },
   "products": {
     "visitSite": "Visit site"
@@ -119,9 +115,7 @@
     "older": "Older",
     "copy": "Copy code",
     "copied": "Copied",
-    "writtenBy": "Written by",
-    "all": "All",
-    "filterLabel": "Filter by tag"
+    "writtenBy": "Written by"
   },
   "openSource": {
     "title": "Open source",
@@ -146,6 +140,7 @@
     "experienceTitle": "Experience",
     "toolboxTitle": "Toolbox",
     "elsewhereTitle": "Elsewhere",
+    "glanceTitle": "At a glance",
     "downloadCv": "Download CV (PDF)"
   },
   "contact": {
