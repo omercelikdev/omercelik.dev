@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
-import { WorkCard } from "@/components/work/work-card";
+import { WorkGrid } from "@/components/work/work-grid";
 import { QorpeBand } from "@/components/home/qorpe-band";
 import { getAllWork } from "@/lib/work";
 import { pageMetadata } from "@/lib/seo";
@@ -28,11 +28,11 @@ export default async function WorkPage() {
           {t("empty")}
         </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {work.map((item) => (
-            <WorkCard key={item.slug} work={item} />
-          ))}
-        </div>
+        <WorkGrid
+          work={work}
+          allLabel={t("all")}
+          filterLabel={t("filterLabel")}
+        />
       )}
       <div className="mt-16">
         <QorpeBand />

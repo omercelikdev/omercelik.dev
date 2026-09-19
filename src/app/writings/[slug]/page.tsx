@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft, ArrowRight, Clock, Layers } from "lucide-react";
-import { PAGE_PADDING } from "@/components/ui/page-header";
+import { RailSection, ReadingShell } from "@/components/layout/reading-shell";
 import { Label, TagLink } from "@/components/ui/badge";
 import { Comments } from "@/components/writings/comments";
 import { Toc } from "@/components/writings/toc";
@@ -66,120 +66,109 @@ export default async function WritingPage({
   const content = await renderMdx(post.content);
 
   return (
-    // Wider than the site's 1080px column: the reading column sits centred in
-    // the middle track, the table of contents in the right-hand margin.
-    <div
-      className={`mx-auto w-full max-w-[1280px] px-5 sm:px-7 ${PAGE_PADDING}`}
+    <ReadingShell
+      before={
+        <>
+          <div className="reading-progress" aria-hidden />
+          <JsonLd data={articleJsonLd(post)} />
+        </>
+      }
+      aside={
+        showToc ? (
+          <RailSection title={t("toc")}>
+            <Toc headings={headings} label={t("toc")} />
+          </RailSection>
+        ) : undefined
+      }
     >
-      <div className="reading-progress" aria-hidden />
-      <JsonLd data={articleJsonLd(post)} />
+      <Link
+        href="/writings"
+        className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="size-3.5" />
+        {t("backToList")}
+      </Link>
 
-      <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)] xl:gap-x-12">
-        <article className="mx-auto min-w-0 max-w-2xl xl:col-start-2 xl:mx-0 xl:max-w-none">
-          <Link
-            href="/writings"
-            className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ArrowLeft className="size-3.5" />
-            {t("backToList")}
-          </Link>
-
-          <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
-            {/* The interface is English; the piece is in its own language. */}
-            <h1
-              lang={post.lang}
-              className="font-serif text-h1 font-medium tracking-[-0.015em] text-balance"
-            >
-              {post.title}
-            </h1>
-            {post.description && (
-              <p lang={post.lang} className="text-lead text-muted-foreground">
-                {post.description}
-              </p>
-            )}
-            <div className="mono flex flex-wrap items-center gap-3 text-caption text-muted-foreground">
-              <time dateTime={post.date}>{dateLabel}</time>
-              <span className="text-faint">·</span>
-              <span className="inline-flex items-center gap-1">
-                <Clock className="size-3.5" aria-hidden />
-                {t("readingTime", { minutes: post.readingMinutes })}
-              </span>
-              <Label className="uppercase">{post.lang}</Label>
-            </div>
-            {post.tags && post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {post.tags.map((tag) => (
-                  <TagLink key={tag} tag={tag} />
-                ))}
-              </div>
-            )}
-          </header>
-
-          {post.series && seriesPosts.length > 1 && (
-            <nav className="mt-8 rounded-[var(--radius-xl)] border border-border p-5">
-              <div className="mono mb-3 flex items-center gap-2 text-meta uppercase tracking-wider text-faint">
-                <Layers className="size-3.5" aria-hidden />
-                {t("series")} · {post.series}
-              </div>
-              <ol className="flex flex-col gap-1.5">
-                {seriesPosts.map((p, i) => (
-                  <li
-                    key={p.slug}
-                    className="flex items-baseline gap-2.5 text-ui"
-                  >
-                    <span className="mono text-faint">{i + 1}.</span>
-                    {p.slug === post.slug ? (
-                      <span
-                        aria-current="page"
-                        className="font-medium text-foreground"
-                      >
-                        {p.title}
-                      </span>
-                    ) : (
-                      <Link
-                        href={`/writings/${p.slug}`}
-                        className="text-muted-foreground decoration-1 underline-offset-[5px] transition-colors hover:text-foreground hover:underline"
-                      >
-                        {p.title}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </nav>
-          )}
-
-          {showToc && (
-            <details className="mt-8 rounded-[var(--radius-xl)] border border-border px-5 py-4 xl:hidden">
-              <summary className="mono cursor-pointer text-meta uppercase tracking-wider text-faint">
-                {t("toc")}
-              </summary>
-              <Toc headings={headings} label={t("toc")} className="mt-4" />
-            </details>
-          )}
-
-          <div lang={post.lang} dir="auto" className="mt-2">
-            {content}
-          </div>
-
-          <AuthorCard />
-          <NewsletterBox />
-          <PostNav newer={adjacent.newer} older={adjacent.older} />
-          <Comments term={slug} lang="en" />
-        </article>
-
-        {showToc && (
-          <aside className="hidden xl:col-start-3 xl:block">
-            <div className="sticky top-24 max-w-56">
-              <p className="mono mb-3 text-meta uppercase tracking-wider text-faint">
-                {t("toc")}
-              </p>
-              <Toc headings={headings} label={t("toc")} />
-            </div>
-          </aside>
+      <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
+        {/* The interface is English; the piece is in its own language. */}
+        <h1
+          lang={post.lang}
+          className="font-serif text-h1 font-medium tracking-[-0.015em] text-balance"
+        >
+          {post.title}
+        </h1>
+        {post.description && (
+          <p lang={post.lang} className="text-lead text-muted-foreground">
+            {post.description}
+          </p>
         )}
+        <div className="mono flex flex-wrap items-center gap-3 text-caption text-muted-foreground">
+          <time dateTime={post.date}>{dateLabel}</time>
+          <span className="text-faint">·</span>
+          <span className="inline-flex items-center gap-1">
+            <Clock className="size-3.5" aria-hidden />
+            {t("readingTime", { minutes: post.readingMinutes })}
+          </span>
+          <Label className="uppercase">{post.lang}</Label>
+        </div>
+        {post.tags && post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {post.tags.map((tag) => (
+              <TagLink key={tag} tag={tag} />
+            ))}
+          </div>
+        )}
+      </header>
+
+      {post.series && seriesPosts.length > 1 && (
+        <nav className="mt-8 rounded-[var(--radius-xl)] border border-border p-5">
+          <div className="mono mb-3 flex items-center gap-2 text-meta uppercase tracking-wider text-faint">
+            <Layers className="size-3.5" aria-hidden />
+            {t("series")} · {post.series}
+          </div>
+          <ol className="flex flex-col gap-1.5">
+            {seriesPosts.map((p, i) => (
+              <li key={p.slug} className="flex items-baseline gap-2.5 text-ui">
+                <span className="mono text-faint">{i + 1}.</span>
+                {p.slug === post.slug ? (
+                  <span
+                    aria-current="page"
+                    className="font-medium text-foreground"
+                  >
+                    {p.title}
+                  </span>
+                ) : (
+                  <Link
+                    href={`/writings/${p.slug}`}
+                    className="text-muted-foreground decoration-1 underline-offset-[5px] transition-colors hover:text-foreground hover:underline"
+                  >
+                    {p.title}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+
+      {showToc && (
+        <details className="mt-8 rounded-[var(--radius-xl)] border border-border px-5 py-4 lg:hidden">
+          <summary className="mono cursor-pointer text-meta uppercase tracking-wider text-faint">
+            {t("toc")}
+          </summary>
+          <Toc headings={headings} label={t("toc")} className="mt-4" />
+        </details>
+      )}
+
+      <div lang={post.lang} dir="auto" className="mt-2">
+        {content}
       </div>
-    </div>
+
+      <AuthorCard />
+      <NewsletterBox />
+      <PostNav newer={adjacent.newer} older={adjacent.older} />
+      <Comments term={slug} lang="en" />
+    </ReadingShell>
   );
 }
 

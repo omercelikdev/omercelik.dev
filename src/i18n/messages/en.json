@@ -80,14 +80,21 @@
     "role": "Role",
     "period": "Period",
     "stack": "Stack",
-    "onThisPage": "On this page"
+    "onThisPage": "On this page",
+    "all": "All",
+    "filterLabel": "Filter by sector"
   },
   "labs": {
     "title": "Labs",
     "subtitle": "Small, runnable ideas. Everything runs in your browser on mock data; nothing leaves the page. Each lab belongs to an essay or a case study.",
     "empty": "No demos yet.",
     "backToList": "All demos",
-    "readTheEssay": "The essay behind this demo:"
+    "readTheEssay": "The essay behind this demo",
+    "topic": "Topic",
+    "runsWhere": "Runs where",
+    "runsWhereText": "In your browser, on mock data. Nothing leaves the page.",
+    "all": "All",
+    "filterLabel": "Filter by topic"
   },
   "products": {
     "visitSite": "Visit site"

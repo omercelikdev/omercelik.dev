@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
-import { PAGE_PADDING } from "@/components/ui/page-header";
+import { RailSection, ReadingShell } from "@/components/layout/reading-shell";
 import { Tag } from "@/components/ui/badge";
 import { Counter } from "@/components/motion/counter";
 import { LabCard } from "@/components/labs/lab-card";
@@ -52,86 +52,82 @@ export default async function WorkStudyPage({
   const headings = extractHeadings(work.content);
 
   return (
-    <div
-      className={`mx-auto w-full max-w-[1280px] px-5 sm:px-7 ${PAGE_PADDING}`}
-    >
-      <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,42rem)_minmax(0,1fr)] xl:gap-x-12">
-        <article className="mx-auto min-w-0 max-w-2xl xl:col-start-2 xl:mx-0 xl:max-w-none">
-          <Link
-            href="/work"
-            className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <ArrowLeft className="size-3.5" />
-            {t("backToList")}
-          </Link>
-
-          <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
-            <p className="mono text-caption text-faint">
-              {work.sector} · {work.period}
-            </p>
-            <h1 className="text-h1 font-medium text-balance">{work.title}</h1>
-            <p className="text-lead text-muted-foreground">{work.summary}</p>
-            {work.outcomes && work.outcomes.length > 0 && (
-              <dl className="flex flex-wrap gap-6 pt-2">
-                {work.outcomes.map((o) => (
-                  <div key={o.label} className="flex flex-col">
-                    <dd className="text-h2 font-medium tabular-nums text-foreground">
-                      {o.countTo !== undefined ? (
-                        <Counter
-                          to={o.countTo}
-                          suffix={o.value.replace(/^[\d.]+/, "")}
-                        />
-                      ) : (
-                        o.value
-                      )}
-                    </dd>
-                    <dt className="text-caption text-muted-foreground">
-                      {o.label}
-                    </dt>
-                  </div>
+    <ReadingShell
+      aside={
+        <>
+          <dl className="flex flex-col gap-2 rounded-[var(--radius-xl)] border border-border p-4 text-ui">
+            <Fact label={t("sector")}>{work.sector}</Fact>
+            <Fact label={t("role")}>{work.role}</Fact>
+            <Fact label={t("period")}>{work.period}</Fact>
+            <div>
+              <dt className="text-caption text-muted-foreground">
+                {t("stack")}
+              </dt>
+              <dd className="mt-1.5 flex flex-wrap gap-1.5">
+                {work.stack.map((s) => (
+                  <Tag key={s}>{s}</Tag>
                 ))}
-              </dl>
-            )}
-          </header>
-
-          <div className="mt-2">{content}</div>
-
-          {labs.length > 0 && (
-            <section className="mt-14">
-              <h2 className="mb-4 text-h3 font-medium">{t("tryIt")}</h2>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {labs.map((lab) => (
-                  <LabCard key={lab.slug} lab={lab} />
-                ))}
-              </div>
-            </section>
-          )}
-        </article>
-
-        <aside className="mt-10 xl:col-start-3 xl:mt-0">
-          <div className="sticky top-24 flex max-w-64 flex-col gap-6">
-            <dl className="flex flex-col gap-2 rounded-[var(--radius-xl)] border border-border p-4 text-ui">
-              <Fact label={t("sector")}>{work.sector}</Fact>
-              <Fact label={t("role")}>{work.role}</Fact>
-              <Fact label={t("period")}>{work.period}</Fact>
-              <div>
-                <dt className="text-caption text-muted-foreground">
-                  {t("stack")}
-                </dt>
-                <dd className="mt-1.5 flex flex-wrap gap-1.5">
-                  {work.stack.map((s) => (
-                    <Tag key={s}>{s}</Tag>
-                  ))}
-                </dd>
-              </div>
-            </dl>
-            {headings.length > 1 && (
+              </dd>
+            </div>
+          </dl>
+          {headings.length > 1 && (
+            <RailSection title={t("onThisPage")}>
               <Toc headings={headings} label={t("onThisPage")} />
-            )}
+            </RailSection>
+          )}
+        </>
+      }
+    >
+      <Link
+        href="/work"
+        className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="size-3.5" />
+        {t("backToList")}
+      </Link>
+
+      <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
+        <p className="mono text-caption text-faint">
+          {work.sector} · {work.period}
+        </p>
+        <h1 className="text-h1 font-medium text-balance">{work.title}</h1>
+        <p className="text-lead text-muted-foreground">{work.summary}</p>
+        {work.outcomes && work.outcomes.length > 0 && (
+          <dl className="flex flex-wrap gap-6 pt-2">
+            {work.outcomes.map((o) => (
+              <div key={o.label} className="flex flex-col">
+                <dd className="text-h2 font-medium tabular-nums text-foreground">
+                  {o.countTo !== undefined ? (
+                    <Counter
+                      to={o.countTo}
+                      suffix={o.value.replace(/^[\d.]+/, "")}
+                    />
+                  ) : (
+                    o.value
+                  )}
+                </dd>
+                <dt className="text-caption text-muted-foreground">
+                  {o.label}
+                </dt>
+              </div>
+            ))}
+          </dl>
+        )}
+      </header>
+
+      <div className="mt-2">{content}</div>
+
+      {labs.length > 0 && (
+        <section className="mt-14">
+          <h2 className="mb-4 text-h3 font-medium">{t("tryIt")}</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {labs.map((lab) => (
+              <LabCard key={lab.slug} lab={lab} />
+            ))}
           </div>
-        </aside>
-      </div>
-    </div>
+        </section>
+      )}
+    </ReadingShell>
   );
 }
 

@@ -23,7 +23,7 @@ export async function Hero() {
       </div>
 
       <Container className="pt-12 pb-6 sm:pt-16">
-        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,500px)] lg:gap-10">
+        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,460px)] lg:gap-10">
           <div className="flex flex-col gap-6">
             <div className="intro flex items-center gap-3">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -44,7 +44,7 @@ export async function Hero() {
               </p>
             </div>
 
-            <h1 className="intro text-display font-medium text-balance [animation-delay:70ms]">
+            <h1 className="intro max-w-xl text-display font-medium text-pretty [animation-delay:70ms]">
               {t("thesis")}
             </h1>
 

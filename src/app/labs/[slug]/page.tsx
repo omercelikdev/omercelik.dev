@@ -3,8 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
-import { Container } from "@/components/layout/container";
-import { PAGE_PADDING } from "@/components/ui/page-header";
+import { RailSection, ReadingShell } from "@/components/layout/reading-shell";
 import { TagLink } from "@/components/ui/badge";
 import { DemoFrame } from "@/components/labs/demo-frame";
 import { renderMdx } from "@/lib/mdx";
@@ -49,49 +48,55 @@ export default async function LabPage({
   ]);
 
   return (
-    <Container className={PAGE_PADDING}>
-      <div className="mx-auto max-w-3xl">
-        <Link
-          href="/labs"
-          className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <ArrowLeft className="size-3.5" />
-          {t("backToList")}
-        </Link>
-
-        <header className="intro mt-6 flex flex-col gap-3">
-          <h1 className="text-h1 font-medium text-balance">{lab.title}</h1>
-          <p className="text-lead text-muted-foreground">{lab.summary}</p>
-          {lab.tags && lab.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {lab.tags.map((tag) => (
-                <TagLink key={tag} tag={tag} />
-              ))}
-            </div>
+    <ReadingShell
+      aside={
+        <>
+          {lab.topic && (
+            <RailSection title={t("topic")}>
+              <p className="text-ui text-foreground">{lab.topic}</p>
+            </RailSection>
           )}
-        </header>
+          {writing && (
+            <RailSection title={t("readTheEssay")}>
+              <Link
+                href={`/writings/${writing.slug}`}
+                className="text-ui font-medium text-foreground underline decoration-border underline-offset-[5px] transition-colors hover:decoration-foreground"
+              >
+                {writing.title}
+              </Link>
+            </RailSection>
+          )}
+          <RailSection title={t("runsWhere")}>
+            <p className="text-ui text-muted-foreground">
+              {t("runsWhereText")}
+            </p>
+          </RailSection>
+        </>
+      }
+    >
+      <Link
+        href="/labs"
+        className="inline-flex items-center gap-1.5 text-ui font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="size-3.5" />
+        {t("backToList")}
+      </Link>
 
-        <DemoFrame
-          slug={lab.slug}
-          title={lab.title}
-          summary={lab.summary}
-          open
-        />
-
-        <div className="max-w-2xl">{notes}</div>
-
-        {writing && (
-          <p className="mt-10 border-t border-border pt-6 text-ui text-muted-foreground">
-            {t("readTheEssay")}{" "}
-            <Link
-              href={`/writings/${writing.slug}`}
-              className="font-medium text-foreground underline decoration-border underline-offset-[5px] transition-colors hover:decoration-foreground"
-            >
-              {writing.title}
-            </Link>
-          </p>
+      <header className="intro mt-6 flex flex-col gap-3">
+        <h1 className="text-h1 font-medium text-balance">{lab.title}</h1>
+        <p className="text-lead text-muted-foreground">{lab.summary}</p>
+        {lab.tags && lab.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5">
+            {lab.tags.map((tag) => (
+              <TagLink key={tag} tag={tag} />
+            ))}
+          </div>
         )}
-      </div>
-    </Container>
+      </header>
+
+      <DemoFrame slug={lab.slug} title={lab.title} summary={lab.summary} open />
+
+      <div>{notes}</div>
+    </ReadingShell>
   );
 }

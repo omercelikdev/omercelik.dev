@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
-import { LabCard } from "@/components/labs/lab-card";
+import { LabsGrid } from "@/components/labs/labs-grid";
 import { getAllLabs } from "@/lib/labs";
 import { pageMetadata } from "@/lib/seo";
 
@@ -27,11 +27,11 @@ export default async function LabsPage() {
           {t("empty")}
         </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {labs.map((lab) => (
-            <LabCard key={lab.slug} lab={lab} />
-          ))}
-        </div>
+        <LabsGrid
+          labs={labs}
+          allLabel={t("all")}
+          filterLabel={t("filterLabel")}
+        />
       )}
     </Container>
   );
