@@ -22,6 +22,8 @@ export interface LabFrontmatter {
   tags?: string[];
   /** Which practice it demonstrates ("quality", "spec", "orchestration"…). */
   topic?: string;
+  /** The little picture on the card: a flow, bars or a process. */
+  preview?: "flow" | "bars" | "process" | "gate";
   /** The essay that explains it, by slug. */
   writing?: string;
   draft?: boolean;

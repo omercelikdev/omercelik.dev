@@ -5,6 +5,7 @@ import { SectionHead } from "@/components/ui/section";
 import { Hero } from "@/components/home/hero";
 import { Practice } from "@/components/home/practice";
 import { QorpeBand } from "@/components/home/qorpe-band";
+import { OpenSource } from "@/components/products/open-source";
 import { WorkCard } from "@/components/work/work-card";
 import { LabCard } from "@/components/labs/lab-card";
 import { PostRow } from "@/components/writings/post-row";
@@ -79,7 +80,10 @@ export default async function HomePage() {
           </Reveal>
         )}
 
-        <QorpeBand />
+        <Reveal as="section" className="py-14 sm:py-16">
+          <QorpeBand />
+          <OpenSource featuredOnly action />
+        </Reveal>
 
         {(featured || writings.length > 0) && (
           <Reveal as="section" className="py-14 sm:py-16">

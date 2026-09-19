@@ -6,12 +6,17 @@ import { type ReactNode } from "react";
 export function Container({
   children,
   className = "",
+  narrow = false,
 }: {
   children: ReactNode;
   className?: string;
+  /** List pages: a centred 56rem column instead of the full width. */
+  narrow?: boolean;
 }) {
   return (
-    <div className={`mx-auto w-full max-w-[1080px] px-5 sm:px-7 ${className}`}>
+    <div
+      className={`mx-auto w-full px-5 sm:px-7 ${narrow ? "max-w-[calc(56rem+3.5rem)]" : "max-w-[1080px]"} ${className}`}
+    >
       {children}
     </div>
   );

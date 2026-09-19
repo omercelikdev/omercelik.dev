@@ -33,7 +33,7 @@ export function Footer() {
           <span className="mono text-body">
             omercelik<span className="text-brand-accent">.dev</span>
           </span>
-          <p className="max-w-xs text-ui text-muted-foreground">
+          <p className="max-w-lg text-ui text-muted-foreground">
             {t("tagline")}
           </p>
           <a

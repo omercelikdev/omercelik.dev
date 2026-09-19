@@ -32,7 +32,7 @@ export function ArchitectureStack({
   legendLabel: string;
   /** Shown under the stack while no layer is in focus. */
   idle?: ReactNode;
-  variant?: "hero" | "inline";
+  variant?: "hero" | "inline" | "row";
 }) {
   const plates = layers.map((layer, i) => ({
     label: layer.label,

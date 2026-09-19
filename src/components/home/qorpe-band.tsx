@@ -1,17 +1,13 @@
 import { ArrowUpRight } from "lucide-react";
-import { ProductCard } from "@/components/products/product-card";
 import { features } from "@/config/features";
-import { getFeaturedProducts } from "@/lib/github";
 
 /** Products by Qorpe — behind `features.qorpe`. Returns nothing while the
  *  flag is off, so the static build never fetches from GitHub for it. */
 export async function QorpeBand() {
   if (!features.qorpe) return null;
-  const products = await getFeaturedProducts();
-  if (products.length === 0) return null;
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="mb-6 flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-xl)] border border-border p-5">
         <div>
           <p className="text-body font-medium text-foreground">
@@ -30,11 +26,6 @@ export async function QorpeBand() {
         >
           qorpe.com <ArrowUpRight className="size-3.5" />
         </a>
-      </div>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {products.map((product) => (
-          <ProductCard key={product.fullName} product={product} />
-        ))}
       </div>
     </div>
   );

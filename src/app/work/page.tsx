@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { WorkGrid } from "@/components/work/work-grid";
 import { QorpeBand } from "@/components/home/qorpe-band";
+import { OpenSource } from "@/components/products/open-source";
 import { getAllWork } from "@/lib/work";
 import { pageMetadata } from "@/lib/seo";
 
@@ -21,7 +22,7 @@ export default async function WorkPage() {
   const work = await getAllWork();
 
   return (
-    <Container className={PAGE_PADDING}>
+    <Container className={PAGE_PADDING} narrow>
       <PageHeader title={t("title")} subtitle={t("subtitle")} />
       {work.length === 0 ? (
         <p className="border-t border-border py-16 text-center text-ui text-muted-foreground">
@@ -34,8 +35,9 @@ export default async function WorkPage() {
           filterLabel={t("filterLabel")}
         />
       )}
-      <div className="mt-16">
+      <div className="mt-16 flex flex-col gap-10">
         <QorpeBand />
+        <OpenSource />
       </div>
     </Container>
   );

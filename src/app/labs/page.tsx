@@ -20,7 +20,7 @@ export default async function LabsPage() {
   const labs = await getAllLabs();
 
   return (
-    <Container className={PAGE_PADDING}>
+    <Container className={PAGE_PADDING} narrow>
       <PageHeader title={t("title")} subtitle={t("subtitle")} />
       {labs.length === 0 ? (
         <p className="border-t border-border py-16 text-center text-ui text-muted-foreground">

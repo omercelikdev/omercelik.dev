@@ -40,7 +40,7 @@ export function StackScene({
   legendLabel: string;
   /** Shown under the stack while no layer is in focus. */
   idle?: ReactNode;
-  variant: "hero" | "inline";
+  variant: "hero" | "inline" | "row";
 }) {
   const n = plates.length;
   const [hovered, setHovered] = useState<number | null>(null);
@@ -62,7 +62,29 @@ export function StackScene({
   const mode =
     variant === "hero"
       ? styles.scrollSpread
-      : `${styles.inline} ${styles.viewSpread}`;
+      : variant === "row"
+        ? styles.row
+        : `${styles.inline} ${styles.viewSpread}`;
+
+  // The row lays the layers side by side and explains the focused one in a
+  // panel beside them; the stacks explain it underneath.
+  const panel = (
+    <p className={styles.description} aria-live="polite">
+      {active !== null ? (
+        <>
+          <span className={styles.descriptionHead}>
+            <span className={styles.legendIndex}>
+              {String(active + 1).padStart(2, "0")}
+            </span>{" "}
+            {plates[active]?.label}
+          </span>
+          {plates[active]?.description}
+        </>
+      ) : (
+        idle
+      )}
+    </p>
+  );
 
   return (
     <div className={`${styles.figure} ${mode}`}>
@@ -137,9 +159,7 @@ export function StackScene({
           </button>
         ))}
       </div>
-      <p className={styles.description}>
-        {active !== null ? plates[active]?.description : idle}
-      </p>
+      {panel}
     </div>
   );
 }

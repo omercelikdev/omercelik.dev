@@ -18,7 +18,13 @@
   },
   "home": {
     "role": "Software architect",
-    "thesis": "AI-era enterprise .NET systems you can prove.",
+    "headlineLead": "I build",
+    "phrases": [
+      "enterprise .NET systems you can prove",
+      "AI that works inside the guardrails",
+      "orchestration that carries real load",
+      "test strategy that holds"
+    ],
     "subtitle": "Architecture, workflow orchestration and test strategy for platforms that carry real load — and AI that works inside the guardrails, not around them: spec-driven generation, deterministic gates, evidence over promises.",
     "ctaWork": "See the work",
     "ctaWritings": "Read the writing",
@@ -113,7 +119,14 @@
     "older": "Older",
     "copy": "Copy code",
     "copied": "Copied",
-    "writtenBy": "Written by"
+    "writtenBy": "Written by",
+    "all": "All",
+    "filterLabel": "Filter by tag"
+  },
+  "openSource": {
+    "title": "Open source",
+    "intro": "The code behind the practice, on GitHub.",
+    "all": "All repositories"
   },
   "newsletter": {
     "title": "From Intent to Proof",

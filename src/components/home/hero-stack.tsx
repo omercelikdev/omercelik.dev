@@ -48,8 +48,8 @@ function Lines({
   );
 }
 
-/** The hero's stack: a golden path from spec to runtime, each layer showing
- *  what lives there and explained below while it's in focus. */
+/** The hero's golden path, layer by layer in a row, each layer showing what
+ *  lives there and explained beside it while in focus. */
 export function HeroStack() {
   const t = useTranslations("home");
   const d = useTranslations("diagram");
@@ -125,6 +125,7 @@ export function HeroStack() {
 
   return (
     <ArchitectureStack
+      variant="row"
       layers={layers}
       description={t("stackDescription")}
       legendLabel={d("layers")}

@@ -18,7 +18,7 @@ export function Segmented<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className="inline-flex flex-wrap gap-0.5 rounded-[var(--radius-lg)] border border-border p-0.5"
+      className="inline-flex w-fit flex-wrap gap-0.5 self-start rounded-[var(--radius-lg)] border border-border p-0.5"
     >
       {options.map((option) => {
         const on = option.value === value;

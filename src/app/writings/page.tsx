@@ -3,8 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { Rss } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
-import { PostRow } from "@/components/writings/post-row";
-import { TagLink } from "@/components/ui/badge";
+import { WritingsList } from "@/components/writings/writings-list";
+import { NewsletterBox } from "@/components/writings/newsletter-box";
 import { getAllTags, getAllWritings } from "@/lib/writings";
 import { pageMetadata } from "@/lib/seo";
 
@@ -22,20 +22,15 @@ export default async function WritingsPage() {
   const [posts, tags] = await Promise.all([getAllWritings(), getAllTags()]);
 
   return (
-    <Container className={PAGE_PADDING}>
+    <Container className={PAGE_PADDING} narrow>
       <PageHeader title={t("title")} subtitle={t("subtitle")}>
-        <div className="mt-4 flex flex-wrap items-center gap-1.5">
-          {tags.map(({ tag }) => (
-            <TagLink key={tag} tag={tag} />
-          ))}
-          <a
-            href="/feed.xml"
-            className="mono ms-auto inline-flex items-center gap-1.5 text-caption text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Rss className="size-3.5" />
-            {t("rss")}
-          </a>
-        </div>
+        <a
+          href="/feed.xml"
+          className="mono inline-flex w-fit items-center gap-1.5 text-caption text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <Rss className="size-3.5" />
+          {t("rss")}
+        </a>
       </PageHeader>
 
       {posts.length === 0 ? (
@@ -43,12 +38,14 @@ export default async function WritingsPage() {
           {t("empty")}
         </p>
       ) : (
-        <div className="border-t border-border">
-          {posts.map((post) => (
-            <PostRow key={post.slug} post={post} />
-          ))}
-        </div>
+        <WritingsList
+          posts={posts}
+          tags={tags}
+          allLabel={t("all")}
+          filterLabel={t("filterLabel")}
+        />
       )}
+      <NewsletterBox />
     </Container>
   );
 }
