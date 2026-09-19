@@ -10,7 +10,7 @@ export function GET() {
     <OgCard
       eyebrow="Software engineer"
       title={site.name}
-      subtitle="Open-source developer infrastructure: AI-native, spec-driven golden paths and composable .NET libraries."
+      subtitle="Software architect. AI-era enterprise .NET systems you can prove."
       footer="Essays · Products · omercelik.dev"
     />,
     OG_SIZE,

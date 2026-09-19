@@ -1,0 +1,44 @@
+---
+title: "Service orchestration platform in the telco domain"
+summary: "One platform to run VPN, VM and security service processes end to end — auditable state, no silent failures."
+sector: "Telco"
+role: "Lead / architect"
+period: "2024 — now"
+date: "2026-09-01"
+stack: [".NET", "Camunda", "Kafka", "PostgreSQL", "Vue 3", "OpenShift"]
+outcomes:
+  - { value: "3", label: "product lines", countTo: 3 }
+  - { value: "C7 → C8", label: "migration path" }
+  - { value: "0", label: "silent CI failures", countTo: 0 }
+labs: ["workflow-stepper"]
+featured: true
+---
+
+## Context
+
+Three product lines, dozens of downstream systems, regulated change windows.
+The legacy flow lived in code nobody could read end to end, and a failed step
+could leave an order half-provisioned without anyone noticing.
+
+## Decision
+
+Treat the process as a first-class artifact: BPMN in an engine, every side
+effect an event on a log, .NET services behind stable contracts, and a trace
+id that follows an order through every hop.
+
+<Flow
+  title="An order, end to end"
+  steps="Order: API · validated | Process: BPMN, auditable state | Integrate: events on Kafka | Verify: contract + E2E | Observe: OpenTelemetry"
+  notes="The order arrives validated against the contract. | The engine runs the process; state is auditable at every node. | Every side effect is an event; consumers own their pace. | Contract tests and generated E2E gate the deploy. | Traces tie the order to every hop in production."
+/>
+
+<Demo id="workflow-stepper" />
+
+## Outcome
+
+Numbers go here: lead time, defect rate, migration scope — anonymised where
+the contract requires.
+
+## What I'd do differently
+
+One paragraph, honest.

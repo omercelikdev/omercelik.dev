@@ -1,7 +1,7 @@
 /* ============================================================================
    DESIGN TOKENS — single source of truth
    ----------------------------------------------------------------------------
-   Vercel / Linear aesthetic: OKLCH monochrome, white light background,
+   OKLCH monochrome: white in light mode, navy-black in dark,
    hairline borders, NO elevation (depth reads from borders, not shadows).
    One brand accent (--brand-accent) used sparingly (the ".dev" mark, links).
    Swap the ramp below to re-skin the whole site.
@@ -71,9 +71,9 @@
 }
 
 :root[data-theme="dark"] {
-  --app: oklch(0.141 0.005 285.823);
-  --surface: oklch(0.141 0.005 285.823);
-  --background: oklch(0.185 0.006 285.9);
+  --app: oklch(0.15 0.012 265);
+  --surface: oklch(0.15 0.012 265);
+  --background: oklch(0.19 0.012 265);
   --foreground: oklch(0.985 0 0);
   --muted: oklch(0.274 0.006 286.033);
   --muted-foreground: oklch(0.705 0.015 286.067);
@@ -110,9 +110,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --app: oklch(0.141 0.005 285.823);
-    --surface: oklch(0.141 0.005 285.823);
-    --background: oklch(0.185 0.006 285.9);
+    --app: oklch(0.15 0.012 265);
+    --surface: oklch(0.15 0.012 265);
+    --background: oklch(0.19 0.012 265);
     --foreground: oklch(0.985 0 0);
     --muted: oklch(0.274 0.006 286.033);
     --muted-foreground: oklch(0.705 0.015 286.067);

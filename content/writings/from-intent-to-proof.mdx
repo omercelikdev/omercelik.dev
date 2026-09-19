@@ -1,0 +1,57 @@
+---
+title: "From intent to proof"
+description: "What's left for engineers when the code is cheap: saying precisely what you want, and proving you got it."
+date: "2026-09-20"
+lang: "en"
+tags: ["manifesto", "spec-driven", "quality", "ai"]
+featured: true
+draft: true
+---
+
+> Draft. The structure is final; the words are not.
+
+AI can write the code now. Two things it cannot do for you: state your intent
+precisely, and prove the result is right. Value moved to the edges — and that
+is where I work.
+
+## The path of a change
+
+<Flow
+  title="The path of a change"
+  steps="Manifest: intent, versioned | Contracts: OpenAPI · AsyncAPI | Code: generated + human | Gate: drift · contract tests | Deploy: traced in prod | Evidence: back to the manifest"
+  notes="Intent is written down first, versioned with the code. | Contracts are derived from the manifest, never hand-edited. | Code is generated and completed by people; the manifest still rules. | The gate: deterministic checks, no model in the loop. Fail → back to code. | Deploy carries a trace id that links every hop to the order. | Evidence flows back: what production saw becomes the next manifest change."
+/>
+
+The gate is the interesting part. It is deterministic: no model decides
+whether the code still matches the manifest, a checker does. Try it.
+
+<Demo id="spec-drift" />
+
+## Two edges
+
+<Compare
+  beforeTitle="Before"
+  afterTitle="Intent → proof"
+  before="Spec in someone's head | Tests written last | Trust by review"
+  after="Manifest as the source of truth | Gates that can't be bypassed silently | Trust by evidence"
+/>
+
+## Seven principles
+
+Each one is a rule I can be held to.
+
+1. Intent is the product; code is a by-product.
+2. A spec you can't check is a wish.
+3. Tests are a contract with the future.
+4. AI works inside the guardrails, not around them.
+5. Make the right thing the default.
+6. Proof over promises.
+7. Humans own decisions; tools own repetition.
+
+## Where this fails
+
+One honest section.
+
+## What to do Monday
+
+Three concrete moves.

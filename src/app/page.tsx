@@ -3,13 +3,16 @@ import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/container";
 import { SectionHead } from "@/components/ui/section";
 import { Hero } from "@/components/home/hero";
-import { Capabilities } from "@/components/home/capabilities";
-import { CtaBand } from "@/components/home/cta-band";
-import { ProductCard } from "@/components/products/product-card";
+import { Practice } from "@/components/home/practice";
+import { QorpeBand } from "@/components/home/qorpe-band";
+import { WorkCard } from "@/components/work/work-card";
+import { LabCard } from "@/components/labs/lab-card";
 import { PostRow } from "@/components/writings/post-row";
 import { FeaturedPost } from "@/components/writings/featured-post";
+import { NewsletterBox } from "@/components/writings/newsletter-box";
 import { Reveal } from "@/components/motion/reveal";
-import { getFeaturedProducts } from "@/lib/github";
+import { getFeaturedWork } from "@/lib/work";
+import { getLatestLabs } from "@/lib/labs";
 import { getLatestWritings } from "@/lib/writings";
 import { pageMetadata } from "@/lib/seo";
 
@@ -23,14 +26,16 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+/** Thesis → proof → practice → work → labs → writing. Each section reveals
+ *  as one block; cards inside don't animate on their own. */
 export default async function HomePage() {
   const t = await getTranslations("home");
 
-  const [products, latest] = await Promise.all([
-    getFeaturedProducts(),
+  const [work, labs, latest] = await Promise.all([
+    getFeaturedWork(2),
+    getLatestLabs(3),
     getLatestWritings(5),
   ]);
-  // A featured essay leads the section; the list below skips it.
   const featured = latest.find((post) => post.featured) ?? null;
   const writings = latest.filter((post) => post !== featured).slice(0, 4);
 
@@ -39,61 +44,60 @@ export default async function HomePage() {
       <Hero />
 
       <Container>
-        {/* 01 — what I do */}
-        <section className="py-14 sm:py-16">
-          <Reveal>
-            <SectionHead index="01" label={t("sec1")} />
-          </Reveal>
-          <Capabilities />
-        </section>
+        <Reveal as="section" className="py-14 sm:py-16">
+          <SectionHead title={t("practiceTitle")} intro={t("practiceIntro")} />
+          <Practice />
+        </Reveal>
 
-        {/* 02 — products */}
-        {products.length > 0 && (
-          <section className="py-14 sm:py-16">
-            <Reveal>
-              <SectionHead
-                index="02"
-                label={t("sec2")}
-                action={{ href: "/products", label: t("viewAll") }}
-              />
-            </Reveal>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <Reveal key={product.fullName}>
-                  <ProductCard product={product} />
-                </Reveal>
+        {work.length > 0 && (
+          <Reveal as="section" className="py-14 sm:py-16">
+            <SectionHead
+              title={t("workTitle")}
+              intro={t("workIntro")}
+              action={{ href: "/work", label: t("allWork") }}
+            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              {work.map((item) => (
+                <WorkCard key={item.slug} work={item} />
               ))}
             </div>
-          </section>
+          </Reveal>
         )}
 
-        {/* 03 — writing */}
+        {labs.length > 0 && (
+          <Reveal as="section" className="py-14 sm:py-16">
+            <SectionHead
+              title={t("labsTitle")}
+              intro={t("labsIntro")}
+              action={{ href: "/labs", label: t("allLabs") }}
+            />
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {labs.map((lab) => (
+                <LabCard key={lab.slug} lab={lab} />
+              ))}
+            </div>
+          </Reveal>
+        )}
+
+        <QorpeBand />
+
         {(featured || writings.length > 0) && (
-          <section className="py-14 sm:py-16">
-            <Reveal>
-              <SectionHead
-                index="03"
-                label={t("sec3")}
-                action={{ href: "/writings", label: t("viewAll") }}
-              />
-            </Reveal>
-            {featured && (
-              <Reveal>
-                <FeaturedPost post={featured} />
-              </Reveal>
-            )}
+          <Reveal as="section" className="py-14 sm:py-16">
+            <SectionHead
+              title={t("writingTitle")}
+              intro={t("writingIntro")}
+              action={{ href: "/writings", label: t("allWriting") }}
+            />
+            {featured && <FeaturedPost post={featured} />}
             <div>
               {writings.map((post) => (
-                <Reveal key={post.slug}>
-                  <PostRow post={post} />
-                </Reveal>
+                <PostRow key={post.slug} post={post} />
               ))}
             </div>
-          </section>
+            <NewsletterBox />
+          </Reveal>
         )}
       </Container>
-
-      <CtaBand />
     </>
   );
 }

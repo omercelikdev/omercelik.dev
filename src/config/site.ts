@@ -11,6 +11,8 @@ export const site = {
     x: "https://x.com/omercelikdev",
     linkedin: "https://www.linkedin.com/in/omercelikdev",
     email: "mailto:omer@omercelik.dev",
+    /** LinkedIn newsletter URL; the subscribe box stays hidden until set. */
+    newsletter: null as string | null,
   },
   /** Comments on writing via Giscus (GitHub Discussions — free, no backend).
    *  Enable Discussions on the repo, install the giscus app, then paste the

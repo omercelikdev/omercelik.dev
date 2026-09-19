@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { compileMDX } from "next-mdx-remote/rsc";
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft, ArrowRight, Clock, Layers } from "lucide-react";
-import remarkGfm from "remark-gfm";
-import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypePrettyCode from "rehype-pretty-code";
 import { PAGE_PADDING } from "@/components/ui/page-header";
 import { Label, TagLink } from "@/components/ui/badge";
-import { mdxComponents } from "@/components/writings/mdx-components";
 import { Comments } from "@/components/writings/comments";
 import { Toc } from "@/components/writings/toc";
 import { AuthorCard } from "@/components/writings/author-card";
+import { NewsletterBox } from "@/components/writings/newsletter-box";
+import { renderMdx } from "@/lib/mdx";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   extractHeadings,
@@ -67,39 +63,7 @@ export default async function WritingPage({
   const headings = extractHeadings(post.content);
   const showToc = headings.length >= TOC_MIN_HEADINGS;
 
-  const { content } = await compileMDX({
-    source: post.content,
-    components: mdxComponents,
-    options: {
-      mdxOptions: {
-        remarkPlugins: [remarkGfm],
-        rehypePlugins: [
-          rehypeSlug,
-          [
-            rehypePrettyCode,
-            {
-              theme: { light: "github-light", dark: "github-dark" },
-              keepBackground: false,
-              // Fences without a language still get the block treatment.
-              defaultLang: "plaintext",
-            },
-          ],
-          [
-            rehypeAutolinkHeadings,
-            {
-              behavior: "append",
-              properties: {
-                className: ["heading-anchor"],
-                ariaHidden: true,
-                tabIndex: -1,
-              },
-              content: { type: "text", value: "#" },
-            },
-          ],
-        ],
-      },
-    },
-  });
+  const content = await renderMdx(post.content);
 
   return (
     // Wider than the site's 1080px column: the reading column sits centred in
@@ -199,6 +163,7 @@ export default async function WritingPage({
           </div>
 
           <AuthorCard />
+          <NewsletterBox />
           <PostNav newer={adjacent.newer} older={adjacent.older} />
           <Comments term={slug} lang="en" />
         </article>

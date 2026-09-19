@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { ArrowUpRight, Star } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { GithubIcon } from "@/components/ui/brand-icons";
 import { Tag } from "@/components/ui/badge";
 import type { Product } from "@/lib/github";
@@ -56,9 +56,6 @@ export function ProductCard({ product }: { product: Product }) {
             {product.language}
           </span>
         )}
-        <span className="inline-flex items-center gap-1">
-          <Star className="size-3.5" aria-hidden /> {product.stars}
-        </span>
         <a
           href={product.url}
           target="_blank"

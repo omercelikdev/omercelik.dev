@@ -1,14 +1,15 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "homeTitle": "Ömer Çelik — Software Engineer",
-    "description": "Software engineer building open-source developer infrastructure: AI-native, spec-driven golden paths and composable .NET libraries."
+    "homeTitle": "Ömer Çelik — Software Architect",
+    "description": "Software architect and lead .NET engineer. AI-era enterprise systems you can prove: architecture, workflow orchestration and test strategy, with AI working inside the guardrails."
   },
   "nav": {
-    "products": "Products",
-    "writings": "Writings",
+    "work": "Work",
+    "labs": "Labs",
+    "writings": "Writing",
     "about": "About",
-    "contact": "Contact",
+    "contact": "Get in touch",
     "skip": "Skip to content",
     "menu": "Menu"
   },
@@ -16,16 +17,10 @@
     "toggle": "Toggle theme"
   },
   "home": {
-    "role": "Software engineer",
-    "headlineLead": "I build",
-    "roles": [
-      "AI-native infrastructure",
-      "spec-driven golden paths",
-      "composable .NET libraries",
-      "developer tooling"
-    ],
-    "subtitle": "Open-source developer infrastructure where a precise specification becomes a correct, testable system — and AI works inside the guardrails, not around them. I care about architecture, correctness, and tools that make the right thing the default.",
-    "ctaContact": "Get in touch",
+    "role": "Software architect",
+    "thesis": "AI-era enterprise .NET systems you can prove.",
+    "subtitle": "Architecture, workflow orchestration and test strategy for platforms that carry real load — and AI that works inside the guardrails, not around them: spec-driven generation, deterministic gates, evidence over promises.",
+    "ctaWork": "See the work",
     "ctaWritings": "Read the writing",
     "signature": "A golden path, layer by layer — <goldpath>goldpath</goldpath> scaffolds it, <specdrift>specdrift</specdrift> keeps it honest.",
     "stackDescription": "Diagram: a golden path as five stacked layers — spec, contracts, code, verification and runtime — with a signal flowing from the spec down to production.",
@@ -37,38 +32,69 @@
       "The proof — specdrift checks that the code still matches the spec.",
       "What production does — traced end to end with OpenTelemetry."
     ],
-    "sec1": "what I do",
-    "sec2": "products & selected work",
-    "sec3": "writings",
-    "viewAll": "all",
-    "capabilities": [
+    "practiceTitle": "Practice",
+    "practiceIntro": "Four things I do. Each links to the work that proves it.",
+    "practice": [
       {
-        "title": "AI-driven architecture",
-        "desc": "Systems designed around AI from the ground up — agents, orchestration and spec-driven generation."
+        "title": "Architecture & platforms",
+        "desc": "Golden paths, composable libraries and ADR-driven constitutions on top of Aspire and Microsoft primitives.",
+        "href": "/work",
+        "proof": "enterprise golden path"
       },
       {
-        "title": "Spec-driven libraries",
-        "desc": "Versioned, installable libraries that turn a precise spec into correct, testable code."
+        "title": "Workflow orchestration",
+        "desc": "Camunda, Kafka and durable execution for service processes that carry real load.",
+        "href": "/work/telco-service-orchestration",
+        "proof": "telco orchestration"
       },
       {
-        "title": "Enterprise systems",
-        "desc": ".NET architecture, workflow orchestration and durable execution at scale."
+        "title": "Test strategy & quality",
+        "desc": "Contract tests, end-to-end tests from recordings, mocks that can't lie — and AI that generates them.",
+        "href": "/work/ai-assisted-quality",
+        "proof": "AI-assisted quality"
       },
       {
-        "title": "Products",
-        "desc": "User-facing products that make complex work feel simple and fast."
+        "title": "AI inside the guardrails",
+        "desc": "Spec-driven generation, deterministic gates, humans own decisions.",
+        "href": "/writings/from-intent-to-proof",
+        "proof": "manifesto"
       }
-    ]
+    ],
+    "workTitle": "Work",
+    "workIntro": "Case studies — context, decision, outcome. Client names withheld.",
+    "allWork": "All work",
+    "labsTitle": "Labs",
+    "labsIntro": "Ideas you can try in the browser. Mock data, nothing leaves the page. The same demos open inside the essays.",
+    "allLabs": "All demos",
+    "writingTitle": "Writing",
+    "writingIntro": "Essays with diagrams and demos. One idea each.",
+    "allWriting": "All writing"
+  },
+  "work": {
+    "title": "Work",
+    "subtitle": "Case studies from platforms that carry real load: what the situation was, what I decided, what came of it. Client names withheld; domains kept.",
+    "empty": "Nothing to show here yet.",
+    "backToList": "All work",
+    "tryIt": "Try it",
+    "sector": "Sector",
+    "role": "Role",
+    "period": "Period",
+    "stack": "Stack",
+    "onThisPage": "On this page"
+  },
+  "labs": {
+    "title": "Labs",
+    "subtitle": "Small, runnable ideas. Everything runs in your browser on mock data; nothing leaves the page. Each lab belongs to an essay or a case study.",
+    "empty": "No demos yet.",
+    "backToList": "All demos",
+    "readTheEssay": "The essay behind this demo:"
   },
   "products": {
-    "title": "Products",
-    "subtitle": "Open-source tools and projects. The details on each card come straight from GitHub.",
-    "empty": "Nothing to show here yet.",
     "visitSite": "Visit site"
   },
   "writings": {
-    "title": "Writings",
-    "subtitle": "Essays and notes on architecture, systems and the craft of building software. Each piece stays in the language it was written in.",
+    "title": "Writing",
+    "subtitle": "Essays on architecture, quality and AI in enterprise systems — with diagrams you can play and demos you can open. Each piece stays in the language it was written in.",
     "readingTime": "{minutes} min read",
     "empty": "No posts yet — check back soon.",
     "backToList": "All writing",
@@ -82,29 +108,25 @@
     "copied": "Copied",
     "writtenBy": "Written by"
   },
+  "newsletter": {
+    "title": "From Intent to Proof",
+    "blurb": "A short letter every other week — one idea, one diagram. On LinkedIn.",
+    "cta": "Subscribe"
+  },
   "about": {
     "title": "Hi, I'm Ömer.",
     "metaTitle": "About",
-    "metaDescription": "Ömer Çelik is a software engineer building open-source developer infrastructure — spec-driven golden paths and composable .NET libraries.",
-    "subtitle": "Who I am and what I work on.",
+    "metaDescription": "Ömer Çelik is a software architect and lead .NET engineer building AI-era enterprise systems you can prove — orchestration, integration and quality on platforms that carry real load.",
     "photoAlt": "Portrait of Ömer Çelik",
     "body": [
-      "I'm a software engineer. Most of my work sits where architecture meets tooling: I build open-source developer infrastructure — AI-native, spec-driven golden paths and composable .NET libraries.",
-      "The idea behind all of it is simple: a precise specification should turn into a correct, testable system, and AI should work inside the guardrails rather than around them. I care about architecture, correctness, and tools that make the right thing the default.",
-      "This site is where I put what I build and what I learn along the way. I write in English and Turkish; each piece stays in the language it was written in."
+      "I'm a software architect and lead .NET engineer. For the last decade I've built the systems large organisations run on — orchestration, integration, the platforms underneath — mostly in the telco and banking domains, where a wrong answer is expensive.",
+      "What I care about is simple to say and hard to do: a system should be able to prove it does what its specification says. Contracts first, tests as evidence, and now AI working inside those guardrails rather than around them.",
+      "This site is where I write down what I've learned, show it running, and keep an honest record of the work."
     ],
-    "nowTitle": "Working on",
+    "experienceTitle": "Experience",
     "toolboxTitle": "Toolbox",
-    "toolbox": [
-      "C# / .NET",
-      "TypeScript",
-      "Model Context Protocol",
-      "OpenAPI",
-      "OpenTelemetry",
-      "CQRS",
-      "Native AOT"
-    ],
-    "elsewhereTitle": "Elsewhere"
+    "elsewhereTitle": "Elsewhere",
+    "downloadCv": "Download CV (PDF)"
   },
   "contact": {
     "title": "Get in touch",
@@ -127,13 +149,8 @@
     "direct": "Write to me directly — I read everything.",
     "orReach": "Or reach me directly"
   },
-  "cta": {
-    "title": "Let's connect",
-    "subtitle": "Questions, ideas, or feedback on the work — reach out any time.",
-    "button": "Get in touch"
-  },
   "footer": {
-    "tagline": "Software engineer. Open-source developer infrastructure, built in the open.",
+    "tagline": "Software architect. AI-era enterprise .NET, provable systems.",
     "rss": "RSS feed"
   },
   "diagram": {

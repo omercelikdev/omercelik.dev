@@ -10,8 +10,10 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { buttonClass } from "@/components/ui/button";
 import { site } from "@/config/site";
 
+/** The five questions a visitor asks, in order. */
 const NAV = [
-  { href: "/products", key: "products" },
+  { href: "/work", key: "work" },
+  { href: "/labs", key: "labs" },
   { href: "/writings", key: "writings" },
   { href: "/about", key: "about" },
 ] as const;
@@ -30,6 +32,12 @@ export function Header() {
   }, []);
 
   const isActive = (href: string) => pathname.startsWith(href);
+  const linkClass = (href: string) =>
+    `rounded-[var(--radius-md)] px-3 py-1.5 text-ui transition-colors ${
+      isActive(href)
+        ? "bg-muted text-foreground"
+        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+    }`;
 
   return (
     <header
@@ -48,30 +56,26 @@ export function Header() {
           omercelik<span className="text-brand-accent">.dev</span>
         </Link>
 
-        <nav className="ms-5 hidden items-center gap-1 md:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={isActive(item.href) ? "page" : undefined}
-              className={`rounded-[var(--radius-md)] px-3 py-1.5 text-ui transition-colors ${
-                isActive(item.href)
-                  ? "bg-muted text-foreground"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`}
-            >
-              {t(item.key)}
-            </Link>
-          ))}
-        </nav>
-
+        {/* Navigation sits with the actions, on the right. */}
         <div className="ms-auto flex items-center gap-2">
+          <nav className="me-2 hidden items-center gap-0.5 md:flex">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={linkClass(item.href)}
+              >
+                {t(item.key)}
+              </Link>
+            ))}
+          </nav>
           {/* max-sm:hidden, not `hidden sm:inline-flex`: buttonClass sets
               inline-flex, and between two plain display utilities the
               stylesheet order wins — a variant always comes later. */}
           <Link
             href="/contact"
-            className={`${buttonClass("outline")} max-sm:hidden`}
+            className={`${buttonClass("primary", "sm")} max-sm:hidden`}
           >
             {t("contact")}
           </Link>

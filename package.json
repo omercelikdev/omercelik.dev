@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "gen": "node scripts/gen-content.mjs",
+    "predev": "npm run gen",
     "dev": "next dev",
+    "prebuild": "npm run gen",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -13,7 +16,7 @@
     "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run typecheck && npm run format:check && npm test"
+    "check": "npm run gen && npm run lint && npm run typecheck && npm run format:check && npm test"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",
