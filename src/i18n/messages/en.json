@@ -49,7 +49,7 @@
       },
       {
         "title": "Workflow orchestration",
-        "desc": "Camunda, Kafka and phased cut-overs for order processes that carry real load.",
+        "desc": "A Camunda process per order, asynchronous callbacks from downstream systems, and phased cut-overs for order flows that carry real load.",
         "href": "/labs/workflow-stepper",
         "proof": "workflow stepper"
       },
