@@ -36,6 +36,7 @@ export function ArchitectureStack({
 }) {
   const plates = layers.map((layer, i) => ({
     label: layer.label,
+    aside: layer.detail,
     description: layer.description ?? layer.note,
     face: (
       <>

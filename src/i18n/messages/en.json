@@ -1,8 +1,8 @@
 {
   "meta": {
     "title": "Ömer Çelik",
-    "homeTitle": "Ömer Çelik — Software Architect",
-    "description": "Software architect and lead .NET engineer. AI-era enterprise systems you can prove: architecture, workflow orchestration and test strategy, with AI working inside the guardrails."
+    "homeTitle": "Ömer Çelik — Lead Developer",
+    "description": "Lead Developer building enterprise systems on .NET since 2018: order management, workflow orchestration and integration, and how regulated organizations can adopt AI in software delivery without losing control."
   },
   "nav": {
     "work": "Work",
@@ -17,7 +17,7 @@
     "toggle": "Toggle theme"
   },
   "home": {
-    "role": "Software architect",
+    "role": "Lead Developer",
     "headlineLead": "I build:",
     "phrases": [
       "enterprise .NET systems you can prove",
@@ -28,42 +28,42 @@
     "subtitle": "Architecture, workflow orchestration and test strategy for platforms that carry real load — and AI that works inside the guardrails, not around them: spec-driven generation, deterministic gates, evidence over promises.",
     "ctaWork": "See the work",
     "ctaWritings": "Read the writing",
-    "signature": "A golden path, layer by layer — <goldpath>goldpath</goldpath> scaffolds it, <specdrift>specdrift</specdrift> keeps it honest.",
-    "stackDescription": "Diagram: a golden path as five stacked layers — spec, contracts, code, verification and runtime — with a signal flowing from the spec down to production.",
+    "signature": "AI produces · people decide · the engine verifies. <goldpath>Goldpath</goldpath> lays the path, <specdrift>SpecDrift</specdrift> keeps it honest.",
+    "stackDescription": "Diagram: software delivery as five stacked layers (intent, spec, code, gates and runtime), each showing who acts on it: AI produces, people decide, the engine verifies.",
     "featured": "Featured essay",
     "layers": [
-      "What must be true — one manifest is the single source of truth.",
-      "How services speak — OpenAPI and AsyncAPI, versioned with the code.",
-      "What runs — generated on the golden path, not hand-rolled.",
-      "The proof — specdrift checks that the code still matches the spec.",
-      "What production does — traced end to end with OpenTelemetry."
+      "What must be true. A person owns and signs every rule; nothing unsigned reaches a sprint.",
+      "AI drafts the specification from the rules, a person signs it. Open questions keep it out of delivery.",
+      "AI writes the code against a test that exists before it, and every commit carries its rule id.",
+      "Deterministic checks, no model in the loop: drift, parity with the legacy system, rule and code moving together. Nothing unverified gets past.",
+      "Every business event carries its rule id, so the running system explains itself."
     ],
     "practiceTitle": "Practice",
-    "practiceIntro": "Four things I do. Each links to the work that proves it.",
+    "practiceIntro": "Four things I do, each with something you can open.",
     "practice": [
       {
         "title": "Architecture & platforms",
-        "desc": "Golden paths, composable libraries and ADR-driven constitutions on top of Aspire and Microsoft primitives.",
-        "href": "/work",
-        "proof": "enterprise golden path"
+        "desc": "Service boundaries, shared building blocks and reusable assets, so each new product line builds on the same foundation.",
+        "href": "/work/telco-service-orchestration",
+        "proof": "order management platform"
       },
       {
         "title": "Workflow orchestration",
-        "desc": "Camunda, Kafka and durable execution for service processes that carry real load.",
-        "href": "/work/telco-service-orchestration",
-        "proof": "telco orchestration"
+        "desc": "Camunda, Kafka and phased cut-overs for order processes that carry real load.",
+        "href": "/labs/workflow-stepper",
+        "proof": "workflow stepper"
       },
       {
         "title": "Test strategy & quality",
-        "desc": "Contract tests, end-to-end tests from recordings, mocks that can't lie — and AI that generates them.",
-        "href": "/work/ai-assisted-quality",
-        "proof": "AI-assisted quality"
+        "desc": "Unit, contract and end-to-end tests, mocks that can't lie, and a strategy strong enough to decide what reaches production.",
+        "href": "/labs/test-pyramid",
+        "proof": "test pyramid"
       },
       {
         "title": "AI inside the guardrails",
-        "desc": "Spec-driven generation, deterministic gates, humans own decisions.",
-        "href": "/writings/from-intent-to-proof",
-        "proof": "manifesto"
+        "desc": "Specifications, architecture rules and deterministic checks that keep AI-written code honest. People own the decisions.",
+        "href": "/labs/spec-drift",
+        "proof": "spec drift"
       }
     ],
     "workTitle": "Work",
@@ -130,12 +130,13 @@
   "about": {
     "title": "Hi, I'm Ömer.",
     "metaTitle": "About",
-    "metaDescription": "Ömer Çelik is a software architect and lead .NET engineer building AI-era enterprise systems you can prove — orchestration, integration and quality on platforms that carry real load.",
+    "metaDescription": "Ömer Çelik is a Lead Developer at DefineX, building enterprise software on .NET since 2018: order management, business process orchestration and integration, and governed AI in software delivery.",
     "photoAlt": "Portrait of Ömer Çelik",
     "body": [
-      "I'm a software architect and lead .NET engineer. For the last decade I've built the systems large organisations run on — orchestration, integration, the platforms underneath — mostly in the telco and banking domains, where a wrong answer is expensive.",
-      "What I care about is simple to say and hard to do: a system should be able to prove it does what its specification says. Contracts first, tests as evidence, and now AI working inside those guardrails rather than around them.",
-      "This site is where I write down what I've learned, show it running, and keep an honest record of the work."
+      "I'm a Lead Developer at DefineX, building enterprise software on .NET since 2018. Mostly the systems large organizations run on every day: order management, business process orchestration, and the integrations that hold them together.",
+      "I like owning a system from the first architecture decision until long after go-live. Screens, services, processes, data, integrations, releases. If it breaks in production, it's mine to fix. As a team lead I set the technical direction, agree on standards with the team, review the work, and plan delivery so big changes reach production in small, safe steps.",
+      "My focus now is on how regulated organizations can adopt AI in software delivery without losing control. Someone has to own what AI is allowed to do, and model access should go through a gateway, governed like any other API. Business rules, specifications and code should change together, so the documentation stays current and knowledge doesn't depend on one person. And the test strategy has to be strong enough to decide what reaches production, especially when a legacy system is being replaced.",
+      "I build open source tooling for this with Claude Code, MCP servers and agent skills. This site is where I write it down, show it running, and keep an honest record of the work."
     ],
     "experienceTitle": "Experience",
     "toolboxTitle": "Toolbox",
@@ -165,7 +166,7 @@
     "orReach": "Or reach me directly"
   },
   "footer": {
-    "tagline": "Software architect. AI-era enterprise .NET, provable systems.",
+    "tagline": "Lead Developer. Enterprise systems architecture, governed AI in software delivery.",
     "rss": "RSS feed"
   },
   "diagram": {

@@ -48,8 +48,9 @@ function Lines({
   );
 }
 
-/** The hero's golden path, layer by layer in a row, each layer showing what
- *  lives there and explained beside it while in focus. */
+/** The hero's delivery path, layer by layer: what each layer holds and who
+ *  acts on it (AI produces, people decide, the engine verifies), explained
+ *  beside it while in focus. */
 export function HeroStack() {
   const t = useTranslations("home");
   const d = useTranslations("diagram");
@@ -57,53 +58,53 @@ export function HeroStack() {
 
   const layers: StackLayer[] = [
     {
-      label: "Spec",
-      detail: "manifest.yaml",
+      label: "Intent",
+      detail: "people decide",
       body: (
         <Lines
           rows={[
-            ["service", "orders"],
-            ["contracts", "openapi", "accent"],
-            ["invariants", "12"],
+            ["rule", "order.cancel", "accent"],
+            ["owner", "business"],
+            ["status", "signed", "pass"],
           ]}
         />
       ),
     },
     {
-      label: "Contracts",
-      detail: "OpenAPI · AsyncAPI",
+      label: "Spec",
+      detail: "AI drafts · people sign",
       body: (
         <Lines
           rows={[
-            ["GET", "/orders/{id}", "accent"],
-            ["POST", "/orders", "accent"],
-            ["event", "order.created", "accent"],
+            ["spec", "cancel.spec.md"],
+            ["rules", "RULE-12, RULE-14", "accent"],
+            ["open questions", "0", "pass"],
           ]}
         />
       ),
     },
     {
       label: "Code",
-      detail: "generated · .NET",
+      detail: "AI implements",
       body: (
         <Lines
           rows={[
+            ["test", "red → green", "pass"],
             ["api", "Orders.Api"],
-            ["domain", "Orders.Domain"],
-            ["tests", "Orders.Tests"],
+            ["commit", "RULE-12", "accent"],
           ]}
         />
       ),
     },
     {
-      label: "Verify",
-      detail: "specdrift",
+      label: "Gates",
+      detail: "the engine verifies",
       body: (
         <Lines
           rows={[
-            ["invariants", "12 / 12", "pass"],
             ["drift", "none", "pass"],
-            ["contracts", "in sync", "pass"],
+            ["parity", "legacy = new", "pass"],
+            ["rule and code", "in step", "pass"],
           ]}
         />
       ),
@@ -114,8 +115,8 @@ export function HeroStack() {
       body: (
         <Lines
           rows={[
-            ["trace", "order.created"],
-            ["span", "POST /orders"],
+            ["trace", "order.cancelled"],
+            ["rule", "RULE-12", "accent"],
             ["status", "ok", "pass"],
           ]}
         />

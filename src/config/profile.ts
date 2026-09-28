@@ -26,20 +26,21 @@ export interface Role {
 }
 
 export const profile = {
-  headline: "Software architect · Lead .NET engineer · AI-assisted delivery",
-  /** The three proof tiles under the hero thesis. */
+  headline:
+    "Lead Developer | Enterprise systems architecture · Governed AI in software delivery",
+  /** The three proof tiles under the hero thesis. Written to stay true over
+   *  time: no counts that age (years, service lines). */
   facts: [
-    // Since August 2018 (Accenture), counted from LinkedIn.
-    { value: "8", label: "years, enterprise .NET", countTo: 8 },
-    { value: "Telco · Banking", label: "regulated domains" },
+    { value: "Since 2018", label: "enterprise software on .NET" },
     {
-      value: "5",
-      label: "AI & platform tools shipped",
-      countTo: 5,
-      todo: true,
+      value: "10+",
+      label: "engineers led across two teams",
+      countTo: 10,
+      suffix: "+",
     },
+    { value: "5", label: "open source tools shipped", countTo: 5 },
   ] as Fact[],
-  /** Experience, newest first. */
+  /** Experience, newest first. Same facts as LinkedIn and the CV. */
   roles: [
     {
       from: "2024",
@@ -48,7 +49,7 @@ export const profile = {
       org: "DefineX",
       context: "Consulting, Technology & Labs",
       summary:
-        "Leading architecture and delivery of a service orchestration platform in the telco domain — .NET, Camunda and Kafka on OpenShift. Introduced AI-assisted quality engineering (generated end-to-end tests, log digests, environment diffs) and an enterprise .NET golden path the company now uses as an asset.",
+        "Leading a large, multi-year order management transformation for a telecom operator: a legacy Conceptwave-based B2B ordering stack replaced with .NET microservices, one service line at a time. I lead both teams, 10+ engineers in total, own the technical design from the Vue.js interface and API gateway to the ASP.NET Core services, Camunda workflows and Kafka integration, and build much of the foundation myself. Cut-overs ship on schedule without disrupting live order flows.",
     },
     {
       from: "2021",
@@ -57,8 +58,7 @@ export const profile = {
       org: "DefineX",
       context: "Consulting, Technology & Labs",
       summary:
-        "Enterprise .NET delivery for telco and banking clients: services, integrations and the platform work underneath them. Outcomes to be written from the projects of these years.",
-      todo: true,
+        "Full stack .NET developer on telecom B2B systems, delivering features from design to production across ASP.NET Core Web APIs, Entity Framework Core, Vue.js and integrations with connected systems.",
     },
     {
       from: "2019",
@@ -67,8 +67,7 @@ export const profile = {
       org: "DefineX",
       context: "Consulting, Technology & Labs",
       summary:
-        "Full-stack .NET development on enterprise projects. Outcomes to be written.",
-      todo: true,
+        "Full stack development on telecom projects with .NET, C#, JavaScript, TypeScript and Vue.js.",
     },
     {
       from: "2018",
@@ -77,24 +76,22 @@ export const profile = {
       org: "Accenture",
       context: "İzmir",
       summary:
-        "First industry role: .NET development on client projects. Outcomes to be written.",
-      todo: true,
+        "First industry role: telecom ordering on Conceptwave, with .NET, Vue.js and JavaScript.",
     },
   ] as Role[],
   toolbox: [
-    "C# / .NET 10",
-    "Aspire",
-    "Camunda",
+    "C# / .NET",
+    "ASP.NET Core",
+    "Camunda · BPM",
     "Kafka",
-    "PostgreSQL",
+    "PostgreSQL · Oracle",
+    "Vue 3 · TypeScript",
+    "OpenShift · Kubernetes",
     "OpenTelemetry",
-    "OpenAPI · AsyncAPI",
-    "CQRS · DDD",
-    "Playwright",
-    "Next.js · Vue 3",
+    "Conceptwave",
     "MCP · Claude Code",
   ],
-  education: "Yıldız Technical University",
-  /** Set to "/cv.pdf" once the file is in public/. */
-  cvUrl: null as string | null,
+  education: "Yıldız Technical University · B.Sc. Computer Engineering, 2018",
+  /** The public CV: same text as the full CV, without the phone number. */
+  cvUrl: "/cv.pdf" as string | null,
 } as const;

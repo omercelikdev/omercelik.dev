@@ -32,7 +32,19 @@ export function Flow({
 }) {
   const stages = useMemo(() => parseSteps(steps), [steps]);
   const noteList = useMemo(() => split(notes), [notes]);
-  const layout = useMemo(() => layoutSnake(stages.length), [stages.length]);
+  const nodeH = useMemo(
+    () =>
+      stages.some((s) => s.lines.length > 1)
+        ? NODE_H_TWO
+        : stages.some((s) => s.lines.length === 1)
+          ? NODE_H_ONE
+          : NODE_H_BARE,
+    [stages],
+  );
+  const layout = useMemo(
+    () => layoutSnake(stages.length, nodeH),
+    [stages.length, nodeH],
+  );
   const [current, setCurrent] = useState(-1);
   const [playing, setPlaying] = useState(false);
   const played = useRef(false);
@@ -132,15 +144,23 @@ export function Flow({
                 i < current ? styles.done : i === current ? styles.current : ""
               }`}
             >
-              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={8} />
-              <text x={p.x + 14} y={p.y + (stage.detail ? 24 : 33)}>
+              <rect x={p.x} y={p.y} width={NODE_W} height={nodeH} rx={8} />
+              <text
+                x={p.x + 14}
+                y={p.y + (stage.lines.length ? 25 : nodeH / 2 + 4)}
+              >
                 {stage.label}
               </text>
-              {stage.detail && (
-                <text className={styles.sub} x={p.x + 14} y={p.y + 41}>
-                  {stage.detail}
+              {stage.lines.map((line, j) => (
+                <text
+                  key={j}
+                  className={styles.sub}
+                  x={p.x + 14}
+                  y={p.y + 43 + j * 14}
+                >
+                  {line}
                 </text>
-              )}
+              ))}
             </g>
           );
         })}
@@ -224,24 +244,52 @@ const split = (s: string) =>
 function parseSteps(steps: string) {
   return split(steps).map((s) => {
     const i = s.indexOf(":");
-    return i === -1
-      ? { label: s, detail: "" }
-      : { label: s.slice(0, i).trim(), detail: s.slice(i + 1).trim() };
+    const label = i === -1 ? s : s.slice(0, i).trim();
+    const detail = i === -1 ? "" : s.slice(i + 1).trim();
+    return { label, detail, lines: wrap(detail, LINE_CHARS, 2) };
   });
 }
 
-const NODE_W = 132;
-const NODE_H = 56;
-const GAP_X = 40;
-const GAP_Y = 44;
-const PAD = 12;
-const PER_ROW = 4;
+/** Word-wraps a detail into at most `max` lines of `width` characters (SVG
+ *  text doesn't wrap on its own); anything left over ends in an ellipsis. */
+function wrap(text: string, width: number, max: number) {
+  if (!text) return [];
+  const lines: string[] = [];
+  let line = "";
+  for (const word of text.split(/\s+/)) {
+    const next = line ? `${line} ${word}` : word;
+    if (next.length <= width || !line) line = next;
+    else {
+      lines.push(line);
+      line = word;
+    }
+  }
+  if (line) lines.push(line);
+  if (lines.length <= max) return lines;
+  const kept = lines.slice(0, max);
+  kept[max - 1] = `${kept[max - 1].slice(0, width - 1).trimEnd()}…`;
+  return kept;
+}
 
-/** Nodes in rows of four, snaking (left→right, then right→left) so every
- *  connector is a short straight line: horizontal within a row, vertical
- *  between rows. */
-function layoutSnake(n: number) {
-  const rows = Math.max(1, Math.ceil(n / PER_ROW));
+const NODE_W = 172;
+/** Node heights: label only, label + one detail line, label + two. */
+const NODE_H_BARE = 52;
+const NODE_H_ONE = 58;
+const NODE_H_TWO = 72;
+/** Characters per detail line (10.5px mono in a 172px box, 14px padding). */
+const LINE_CHARS = 22;
+const GAP_X = 44;
+const GAP_Y = 40;
+const PAD = 14;
+const MAX_PER_ROW = 4;
+
+/** Nodes in balanced rows of at most four (six stages are 3 + 3, not 4 + 2),
+ *  snaking (left→right, then right→left) so every connector is a short
+ *  straight line: horizontal within a row, vertical between rows. */
+function layoutSnake(n: number, nodeH: number) {
+  const NODE_H = nodeH;
+  const rows = Math.max(1, Math.ceil(n / MAX_PER_ROW));
+  const PER_ROW = Math.ceil(n / rows);
   const cols = Math.min(n, PER_ROW);
   const width = PAD * 2 + cols * NODE_W + (cols - 1) * GAP_X;
   const height = PAD * 2 + rows * NODE_H + (rows - 1) * GAP_Y;

@@ -1,44 +1,62 @@
 ---
-title: "Service orchestration platform in the telco domain"
-summary: "One platform to run VPN, VM and security service processes end to end — auditable state, no silent failures."
+title: "Order management transformation in the telco domain"
+summary: "A legacy B2B ordering stack rebuilt as .NET microservices, one service line at a time, with both systems running side by side and live orders never disrupted."
 sector: "Telco"
-role: "Lead / architect"
+role: "Lead Developer"
 period: "2024 — now"
 date: "2026-09-01"
-stack: [".NET", "Camunda", "Kafka", "PostgreSQL", "Vue 3", "OpenShift"]
+stack: [".NET", "ASP.NET Core", "Camunda", "Kafka", "PostgreSQL", "Vue 3", "OpenShift", "Conceptwave (legacy)"]
 outcomes:
-  - { value: "3", label: "product lines", countTo: 3 }
-  - { value: "C7 → C8", label: "migration path" }
-  - { value: "0", label: "silent CI failures", countTo: 0 }
+  - { value: "2", label: "teams led, new platform and legacy", countTo: 2 }
+  - { value: "10+", label: "engineers", countTo: 10 }
+  - { value: "0", label: "disrupted live order flows", countTo: 0 }
 labs: ["workflow-stepper"]
 featured: true
 ---
 
 ## Context
 
-Three product lines, dozens of downstream systems, regulated change windows.
-The legacy flow lived in code nobody could read end to end, and a failed step
-could leave an order half-provisioned without anyone noticing.
+A telecom operator runs its B2B ordering on a legacy Conceptwave-based stack.
+The order flow crosses many downstream systems, change windows are regulated,
+and the business can't stop taking orders while the platform underneath it is
+replaced. The move happens one service line at a time, over several years,
+until Conceptwave can be retired.
 
-## Decision
+I lead both teams: the transformation team building the new platform, and the
+Conceptwave team that keeps the legacy system running through the transition.
 
-Treat the process as a first-class artifact: BPMN in an engine, every side
-effect an event on a log, .NET services behind stable contracts, and a trace
-id that follows an order through every hop.
+## The path of an order
+
+The new platform covers the full order flow, modeled on TM Forum Open APIs and
+integrated with the operator's downstream systems.
 
 <Flow
   title="An order, end to end"
-  steps="Order: API · validated | Process: BPMN, auditable state | Integrate: events on Kafka | Verify: contract + E2E | Observe: OpenTelemetry"
-  notes="The order arrives validated against the contract. | The engine runs the process; state is auditable at every node. | Every side effect is an event; consumers own their pace. | Contract tests and generated E2E gate the deploy. | Traces tie the order to every hop in production."
+  steps="Catalog: product offerings | Quote: priced, validated | Product order: submitted | Decompose: into service orders | Fulfil: Camunda workflows and user tasks | Integrate: Kafka and REST to downstream systems"
+  notes="The product catalog defines what can be sold, aligned with TM Forum. | A quote is built from the catalog and validated before it becomes an order. | The product order is the commitment to the customer. | Each product order is decomposed into the service orders that deliver it. | Camunda runs each service order; people complete their steps as user tasks. | Every hop to a downstream system is an event or a contract, traced end to end."
 />
 
 <Demo id="workflow-stepper" />
 
+## Decisions
+
+**Build on reusable assets.** Catalog, ordering, workflow and integration
+components are shared, so each new service line builds on the same foundation
+instead of starting over. I wrote much of that foundation myself: the API
+gateway, the building blocks for logging, caching and API clients, the Camunda
+integration and the task framework the order screens run on.
+
+**Move in phases, side by side.** Each service line is cut over on its own.
+Both systems run in parallel, and the new platform has to show it behaves like
+the old one before the switch, inside the regulated change window.
+
+**One way of working for both teams.** Implementation templates, code review,
+unit testing and quality standards are the same on the new platform and on the
+legacy side, and I mentor the developers on both teams.
+
 ## Outcome
 
-Numbers go here: lead time, defect rate, migration scope — anonymised where
-the contract requires.
-
-## What I'd do differently
-
-One paragraph, honest.
+Cut-overs ship on schedule without disrupting live order flows. Each new
+service line starts from the shared assets rather than from scratch, and the
+legacy system stays stable for the business until its last service line moves
+over.

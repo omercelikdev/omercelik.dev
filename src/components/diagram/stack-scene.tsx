@@ -10,6 +10,8 @@ import styles from "./architecture-stack.module.css";
 
 export interface ScenePlate {
   label: string;
+  /** A short tag shown at the end of the layer's row in the hero legend. */
+  aside?: string;
   description?: string;
   /** The layer's face, rendered on the server. */
   face: ReactNode;
@@ -138,6 +140,9 @@ export function StackScene({
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className={styles.legendLabel}>{plate.label}</span>
+              {hero && plate.aside && (
+                <span className={styles.legendAside}>{plate.aside}</span>
+              )}
               {hero && (
                 <span className={styles.legendDesc}>{plate.description}</span>
               )}

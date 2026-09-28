@@ -242,9 +242,10 @@
 }
 .hero .legendItem {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: baseline;
   gap: 2px 8px;
-  padding: 12px 6px;
+  padding: 9px 6px;
   border: 0;
   border-bottom: 1px solid var(--border);
   border-radius: 0;
@@ -264,9 +265,18 @@
   font-weight: 500;
   color: var(--foreground);
 }
+.hero .legendAside {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.hero .legendItem[aria-pressed="true"] .legendAside {
+  color: var(--muted-foreground);
+}
 .hero .legendDesc {
   display: none;
-  grid-column: 2;
+  grid-column: 2 / -1;
   font-size: 13px;
   line-height: 1.55;
   color: var(--muted-foreground);
