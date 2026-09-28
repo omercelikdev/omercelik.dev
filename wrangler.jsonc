@@ -3,7 +3,7 @@
 // small script for the contact form (worker/). Only /api/* runs the script;
 // every other request is a static file.
 {
-  "name": "omercelikdev",
+  "name": "omercelik-dev",
   "main": "worker/index.ts",
   "compatibility_date": "2026-09-01",
   "assets": {
