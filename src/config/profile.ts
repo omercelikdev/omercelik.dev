@@ -49,7 +49,7 @@ export const profile = {
       org: "DefineX",
       context: "Consulting, Technology & Labs",
       summary:
-        "Leading a large, multi-year order management transformation for a telecom operator: a legacy Conceptwave-based B2B ordering stack replaced with .NET microservices, one service line at a time. I lead both teams, 10+ engineers in total, own the technical design from the Vue.js interface and API gateway to the ASP.NET Core services, Camunda workflows and Kafka integration, and build much of the foundation myself. Cut-overs ship on schedule without disrupting live order flows.",
+        "Leading a large, multi-year order management transformation for a telecom operator: a legacy Conceptwave-based B2B ordering stack replaced with .NET microservices, one service line at a time. I lead both teams, 10+ engineers in total, and own the technical design from the Vue.js interface and API gateway to the ASP.NET Core services, Camunda workflows and Kafka messaging. I set up the platform's foundation, from the structure of every service and the implementation templates to the shared building blocks and the .NET Aspire environment the team develops in, and contribute across all of its modules. Cut-overs ship on schedule without disrupting live order flows.",
     },
     {
       from: "2021",

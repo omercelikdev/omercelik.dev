@@ -1,15 +1,21 @@
 ---
 title: "Workflow stepper"
-summary: "Step through an orchestrated service process and watch the events it emits."
+summary: "Step one product order through its process, watch the events it emits, and try to cancel it midway."
 date: "2026-09-17"
 topic: "orchestration"
 preview: "process"
-tags: ["camunda", "kafka", "orchestration"]
+tags: ["camunda", "orchestration", "order management"]
 ---
 
-A service order in the telco domain touches many systems. Modelling the
-process as a first-class artifact — BPMN in an engine, events on a log —
-means every step has a name, a state and a trace. The stepper shows what a
-single order looks like from the process's point of view.
+A submitted quote doesn't become one big transaction. It is decomposed into
+product orders, and each product order runs as its own Camunda process. The
+process creates the service orders that deliver the product, then waits:
+downstream systems answer asynchronously through callbacks, and the steps that
+need a person become user tasks.
 
-Placeholder: the real demo will replay an anonymised process definition.
+Modelling it this way means every order has a name, a state and a history,
+and a question like "can this still be cancelled?" has a precise answer. Before
+the milestone, a cancel request stops the process cleanly. After it, the
+request is rejected, because work downstream can no longer be taken back.
+
+The flow is generic: the shape of a real order platform, none of its names.

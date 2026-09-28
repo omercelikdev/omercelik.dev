@@ -5,7 +5,7 @@ sector: "Telco"
 role: "Lead Developer"
 period: "2024 — now"
 date: "2026-09-01"
-stack: [".NET", "ASP.NET Core", "Camunda", "Kafka", "PostgreSQL", "Vue 3", "OpenShift", "Conceptwave (legacy)"]
+stack: [".NET", "ASP.NET Core", ".NET Aspire", "Camunda", "Kafka", "PostgreSQL", "Vue 3", "OpenShift", "Conceptwave (legacy)"]
 outcomes:
   - { value: "2", label: "teams led, new platform and legacy", countTo: 2 }
   - { value: "10+", label: "engineers", countTo: 10 }
@@ -32,19 +32,30 @@ integrated with the operator's downstream systems.
 
 <Flow
   title="An order, end to end"
-  steps="Catalog: product offerings | Quote: priced, validated | Product order: submitted | Decompose: into service orders | Fulfil: Camunda workflows and user tasks | Integrate: Kafka and REST to downstream systems"
-  notes="The product catalog defines what can be sold, aligned with TM Forum. | A quote is built from the catalog and validated before it becomes an order. | The product order is the commitment to the customer. | Each product order is decomposed into the service orders that deliver it. | Camunda runs each service order; people complete their steps as user tasks. | Every hop to a downstream system is an event or a contract, traced end to end."
+  steps="Catalog: product offerings | Quote: priced, validated, submitted | Product orders: decomposed from the quote | Process: one Camunda process per order | Service orders: created by the process | Fulfil: downstream callbacks and user tasks"
+  notes="The product catalog defines what can be sold, aligned with TM Forum. | A quote is built from the catalog and validated; submitting it is the commitment to the customer. | The submitted quote is decomposed into product orders, one per product being delivered. | Each product order runs as its own Camunda process, so every order has a state, a history and a trace. | The process creates the service orders that deliver the product and waits for them. | Downstream systems answer asynchronously through callbacks; the steps that need a person become user tasks."
 />
 
 <Demo id="workflow-stepper" />
+
+## What I built
+
+**The foundation.** I set up the platform the team builds on: the repository
+and the structure of every service, the implementation templates, the shared
+building blocks for logging, caching, migrations and API clients, the API
+gateway, and the .NET Aspire environment the whole team develops and runs the
+system in.
+
+**The modules on top of it.** I contribute across all of them: order
+management (quote, decomposition into product orders, discounts), the order
+entry UI and the task framework its screens run on, the product catalog and
+the utility services.
 
 ## Decisions
 
 **Build on reusable assets.** Catalog, ordering, workflow and integration
 components are shared, so each new service line builds on the same foundation
-instead of starting over. I wrote much of that foundation myself: the API
-gateway, the building blocks for logging, caching and API clients, the Camunda
-integration and the task framework the order screens run on.
+instead of starting over.
 
 **Move in phases, side by side.** Each service line is cut over on its own.
 Both systems run in parallel, and the new platform has to show it behaves like
