@@ -2,6 +2,9 @@ import type { ComponentProps } from "react";
 import type { MDXComponents } from "mdx/types";
 import { CopyButton } from "./copy-button";
 import { Callout, Figure, Layer, LayerStack, PullQuote } from "./mdx-blocks";
+import { Flow } from "@/components/diagram/flow";
+import { Compare, Matrix, Timeline } from "@/components/diagram/blocks";
+import { Demo } from "@/components/labs/demo";
 
 /** Styled elements for rendered MDX articles. Code blocks are highlighted by
  *  rehype-pretty-code (dual-theme Shiki); see globals.css for the token wiring.
@@ -90,4 +93,10 @@ export const mdxComponents: MDXComponents = {
   PullQuote,
   LayerStack,
   Layer,
+  // Diagrams and demos — see README → Writing.
+  Flow,
+  Compare,
+  Matrix,
+  Timeline,
+  Demo,
 };

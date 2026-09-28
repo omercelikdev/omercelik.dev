@@ -5,6 +5,7 @@ import { Container } from "@/components/layout/container";
 import { PageHeader, PAGE_PADDING } from "@/components/ui/page-header";
 import { PostRow } from "@/components/writings/post-row";
 import { TagLink } from "@/components/ui/badge";
+import { NewsletterBox } from "@/components/writings/newsletter-box";
 import { getAllTags, getAllWritings } from "@/lib/writings";
 import { pageMetadata } from "@/lib/seo";
 
@@ -49,6 +50,7 @@ export default async function WritingsPage() {
           ))}
         </div>
       )}
+      <NewsletterBox />
     </Container>
   );
 }

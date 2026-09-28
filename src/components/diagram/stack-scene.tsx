@@ -10,6 +10,8 @@ import styles from "./architecture-stack.module.css";
 
 export interface ScenePlate {
   label: string;
+  /** A short tag shown at the end of the layer's row in the hero legend. */
+  aside?: string;
   description?: string;
   /** The layer's face, rendered on the server. */
   face: ReactNode;
@@ -59,10 +61,10 @@ export function StackScene({
     setPinned((prev) => (prev === i ? null : i));
   };
 
-  const mode =
-    variant === "hero"
-      ? styles.scrollSpread
-      : `${styles.inline} ${styles.viewSpread}`;
+  const hero = variant === "hero";
+  const mode = hero
+    ? `${styles.hero} ${styles.scrollSpread}`
+    : `${styles.inline} ${styles.viewSpread}`;
 
   return (
     <div className={`${styles.figure} ${mode}`}>
@@ -115,31 +117,48 @@ export function StackScene({
         </div>
       </div>
 
-      <div className={styles.legend} role="group" aria-label={legendLabel}>
-        {plates.map((plate, i) => (
-          <button
-            key={i}
-            type="button"
-            className={styles.legendItem}
-            aria-pressed={active === i}
-            onPointerEnter={(e) => {
-              if (e.pointerType === "mouse") setHovered(i);
-            }}
-            onPointerLeave={() => setHovered(null)}
-            onFocus={() => setHovered(i)}
-            onBlur={() => setHovered(null)}
-            onClick={() => setPinned((prev) => (prev === i ? null : i))}
-          >
-            <span className={styles.legendIndex}>
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            {plate.label}
-          </button>
-        ))}
+      {/* In the hero the legend is a list beside the stack, and the focused
+          layer's description opens under its own entry; in an article the
+          legend is a row of pills with the description underneath. */}
+      <div className={styles.side}>
+        <div className={styles.legend} role="group" aria-label={legendLabel}>
+          {plates.map((plate, i) => (
+            <button
+              key={i}
+              type="button"
+              className={styles.legendItem}
+              aria-pressed={active === i}
+              onPointerEnter={(e) => {
+                if (e.pointerType === "mouse") setHovered(i);
+              }}
+              onPointerLeave={() => setHovered(null)}
+              onFocus={() => setHovered(i)}
+              onBlur={() => setHovered(null)}
+              onClick={() => setPinned((prev) => (prev === i ? null : i))}
+            >
+              <span className={styles.legendIndex}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className={styles.legendLabel}>{plate.label}</span>
+              {hero && plate.aside && (
+                <span className={styles.legendAside}>{plate.aside}</span>
+              )}
+              {hero && (
+                <span className={styles.legendDesc}>{plate.description}</span>
+              )}
+            </button>
+          ))}
+        </div>
+        <p className={styles.description} aria-live="polite">
+          {hero
+            ? active === null
+              ? idle
+              : null
+            : active !== null
+              ? plates[active]?.description
+              : idle}
+        </p>
       </div>
-      <p className={styles.description}>
-        {active !== null ? plates[active]?.description : idle}
-      </p>
     </div>
   );
 }

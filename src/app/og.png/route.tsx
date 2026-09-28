@@ -8,10 +8,10 @@ export const dynamic = "force-static";
 export function GET() {
   return new ImageResponse(
     <OgCard
-      eyebrow="Software engineer"
+      eyebrow="Lead Developer"
       title={site.name}
-      subtitle="Open-source developer infrastructure: AI-native, spec-driven golden paths and composable .NET libraries."
-      footer="Essays · Products · omercelik.dev"
+      subtitle="Enterprise systems architecture · Governed AI in software delivery"
+      footer="Work · Labs · Writing · omercelik.dev"
     />,
     OG_SIZE,
   );

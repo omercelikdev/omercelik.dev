@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import Link from "next/link";
-import { tagSlug } from "@/lib/writings";
+import { tagSlug } from "@/lib/slug";
 
 type Tone = "success" | "info" | "warning" | "danger" | "violet" | "neutral";
 

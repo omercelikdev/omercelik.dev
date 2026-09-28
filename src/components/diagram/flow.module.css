@@ -1,0 +1,110 @@
+/* Flow — a signal moving through the stages of a system.
+   States: idle (nothing yet), done (the path travelled, ink), current (the
+   stage the signal is at, accent). Only colour changes on hover, like
+   everywhere else; the only motion is the signal itself. */
+
+.figure {
+  margin-block: 2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-image: radial-gradient(var(--muted) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.node rect {
+  fill: var(--surface);
+  stroke: var(--border-strong);
+  stroke-width: 1;
+  transition:
+    stroke 150ms,
+    stroke-width 150ms;
+}
+.node text {
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 500;
+  fill: var(--foreground);
+}
+.node .sub {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 400;
+  fill: var(--muted-foreground);
+}
+.node.done rect {
+  stroke: var(--foreground);
+}
+.node.current rect {
+  stroke: var(--brand-accent);
+  stroke-width: 1.5;
+}
+
+.edge {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+  transition: stroke 150ms;
+}
+.edge.done {
+  stroke: var(--foreground);
+}
+.edge.current {
+  stroke: var(--brand-accent);
+}
+
+.dot {
+  fill: var(--brand-accent);
+  opacity: 0;
+}
+.dot.run {
+  opacity: 1;
+  animation: travel var(--flow-step, 900ms) cubic-bezier(0.2, 0.7, 0.2, 1)
+    forwards;
+}
+@keyframes travel {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
+.caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--muted-foreground);
+}
+.caption p {
+  margin: 0;
+  min-width: 0;
+}
+.controls {
+  display: flex;
+  flex: none;
+  gap: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edge.current {
+    stroke-dasharray: none;
+  }
+  .dot.run {
+    animation: none;
+    offset-distance: 100%;
+  }
+}

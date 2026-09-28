@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { site } from "@/config/site";
+import { profile } from "@/config/profile";
 import { absoluteUrl, SITE_OG_IMAGE, siteJsonLd, X_HANDLE } from "@/lib/seo";
 import "./globals.css";
 
@@ -90,7 +91,6 @@ export default async function RootLayout({
   const nav = await getTranslations("nav");
   const home = await getTranslations("home");
   const meta = await getTranslations("meta");
-  const about = await getTranslations("about");
 
   return (
     <html
@@ -112,7 +112,7 @@ export default async function RootLayout({
           data={siteJsonLd({
             jobTitle: home("role"),
             description: meta("description"),
-            knowsAbout: about.raw("toolbox") as string[],
+            knowsAbout: [...profile.toolbox],
           })}
         />
         <ThemeProvider>

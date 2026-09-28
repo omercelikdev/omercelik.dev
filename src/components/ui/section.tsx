@@ -1,29 +1,30 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-/** Monospace section header: "01 / label" on the lead side, optional link on
- *  the trailing side. Matches the reference's quiet, indexed sections. */
+/** A section's title, one line of intent under it, and an optional link to
+ *  the full list. No numbering: the sections aren't a sequence. */
 export function SectionHead({
-  index,
-  label,
+  title,
+  intro,
   action,
 }: {
-  index: string;
-  label: string;
+  title: string;
+  intro?: string;
   action?: { href: string; label: string };
 }) {
   return (
-    <div className="mb-8 flex items-baseline justify-between gap-4 border-b border-border pb-4">
-      <span className="mono text-ui text-muted-foreground">
-        <span className="text-faint">{index}</span> / {label}
-      </span>
+    <div className="mb-7 flex items-end justify-between gap-6">
+      <div className="min-w-0">
+        <h2 className="text-h2 font-medium tracking-tight">{title}</h2>
+        {intro && (
+          <p className="mt-1 max-w-xl text-ui text-muted-foreground">{intro}</p>
+        )}
+      </div>
       {action && (
         <Link
           href={action.href}
-          className="group mono inline-flex items-center gap-1 text-caption text-muted-foreground transition-colors hover:text-foreground"
+          className="flex-none text-ui text-muted-foreground underline decoration-border decoration-1 underline-offset-[5px] transition-colors hover:text-foreground hover:decoration-foreground"
         >
           {action.label}
-          <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
         </Link>
       )}
     </div>

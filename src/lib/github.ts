@@ -94,6 +94,7 @@ async function fetchAllRepos(): Promise<GitHubRepo[]> {
 function toProduct(
   repo: GitHubRepo,
   overrides?: {
+    name?: string;
     highlight?: string;
     accent?: ProductAccent;
     featured?: boolean;
@@ -101,7 +102,7 @@ function toProduct(
   },
 ): Product {
   return {
-    name: repo.name,
+    name: overrides?.name ?? repo.name,
     fullName: repo.full_name,
     description: overrides?.highlight ?? repo.description,
     url: repo.html_url,
@@ -140,6 +141,7 @@ async function loadProducts(): Promise<Product[]> {
           const repo = await fetchRepo(entry.repo);
           if (!repo) return null;
           return toProduct(repo, {
+            name: entry.name,
             highlight: entry.highlight,
             accent: entry.accent,
             featured: entry.featured,

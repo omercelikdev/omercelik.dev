@@ -3,6 +3,9 @@ import path from "node:path";
 import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import readingTime from "reading-time";
+import { tagSlug } from "./slug";
+
+export { tagSlug };
 
 const WRITINGS_DIR = path.join(process.cwd(), "content", "writings");
 
@@ -96,31 +99,6 @@ export async function getLatestWritings(count = 3): Promise<WritingMeta[]> {
 
 export async function getWritingSlugs(): Promise<string[]> {
   return (await getAllWritings()).map((w) => w.slug);
-}
-
-const TR_MAP: Record<string, string> = {
-  ç: "c",
-  ğ: "g",
-  ı: "i",
-  ö: "o",
-  ş: "s",
-  ü: "u",
-  â: "a",
-  î: "i",
-  û: "u",
-};
-
-/** URL-safe slug for a tag ("Golden Paths" -> "golden-paths", "Mühendislik"
- *  -> "muhendislik"). Transliterates Turkish letters, then normalizes. */
-export function tagSlug(tag: string): string {
-  return tag
-    .toLowerCase()
-    .trim()
-    .replace(/[çğıöşüâîû]/g, (c) => TR_MAP[c] ?? c)
-    .normalize("NFKD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
 }
 
 /** Every tag with its post count and slug, most-used first. */

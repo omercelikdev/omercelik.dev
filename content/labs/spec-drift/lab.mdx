@@ -1,0 +1,17 @@
+---
+title: "Spec drift playground"
+summary: "Change one field in a manifest and watch a deterministic gate catch it."
+date: "2026-09-19"
+topic: "spec"
+preview: "gate"
+tags: ["spec-driven", "quality"]
+writing: "from-intent-to-proof"
+---
+
+The manifest on the left is the source of truth. The gate on the right is not
+a model: it re-derives what the contracts and tests must contain and compares.
+Nothing here is simulated by an LLM — it's the same kind of check that runs in
+CI, with the numbers made small enough to read.
+
+Try adding an invariant without a test, or relaxing idempotency on a POST. The
+build result changes before anything reaches a reviewer.

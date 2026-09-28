@@ -221,6 +221,86 @@
   opacity: 0.45;
 }
 
+/* ---- Hero: stack on the left, the layers listed on the right ---- */
+.hero {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 1024px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 40px;
+  }
+}
+.hero .legend {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.hero .legendItem {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 8px;
+  padding: 9px 6px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  letter-spacing: 0;
+  text-align: start;
+  text-transform: none;
+  color: var(--muted-foreground);
+}
+.hero .legendItem .legendIndex {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding-top: 3px;
+}
+.hero .legendLabel {
+  font-weight: 500;
+  color: var(--foreground);
+}
+.hero .legendAside {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+.hero .legendItem[aria-pressed="true"] .legendAside {
+  color: var(--muted-foreground);
+}
+.hero .legendDesc {
+  display: none;
+  grid-column: 2 / -1;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted-foreground);
+}
+.hero .legendItem[aria-pressed="true"] {
+  background: none;
+  color: var(--foreground);
+}
+.hero .legendItem[aria-pressed="true"] .legendLabel {
+  color: var(--brand-accent);
+}
+.hero .legendItem[aria-pressed="true"] .legendDesc {
+  display: block;
+}
+.hero .description {
+  max-width: none;
+  min-height: 0;
+  margin: 12px 0 0;
+  text-align: start;
+}
+.hero .description:empty {
+  display: none;
+}
+
 /* ---- Legend + description (below the stack) ---- */
 .legend {
   margin-top: 12px;

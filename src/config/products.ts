@@ -1,5 +1,6 @@
 /** Curated list of repositories to surface as "products".
  *
+ *  - `name`      : optional display name (the repo name is lowercase).
  *  - `repo`      : the GitHub repo — a bare name for one under the site owner's
  *                  account, or "owner/name" for one elsewhere (an organisation).
  *  - `featured`  : show on the home page's featured strip (top 3 by order).
@@ -14,6 +15,8 @@ export type ProductAccent = "violet" | "info" | "success" | "warning";
 
 export interface ProductEntry {
   repo: string;
+  /** Display name, spelled as the project writes it (repo names are lowercase). */
+  name?: string;
   featured?: boolean;
   highlight?: string;
   accent?: ProductAccent;
@@ -25,6 +28,7 @@ export interface ProductEntry {
 export const products: ProductEntry[] = [
   {
     repo: "qorpe/goldpath",
+    name: "Goldpath",
     featured: true,
     accent: "violet",
     highlight:
@@ -32,6 +36,7 @@ export const products: ProductEntry[] = [
   },
   {
     repo: "qorpe/specdrift",
+    name: "SpecDrift",
     featured: true,
     accent: "info",
     highlight:
@@ -39,15 +44,18 @@ export const products: ProductEntry[] = [
   },
   {
     repo: "qorpe/mediant",
+    name: "Mediant",
     featured: true,
     accent: "success",
   },
   {
     repo: "qorpe/mockifyr",
+    name: "Mockifyr",
     accent: "warning",
   },
   {
     repo: "qliplab",
+    name: "QlipLab",
     accent: "violet",
   },
 ];

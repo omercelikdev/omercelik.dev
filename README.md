@@ -1,6 +1,7 @@
 # omercelik.dev
 
-Personal site and writing of Ömer Çelik — open-source products and essays.
+Personal site of Ömer Çelik — software architect. Case studies, runnable
+demos and essays on AI-era enterprise .NET systems you can prove.
 
 Built with **Next.js 16** (App Router, static export), **React 19**,
 **Tailwind CSS v4**, **next-intl** and **MDX**.
@@ -10,7 +11,7 @@ Built with **Next.js 16** (App Router, static export), **React 19**,
 ```bash
 npm install
 cp .env.example .env.local   # optional: add a GITHUB_TOKEN
-npm run dev                  # http://localhost:3000
+npm run dev                  # http://localhost:3000 (runs `gen` first)
 npm run build                # static site in ./out
 npm run check                # lint + typecheck + format check + tests (as CI)
 npm run format               # apply Prettier
@@ -65,11 +66,24 @@ npm run format               # apply Prettier
   serve them as images. Tag pages are `noindex, follow`.
 - **Type** — Geist for the interface, Newsreader (serif) for essay titles and
   pull quotes.
-- **Products** — read from the GitHub API at build time; curate the list in
-  `src/config/products.ts`. Set `GITHUB_TOKEN` wherever the build runs:
-  unauthenticated requests are limited to 60 an hour per IP, and a failed
-  request drops that card from the build (with a `[products]` warning in the
-  build log).
+- **Content is folders** — `content/writings/<slug>.mdx` (essays),
+  `content/work/<slug>.mdx` (case studies) and `content/labs/<slug>/`
+  (demos). Adding a file or folder is all it takes; lists, pages, the sitemap
+  and the feed pick it up. Demos are code, so `npm run gen` (run before
+  `dev`, `build` and `check`) writes the import table
+  `src/generated/labs.ts`; it's committed, and a test fails when it's stale.
+- **Feature flags** — `src/config/features.ts`. `qorpe` shows the Qorpe
+  band and product cards on Work and the home page; off until licensing and
+  qorpe.com are settled. Product cards read from the GitHub API at build time
+  (`src/config/products.ts`); set `GITHUB_TOKEN` wherever the build runs.
+- **Profile facts** — `src/config/profile.ts`: the proof tiles under the
+  thesis, experience (one paragraph per role, never bullets) and the toolbox.
+  Entries marked `todo` render in dev and are dropped from the production
+  build.
+- **Motion contract** — one page-load entrance (`.intro`, staggered), one
+  block-level scroll reveal per section (`.reveal`), hover changes colour
+  only, numbers count up once (`Counter`), and the Flow diagram's signal is
+  the only thing that travels. Reduced motion switches all of it off.
 - **Contact** — the form posts to `/api/contact`, the one piece of the site
   that isn't a static file: a small Worker script (`worker/`) that checks the
   request, verifies a Cloudflare Turnstile token (spam protection, invisible
@@ -121,6 +135,18 @@ What an article can use:
   that essay.
 - **GFM** — tables, task lists and footnotes (`[^1]`).
 - **Table of contents** — appears automatically from three h2/h3 headings up.
+- **Diagrams** — `<Flow steps="Manifest: intent | Contracts: OpenAPI | Gate: drift checks" notes="… | … | …" title="…" />`
+  animates a signal through the stages (plays once in view; Play / Step /
+  Reset). `<Compare before="a | b" after="a | b" />`, `<Matrix x="…|…" y="…|…" cells="a|b|c|d" highlight="4" />`
+  and `<Timeline items="2024: Title: detail | …" />` are still. Items are
+  separated by `|`; string props only.
+- **Demos** — `<Demo id="spec-drift" />` embeds a lab, closed until opened
+  (its JavaScript loads then). A lab is `content/labs/<slug>/lab.mdx` (title,
+  summary, date, topic, the essay it belongs to) next to `Demo.tsx`, a
+  client component on mock data. It also gets its own page at `/labs/<slug>`.
+- **Case studies** — `content/work/<slug>.mdx` with `sector`, `role`,
+  `period`, `stack`, `outcomes` (value + label, `countTo` animates) and
+  `labs` (slugs to show under "Try it"). Domains, never client names.
 - **Comments** — Giscus (GitHub Discussions), one thread per post.
 
 ## Configure
@@ -129,6 +155,8 @@ What an article can use:
 | ----------------------------------- | --------------------------- |
 | Name, email, social links, comments | `src/config/site.ts`        |
 | Contact form recipient and sender   | `wrangler.jsonc` (`vars`)   |
+| Feature flags (Qorpe band)          | `src/config/features.ts`    |
+| Proof tiles, experience, toolbox    | `src/config/profile.ts`     |
 | Which repos show as products        | `src/config/products.ts`    |
 | Colours, radius, shadows            | `src/app/theme.css`         |
 | Type scale, motion, code styling    | `src/app/globals.css`       |
