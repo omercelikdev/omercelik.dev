@@ -29,6 +29,6 @@ export const site = {
    *  Cloudflare. Left empty, the page offers a plain email link instead. */
   contact: {
     endpoint: "/api/contact",
-    turnstileSiteKey: "",
+    turnstileSiteKey: "0x4AAAAAAFHkjJbvmTTup0s-",
   },
 } as const;
