@@ -9,43 +9,32 @@ programme: "telco-service-orchestration"
 period: "2025 — now"
 date: "2025-06-26"
 stack: ["Camunda 8", ".NET", "Vue 3", "Vuetify", "TypeScript"]
-draft: true
 ---
 
 ## Context
 
-Order workflows stop at many points for a person: confirm technical details,
-choose equipment, approve a change. Across all order types there are hundreds
-of these steps. Building a screen and an endpoint for each one would have meant
-hundreds of near-identical forms, each drifting from the others.
+Order workflows stop at hundreds of points for a person: confirm technical
+details, choose equipment, approve a change. A screen and an endpoint for each
+would have meant hundreds of near-identical forms drifting apart.
 
-## The design
+<Flow
+  title="Every user task, one pipeline"
+  steps="Resolve: handler by order and task | Load: fields from metadata | Fill: current values | Render: component by type | Apply: only changed fields"
+  notes="A task-specific handler exists only when it has to enrich or filter data; everything else falls back to the generic one. | Each field carries its component type, validation, grouping and order. | Repeatable fields expand once per related product, from the order's own relationships. | The UI resolves each component from a registry by its type, so a new field type is one registry entry. | Only fields the user actually changed are written back."
+/>
 
-**One pipeline, specific only where it must be.** Every user task goes through
-the same handler pipeline: load the fields the task needs, fill in the current
-values, apply the user's changes. A task is resolved by its order type and task
-id; a task-specific handler exists only when it has to enrich or filter data,
-and everything else falls back to a generic handler.
+## The pattern
 
-**Forms rendered from metadata.** Each field carries its component type,
-validation, grouping and order. The UI resolves a component from a registry by
-that type and renders the form from the metadata, so a new field type is one
-registry entry, not a change to every screen.
-
-**Repeatable fields.** Some fields repeat once per related product, such as one
-block per connected device. A resolver expands them from the order's
-relationships, so the form always matches what is actually on the order.
+- **Generic by default, specific by exception.** One pipeline for every task; a
+  dedicated handler only where the data demands it.
+- **Forms are data.** The UI renders from field metadata through a component
+  registry, so screens stay consistent and a fix in the renderer reaches every
+  task.
+- **Adding a task is configuration.** Define its fields; write code only for the
+  exception.
 
 ## My part
 
-I designed and built the framework: the handler resolution and pipeline, the
-worklist module and the task stepper, and the registry-driven form renderer in
-the UI. The team built the task pool screens on it and later moved the field
-definitions into a database catalog, which turned adding a task into
-configuration.
-
-## Outcome
-
-Hundreds of user tasks share one way of working. Adding a task is mostly
-configuration, a fix in the pipeline reaches every task at once, and the forms
-behave the same everywhere.
+I designed and built the framework: handler resolution and the pipeline, the
+worklist and task stepper, and the registry-driven form renderer. The team built
+the task pool on it and moved the field definitions into a database catalog.
