@@ -21,10 +21,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function WorkPage() {
   const t = await getTranslations("work");
   const work = await getAllWork();
-  // Each case is listed once, under its first theme; empty themes are hidden.
+  // Featured cases lead the page; every other case is listed once, under its
+  // first theme. Empty themes are hidden.
+  const featured = work.filter((w) => w.featured);
   const sections = THEMES.map((theme) => ({
     ...theme,
-    items: work.filter((w) => w.themes[0] === theme.slug),
+    items: work.filter((w) => !w.featured && w.themes[0] === theme.slug),
   })).filter((s) => s.items.length > 0);
 
   return (
@@ -36,6 +38,15 @@ export default async function WorkPage() {
         </p>
       ) : (
         <div className="flex flex-col gap-14">
+          {featured.length > 0 && (
+            <section aria-label={t("featured")}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {featured.map((item) => (
+                  <WorkCard key={item.slug} work={item} />
+                ))}
+              </div>
+            </section>
+          )}
           {sections.map((section) => (
             <section
               key={section.slug}

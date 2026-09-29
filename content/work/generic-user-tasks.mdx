@@ -1,0 +1,51 @@
+---
+title: "User tasks without a screen per task"
+summary: "A framework where hundreds of human steps in order workflows share one handler pipeline and one form renderer, so adding a task is mostly configuration."
+sector: "Telco"
+role: "Lead Developer"
+themes: ["workflow-orchestration", "architecture-integration"]
+kind: "client"
+programme: "telco-service-orchestration"
+period: "2025 — now"
+date: "2025-06-26"
+stack: ["Camunda 8", ".NET", "Vue 3", "Vuetify", "TypeScript"]
+draft: true
+---
+
+## Context
+
+Order workflows stop at many points for a person: confirm technical details,
+choose equipment, approve a change. Across all order types there are hundreds
+of these steps. Building a screen and an endpoint for each one would have meant
+hundreds of near-identical forms, each drifting from the others.
+
+## The design
+
+**One pipeline, specific only where it must be.** Every user task goes through
+the same handler pipeline: load the fields the task needs, fill in the current
+values, apply the user's changes. A task is resolved by its order type and task
+id; a task-specific handler exists only when it has to enrich or filter data,
+and everything else falls back to a generic handler.
+
+**Forms rendered from metadata.** Each field carries its component type,
+validation, grouping and order. The UI resolves a component from a registry by
+that type and renders the form from the metadata, so a new field type is one
+registry entry, not a change to every screen.
+
+**Repeatable fields.** Some fields repeat once per related product, such as one
+block per connected device. A resolver expands them from the order's
+relationships, so the form always matches what is actually on the order.
+
+## My part
+
+I designed and built the framework: the handler resolution and pipeline, the
+worklist module and the task stepper, and the registry-driven form renderer in
+the UI. The team built the task pool screens on it and later moved the field
+definitions into a database catalog, which turned adding a task into
+configuration.
+
+## Outcome
+
+Hundreds of user tasks share one way of working. Adding a task is mostly
+configuration, a fix in the pipeline reaches every task at once, and the forms
+behave the same everywhere.

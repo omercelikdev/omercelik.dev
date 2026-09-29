@@ -1,0 +1,58 @@
+---
+title: "One process per order"
+summary: "How a submitted quote becomes product orders, each running as its own workflow, with downstream systems answering asynchronously and orders that can still be cancelled mid-flight."
+sector: "Telco"
+role: "Lead Developer"
+themes: ["workflow-orchestration"]
+kind: "client"
+programme: "telco-service-orchestration"
+period: "2025 — now"
+date: "2025-05-06"
+stack: ["Camunda 8", ".NET", "ASP.NET Core", "Refit", "PostgreSQL"]
+labs: ["workflow-stepper"]
+draft: true
+---
+
+## Context
+
+An order for a business customer is not one transaction. It touches network
+inventory, work orders, billing and people who have to confirm technical
+details, and some of those systems answer minutes or days later. The platform
+had to keep every order's state explicit, survive slow and failing downstream
+systems, and still let an order be cancelled or changed while it runs.
+
+## How it works
+
+**The process is chosen by data, not code.** When a quote is submitted, it is
+decomposed into product orders. A decomposition table, keyed by the service and
+the kind of change, says which workflow each product order runs. Supporting a
+new scenario means adding a row and a process model, not changing the code
+that starts it.
+
+**One workflow per product order.** Each product order starts its own Camunda 8
+process instance. The process calls back into the platform's services to create
+service orders, update the order and record inventory, so the business logic
+stays in .NET and the process model stays about the flow.
+
+**Downstream systems answer asynchronously.** Outbound requests are logged with
+their message and business ids. When a downstream system calls back, the answer
+is correlated to the waiting process by that id, so it reaches exactly the
+order that asked, however late it arrives.
+
+**Orders can change mid-flight, up to a point.** The process itself marks the
+milestones after which cancelling or changing is no longer safe. Before them,
+a cancel or change request is applied to the running order; after them, it is
+refused with a reason.
+
+## My part
+
+I built the layer the rest of the platform uses to talk to Camunda 8: typed
+clients over its REST API for process instances, messages, user tasks, jobs,
+incidents and deployments. The team built the process models, the decomposition
+scenarios and the callback handling on top of it.
+
+## Outcome
+
+Every order has a visible state and history, a late answer from a downstream
+system lands where it belongs, and "can this still be cancelled?" has a precise
+answer instead of a judgement call.
