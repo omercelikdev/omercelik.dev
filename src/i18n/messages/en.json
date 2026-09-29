@@ -78,7 +78,7 @@
   },
   "work": {
     "title": "Work",
-    "subtitle": "Case studies from platforms that carry real load: what the situation was, what I decided, what came of it. Client names withheld; domains kept.",
+    "subtitle": "Case studies grouped by practice area: what the situation was, what I decided, what came of it. Client names withheld; domains kept.",
     "empty": "Nothing to show here yet.",
     "backToList": "All work",
     "tryIt": "Try it",
@@ -86,7 +86,18 @@
     "role": "Role",
     "period": "Period",
     "stack": "Stack",
-    "onThisPage": "On this page"
+    "onThisPage": "On this page",
+    "kind": "Type",
+    "kinds": {
+      "client": "Client",
+      "internal": "Internal platform",
+      "open-source": "Open source",
+      "solution-design": "Solution design"
+    },
+    "aiNative": "AI-native",
+    "themes": "Practice areas",
+    "partOf": "Part of",
+    "parts": "The parts"
   },
   "labs": {
     "title": "Labs",
