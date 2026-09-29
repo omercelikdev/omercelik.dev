@@ -6,8 +6,20 @@ import {
   newestFirst,
   readMdx,
 } from "./content";
+import type { ThemeSlug } from "@/config/themes";
 
 const WORK_DIR = path.join(CONTENT_DIR, "work");
+
+/** What kind of work a case is. Only the kind is shown, never the employer. */
+export type WorkKind =
+  "client" | "internal" | "open-source" | "solution-design";
+
+export const WORK_KINDS: readonly WorkKind[] = [
+  "client",
+  "internal",
+  "open-source",
+  "solution-design",
+];
 
 /** A case study: content/work/<slug>.mdx. The frontmatter is the card; the
  *  body is the story (context → decision → outcome). */
@@ -18,6 +30,13 @@ export interface WorkFrontmatter {
   /** Domain, never a client name ("Telco", "Banking"). */
   sector: string;
   role: string;
+  /** One or two practice areas; the first decides where the case is listed. */
+  themes: ThemeSlug[];
+  kind: WorkKind;
+  /** Slug of the overview case this one is a part of, if any. */
+  programme?: string;
+  /** Built AI-natively. Never set on client work. */
+  aiNative?: boolean;
   /** "2024 — now", "2022 — 2023". */
   period: string;
   date: string;
@@ -49,6 +68,8 @@ async function readAll(): Promise<Work[]> {
         stack: parsed.data.stack ?? [],
         outcomes: parsed.data.outcomes ?? [],
         labs: parsed.data.labs ?? [],
+        themes: parsed.data.themes ?? [],
+        aiNative: parsed.data.aiNative ?? false,
         featured: parsed.data.featured ?? false,
         draft: parsed.data.draft ?? false,
         slug: file.replace(/\.mdx?$/, ""),
@@ -75,6 +96,13 @@ export async function getFeaturedWork(count = 2): Promise<WorkMeta[]> {
 
 export async function getWorkBySlug(slug: string): Promise<Work | null> {
   return (await readAll()).find((w) => w.slug === slug) ?? null;
+}
+
+/** The parts of an overview case, in their listed order (oldest first). */
+export async function getProgrammeParts(slug: string): Promise<WorkMeta[]> {
+  return (await getAllWork())
+    .filter((w) => w.programme === slug)
+    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
 export async function getWorkSlugs(): Promise<string[]> {

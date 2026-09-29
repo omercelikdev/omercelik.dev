@@ -1,11 +1,14 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import { Counter } from "@/components/motion/counter";
+import { Label } from "@/components/ui/badge";
 import type { WorkMeta } from "@/lib/work";
 
-/** A case study in a list: sector and period, title, one line, outcome
+/** A case study in a list: sector, kind and period, title, one line, outcome
  *  tiles. Only colour changes on hover. */
 export function WorkCard({ work }: { work: WorkMeta }) {
+  const t = useTranslations("work");
   return (
     <Link
       href={`/work/${work.slug}`}
@@ -15,8 +18,11 @@ export function WorkCard({ work }: { work: WorkMeta }) {
         aria-hidden
         className="absolute end-4 top-4 size-4 text-faint transition-colors group-hover:text-foreground"
       />
-      <span className="mono text-caption text-faint">
-        {work.sector} · {work.period}
+      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 pe-6">
+        <span className="mono text-caption text-faint">
+          {work.sector} · {t(`kinds.${work.kind}`)} · {work.period}
+        </span>
+        {work.aiNative && <Label tone="info">{t("aiNative")}</Label>}
       </span>
       <span className="pe-6 text-lead font-medium text-foreground">
         {work.title}

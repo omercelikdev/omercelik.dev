@@ -1,0 +1,73 @@
+---
+title: "One engineer, every layer, three months to production"
+summary: "An internal training platform built AI-natively: backend, frontend, database, DevOps and operations owned by one engineer, delivered in a governed cycle."
+sector: "Corporate learning"
+role: "Founder & engineering lead"
+themes: ["delivery-operations", "quality-test-strategy"]
+kind: "internal"
+aiNative: true
+period: "2026 — now"
+date: "2026-04-06"
+stack: [".NET 10", "ASP.NET Core", "EF Core", "PostgreSQL", "Quartz", "Next.js", "React", "Entra ID", "GitLab CI", "Docker", "nginx", "Playwright"]
+outcomes:
+  - { value: "3", label: "months to production", countTo: 3 }
+  - { value: "400", label: "people using it", countTo: 400 }
+  - { value: "2000+", label: "automated tests", countTo: 2000 }
+featured: true
+---
+
+## Context
+
+An organization needed one place for its training: a programme catalogue,
+sessions, requests, approvals, attendance and certificates, replacing an older
+system whose data was migrated in. A product owner shaped the requirements and
+the screen mockups. Every engineering role was mine.
+
+<Compare
+  beforeTitle="What this usually takes"
+  before="Backend developer | Frontend developer | Database administrator | DevOps engineer | Someone to run it after go-live"
+  afterTitle="How it was delivered"
+  after="One engineer owning every layer | A product owner for requirements and mockups | A governed cycle where AI writes and the cycle decides what is done"
+/>
+
+## The system
+
+- **Application:** .NET 10 Clean Architecture with CQRS on PostgreSQL, a
+  separate worker for scheduled jobs, and a Next.js front end behind a BFF, so
+  tokens never reach the browser.
+- **Integration:** single sign-on with Entra ID, user sync from the HR system,
+  an email queue with retries.
+- **Delivery:** a self-hosted GitLab with its own runner, CI/CD to separate
+  development, test and production environments, tagged releases with
+  generated notes.
+- **Operations:** structured logs kept in the database and archived on a
+  schedule; tiered backups with a stated recovery point and restores that are
+  rehearsed; a daily read-only health check of production.
+- **Rules:** every domain rule written as a numbered invariant, each tied to a
+  test, with the reasoning recorded as a decision record.
+
+## How a task moves
+
+Speed came from the cycle, not from skipping steps. Every change passes the
+same gates, with a review between each.
+
+<Flow
+  title="One task, end to end"
+  steps="Issue: read from the tracker | Decide: approach and trade-off | Red: a failing test first | Docs: updated with the code | Green: built until suites pass | Edges: integration tests, real database | Browser: E2E in a real browser | Ship: MR with evidence"
+  notes="The agent reads the issue from the tracker through MCP, so the work starts from the ticket itself. | A bug starts by proving the cause; a feature starts by agreeing the approach before any code. | The failing test is the bug or the acceptance criterion, written as code. A test that passes without the change is rewritten. | Domain docs, the feature map and decision records change in the same commit, so documentation never drifts from the code. | The change is built until unit, integration and end-to-end suites are green. | Integration tests run against a real PostgreSQL in a container and cover the edge cases, not only the happy path. | Because the rules are written down, the agent can drive the feature in a browser with Playwright and check it against them. | The merge request carries the proof, then moves through development, test and production."
+/>
+
+<Timeline items="Month 1: Foundation, single sign-on, CI/CD, first environments | Month 2: Domain modules, approval chain, notifications | Month 3: Load and security testing, migration, go-live | Since: in daily use, changes limited to fixes and polish" />
+
+## Proof before go-live
+
+Load- and stress-tested up to 300 concurrent users with no server errors and a
+95th percentile under 400 ms. Scanned with SonarQube, OWASP ZAP and a
+dependency audit.
+
+## Outcome
+
+In production since the third month and used by around 400 people, with
+nothing since go-live beyond bug fixes and cosmetic changes. More than 2,000
+automated tests guard it, and when something does go wrong it ends as a rule, a
+test and a decision record.

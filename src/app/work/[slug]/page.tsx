@@ -4,14 +4,16 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { ArrowLeft } from "lucide-react";
 import { RailSection, ReadingShell } from "@/components/layout/reading-shell";
-import { Tag } from "@/components/ui/badge";
+import { Label, Tag } from "@/components/ui/badge";
+import { WorkCard } from "@/components/work/work-card";
+import { getTheme } from "@/config/themes";
 import { Counter } from "@/components/motion/counter";
 import { LabCard } from "@/components/labs/lab-card";
 import { Toc } from "@/components/writings/toc";
 import { renderMdx } from "@/lib/mdx";
 import { extractHeadings } from "@/lib/writings";
 import { getLabsBySlugs } from "@/lib/labs";
-import { getWorkBySlug, getWorkSlugs } from "@/lib/work";
+import { getProgrammeParts, getWorkBySlug, getWorkSlugs } from "@/lib/work";
 import { pageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
@@ -45,10 +47,13 @@ export default async function WorkStudyPage({
   const work = await getWorkBySlug(slug);
   if (!work) notFound();
 
-  const [content, labs] = await Promise.all([
+  const [content, labs, parts, programme] = await Promise.all([
     renderMdx(work.content),
     getLabsBySlugs(work.labs ?? []),
+    getProgrammeParts(work.slug),
+    work.programme ? getWorkBySlug(work.programme) : null,
   ]);
+  const themes = work.themes.map(getTheme).filter((x) => x !== undefined);
   const headings = extractHeadings(work.content);
 
   return (
@@ -57,8 +62,25 @@ export default async function WorkStudyPage({
         <>
           <dl className="flex flex-col gap-2 rounded-[var(--radius-xl)] border border-border p-4 text-ui">
             <Fact label={t("sector")}>{work.sector}</Fact>
+            <Fact label={t("kind")}>{t(`kinds.${work.kind}`)}</Fact>
             <Fact label={t("role")}>{work.role}</Fact>
             <Fact label={t("period")}>{work.period}</Fact>
+            <div>
+              <dt className="text-caption text-muted-foreground">
+                {t("themes")}
+              </dt>
+              <dd className="mt-1.5 flex flex-col gap-1">
+                {themes.map((theme) => (
+                  <Link
+                    key={theme.slug}
+                    href={`/work#${theme.slug}`}
+                    className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+                  >
+                    {theme.title}
+                  </Link>
+                ))}
+              </dd>
+            </div>
             <div>
               <dt className="text-caption text-muted-foreground">
                 {t("stack")}
@@ -87,9 +109,23 @@ export default async function WorkStudyPage({
       </Link>
 
       <header className="intro mt-6 flex flex-col gap-4 border-b border-border pb-8">
-        <p className="mono text-caption text-faint">
-          {work.sector} · {work.period}
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="mono text-caption text-faint">
+            {work.sector} · {t(`kinds.${work.kind}`)} · {work.period}
+          </span>
+          {work.aiNative && <Label tone="info">{t("aiNative")}</Label>}
         </p>
+        {programme && (
+          <p className="text-ui text-muted-foreground">
+            {t("partOf")}{" "}
+            <Link
+              href={`/work/${programme.slug}`}
+              className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+            >
+              {programme.title}
+            </Link>
+          </p>
+        )}
         <h1 className="text-h1 font-medium text-balance">{work.title}</h1>
         <p className="text-lead text-muted-foreground">{work.summary}</p>
         {work.outcomes && work.outcomes.length > 0 && (
@@ -116,6 +152,17 @@ export default async function WorkStudyPage({
       </header>
 
       <div className="mt-2">{content}</div>
+
+      {parts.length > 0 && (
+        <section className="mt-14">
+          <h2 className="mb-4 text-h3 font-medium">{t("parts")}</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {parts.map((part) => (
+              <WorkCard key={part.slug} work={part} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {labs.length > 0 && (
         <section className="mt-14">

@@ -1,0 +1,42 @@
+---
+title: "One process per order"
+summary: "How a submitted quote becomes product orders, each running as its own workflow, with downstream systems answering asynchronously and orders that can still be cancelled mid-flight."
+sector: "Telco"
+role: "Lead Developer"
+themes: ["workflow-orchestration"]
+kind: "client"
+programme: "telco-service-orchestration"
+period: "2025 — now"
+date: "2025-05-06"
+stack: ["Camunda 8", ".NET", "ASP.NET Core", "Refit", "PostgreSQL"]
+---
+
+## Context
+
+An order for a business customer touches network inventory, work orders,
+billing and people who confirm technical details, and some of those systems
+answer days later. Every order needed an explicit state, a way to survive slow
+downstream systems, and a precise answer to "can this still be cancelled?".
+
+<Demo id="workflow-stepper" />
+
+## The pattern
+
+- **The process is chosen by data.** A decomposition table, keyed by service and
+  change type, says which workflow each product order runs. A new scenario is a
+  row and a process model, not new code.
+- **One workflow per product order.** Each runs as its own Camunda 8 instance and
+  calls back into the services for the business logic, so the model stays about
+  the flow.
+- **Late answers find their order.** Outbound requests carry a message id; a
+  downstream callback is correlated to the waiting process by it, however late
+  it arrives.
+- **Change is allowed up to a milestone.** The process marks the points after
+  which cancelling or changing is no longer safe. Before them a request is
+  applied to the running order; after them it is refused with a reason.
+
+## My part
+
+I built the layer the platform uses to talk to Camunda 8: typed clients over its
+REST API for process instances, messages, user tasks, jobs, incidents and
+deployments. The team built the process models and scenarios on top of it.

@@ -1,0 +1,40 @@
+---
+title: "User tasks without a screen per task"
+summary: "A framework where hundreds of human steps in order workflows share one handler pipeline and one form renderer, so adding a task is mostly configuration."
+sector: "Telco"
+role: "Lead Developer"
+themes: ["workflow-orchestration", "architecture-integration"]
+kind: "client"
+programme: "telco-service-orchestration"
+period: "2025 — now"
+date: "2025-06-26"
+stack: ["Camunda 8", ".NET", "Vue 3", "Vuetify", "TypeScript"]
+---
+
+## Context
+
+Order workflows stop at hundreds of points for a person: confirm technical
+details, choose equipment, approve a change. A screen and an endpoint for each
+would have meant hundreds of near-identical forms drifting apart.
+
+<Flow
+  title="Every user task, one pipeline"
+  steps="Resolve: handler by order and task | Load: fields from metadata | Fill: current values | Render: component by type | Apply: only changed fields"
+  notes="A task-specific handler exists only when it has to enrich or filter data; everything else falls back to the generic one. | Each field carries its component type, validation, grouping and order. | Repeatable fields expand once per related product, from the order's own relationships. | The UI resolves each component from a registry by its type, so a new field type is one registry entry. | Only fields the user actually changed are written back."
+/>
+
+## The pattern
+
+- **Generic by default, specific by exception.** One pipeline for every task; a
+  dedicated handler only where the data demands it.
+- **Forms are data.** The UI renders from field metadata through a component
+  registry, so screens stay consistent and a fix in the renderer reaches every
+  task.
+- **Adding a task is configuration.** Define its fields; write code only for the
+  exception.
+
+## My part
+
+I designed and built the framework: handler resolution and the pipeline, the
+worklist and task stepper, and the registry-driven form renderer. The team built
+the task pool on it and moved the field definitions into a database catalog.
