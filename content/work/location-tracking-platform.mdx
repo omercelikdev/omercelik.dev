@@ -1,0 +1,58 @@
+---
+title: "Location tracking for a mobile operator's business customers"
+summary: "The architecture for a platform that lets companies locate their employees' lines and get alerts at geofences, running entirely inside the operator's data centre."
+sector: "Telecom"
+role: "Solution architect"
+themes: ["architecture-integration", "workflow-orchestration"]
+kind: "solution-design"
+period: "2026"
+date: "2026-08-25"
+stack: [".NET", "SignalR", "YARP", "Kafka", "PostgreSQL", "PostGIS", "Redis", "MapLibre", "OpenStreetMap"]
+---
+
+## Context
+
+A mobile operator wanted to offer its business customers a service to locate
+the lines of their field staff, draw areas on a map, get an alert when a line
+enters or leaves one, and report on all of it. Every company sees only its own
+lines; the operator manages them all from a separate panel. It had to run
+entirely inside the operator's own data centre.
+
+I wrote the solution architecture for the proposal: the analysis, the
+architecture and its decision records, a component guide, a comparison of map
+sources, a working map demo and the resource estimate.
+
+## The constraint that shaped everything
+
+Locations come from the operator's network API, which allows ten queries a
+second. At fifty thousand lines, one full sweep takes about 83 minutes, and
+adding more servers doesn't make it faster. So the design had to separate the
+work that waits on that API from everything else.
+
+<SystemMap
+  title="Target architecture"
+  columns="People: Company panel; Operator panel | Entry: Gateway and BFF | Services: Portal API; Live updates | Workers: Collection, rate-limited; Processing, CPU-bound; Batch, reports | Data: Event backbone; PostgreSQL with PostGIS; Redis; Map tiles from files"
+/>
+
+## The decisions
+
+- **Workers split by what slows them down.** Collection is limited by the
+  upstream API, processing by CPU, batch jobs by time. Six workers ship as one
+  image, in three deployment groups, so the nightly report never delays a
+  geofence alarm.
+- **A self-hosted map stack.** Map data is processed once a month into a single
+  tile file that the live system only reads. No fee per tile, per user or per
+  request, and nothing leaves the data centre.
+- **Tenant isolation in five places.** Sign-in, gateway, API query filters,
+  row-level security in the database, and separate channels for live updates.
+  If the application forgets a filter, the database still refuses.
+- **Two sites, active and passive.**
+- **Reuse what the operator already runs.** Moving the event backbone onto the
+  operator's central platform removed a whole cluster from the hardware
+  request.
+
+## What I learned from it
+
+The numbers decided the architecture before any technology did. Once the rate
+limit was on the table, splitting the workers, sizing the hardware and
+promising alert times all followed from it.
