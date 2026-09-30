@@ -31,7 +31,7 @@ export async function Hero() {
             alt=""
             width={40}
             height={40}
-            className="size-10 rounded-full border border-border object-cover grayscale"
+            className="size-10 rounded-full border border-border object-cover"
           />
           <p className="text-ui leading-tight">
             <span className="block font-medium text-foreground">

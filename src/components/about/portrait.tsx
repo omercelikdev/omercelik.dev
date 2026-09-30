@@ -16,7 +16,7 @@ export function Portrait({ alt }: { alt: string }) {
           src="/omer.jpg"
           alt={alt}
           onError={() => setFailed(true)}
-          className="size-full object-cover grayscale transition-all duration-500 hover:grayscale-0"
+          className="size-full object-cover"
         />
       ) : (
         <div className="grid size-full place-items-center">

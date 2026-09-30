@@ -34,7 +34,7 @@ export function AuthorCard() {
         alt=""
         width={48}
         height={48}
-        className="size-12 flex-none rounded-full border border-border object-cover grayscale"
+        className="size-12 flex-none rounded-full border border-border object-cover"
       />
       <div className="flex min-w-0 flex-col gap-1">
         <span className="mono text-meta uppercase tracking-wider text-faint">
