@@ -25,7 +25,7 @@
       "orchestration that carries real load",
       "test strategy that holds"
     ],
-    "subtitle": "Architecture, workflow orchestration and test strategy for platforms that carry real load — and AI that works inside the guardrails, not around them: spec-driven generation, deterministic gates, evidence over promises.",
+    "subtitle": "I design and build enterprise systems on .NET: order management, workflow orchestration and integration. And I work on how a team can use AI in delivery while people still decide what reaches production.",
     "ctaWork": "See the work",
     "ctaWritings": "Read the writing",
     "signature": "AI produces · people decide · the engine verifies. <goldpath>Goldpath</goldpath> lays the path, <specdrift>SpecDrift</specdrift> keeps it honest.",
@@ -39,31 +39,43 @@
       "Every business event carries its rule id, so the running system explains itself."
     ],
     "practiceTitle": "Practice",
-    "practiceIntro": "Four things I do, each with something you can open.",
+    "practiceIntro": "Six areas I work in, each with something you can open.",
     "practice": [
       {
-        "title": "Architecture & platforms",
-        "desc": "Service boundaries, shared building blocks and reusable assets, so each new product line builds on the same foundation.",
+        "title": "Architecture & integration",
+        "desc": "Service boundaries, shared foundations, gateways and the contracts between systems.",
         "href": "/work/telco-service-orchestration",
-        "proof": "order management platform"
+        "proof": "order platform"
       },
       {
         "title": "Workflow orchestration",
-        "desc": "A Camunda process per order, asynchronous callbacks from downstream systems, and phased cut-overs for order flows that carry real load.",
-        "href": "/labs/workflow-stepper",
-        "proof": "workflow stepper"
+        "desc": "One process per order, late answers from downstream systems, and the people in between.",
+        "href": "/work/order-orchestration",
+        "proof": "process per order"
       },
       {
-        "title": "Test strategy & quality",
-        "desc": "Unit, contract and end-to-end tests, mocks that can't lie, and a strategy strong enough to decide what reaches production.",
+        "title": "Domain modeling & rules",
+        "desc": "A catalog on TM Forum's model, and business rules kept as data.",
+        "href": "/work/business-rules",
+        "proof": "rules as data"
+      },
+      {
+        "title": "Legacy modernization",
+        "desc": "Replacing a live system one service line at a time while it keeps taking orders.",
+        "href": "/work/telco-service-orchestration",
+        "proof": "order management"
+      },
+      {
+        "title": "Quality & test strategy",
+        "desc": "Tests strong enough to decide what reaches production.",
         "href": "/labs/test-pyramid",
         "proof": "test pyramid"
       },
       {
-        "title": "AI inside the guardrails",
-        "desc": "Specifications, architecture rules and deterministic checks that keep AI-written code honest. People own the decisions.",
-        "href": "/labs/spec-drift",
-        "proof": "spec drift"
+        "title": "Delivery & operations",
+        "desc": "From first commit to production and keeping it running, with AI doing the typing and written rules deciding what is done.",
+        "href": "/work/internal-learning-platform",
+        "proof": "internal platform"
       }
     ],
     "workTitle": "Work",

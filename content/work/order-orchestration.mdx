@@ -1,42 +1,63 @@
 ---
-title: "One process per order"
-summary: "How a submitted quote becomes product orders, each running as its own workflow, with downstream systems answering asynchronously and orders that can still be cancelled mid-flight."
+title: "One process per order, and the people in it"
+summary: "Each product order runs as its own workflow: downstream systems answer late, people step in at hundreds of points, and an order can still be cancelled while it runs."
 sector: "Telco"
 role: "Lead Developer"
 themes: ["workflow-orchestration"]
 kind: "client"
 programme: "telco-service-orchestration"
 period: "2025 — now"
-date: "2025-05-06"
-stack: ["Camunda 8", ".NET", "ASP.NET Core", "Refit", "PostgreSQL"]
+date: "2025-06-01"
+stack: ["Camunda 8", ".NET", "ASP.NET Core", "Refit", "Vue 3", "PostgreSQL"]
 ---
 
 ## Context
 
-An order for a business customer touches network inventory, work orders,
-billing and people who confirm technical details, and some of those systems
-answer days later. Every order needed an explicit state, a way to survive slow
-downstream systems, and a precise answer to "can this still be cancelled?".
+A business order touches network inventory, work orders, billing and people
+who confirm technical details. Some of those systems answer days later. Every
+order needs its own state, has to survive slow downstream systems, and needs a
+clear answer to "can this still be cancelled?".
+
+Try it: step an order through its process, then cancel it before and after the
+milestone.
 
 <Demo id="workflow-stepper" />
 
-## The pattern
+## How it works
 
-- **The process is chosen by data.** A decomposition table, keyed by service and
-  change type, says which workflow each product order runs. A new scenario is a
-  row and a process model, not new code.
-- **One workflow per product order.** Each runs as its own Camunda 8 instance and
-  calls back into the services for the business logic, so the model stays about
-  the flow.
-- **Late answers find their order.** Outbound requests carry a message id; a
-  downstream callback is correlated to the waiting process by it, however late
-  it arrives.
-- **Change is allowed up to a milestone.** The process marks the points after
-  which cancelling or changing is no longer safe. Before them a request is
-  applied to the running order; after them it is refused with a reason.
+- **One workflow per product order.** A submitted quote is split into product
+  orders, and each runs as its own Camunda 8 process. A table decides which
+  process a product order runs; the splitting itself is a small strategy per
+  scenario, so each new scenario stays isolated.
+- **The business logic stays in .NET.** The process calls back into the
+  services to create service orders and update the order, so the process model
+  only describes the flow.
+- **Late answers find their order.** Every outbound request carries a message
+  id. When a downstream system calls back, the answer is matched to the waiting
+  process by that id, however late it comes.
+- **Change is allowed up to a milestone.** The process marks the point after
+  which cancelling or changing isn't safe anymore. Before it, the request is
+  applied to the running order. After it, the request is refused with a reason.
+
+## The people in the process
+
+Across all order types, the processes stop at hundreds of points for a person:
+confirm technical details, pick equipment, approve a change. Building a screen
+for each one would have given us hundreds of forms drifting apart. So every
+user task goes through one pipeline.
+
+<Flow
+  title="Every user task, one pipeline"
+  steps="Resolve: handler by order and task | Load: fields from metadata | Fill: current values | Render: component by type | Save: changed fields only"
+  notes="A task gets its own handler only when it has to enrich or filter data. Everything else uses the generic one. | Each field carries its component type, validation, grouping and order. | Fields that repeat per related product are expanded from the order's own relationships. | The UI picks each component from a registry by its type, so a new field type is one registry entry. | Only the fields the user changed are written back."
+/>
+
+Adding a task is mostly configuration, and a fix in the pipeline reaches every
+task at once.
 
 ## My part
 
-I built the layer the platform uses to talk to Camunda 8: typed clients over its
-REST API for process instances, messages, user tasks, jobs, incidents and
-deployments. The team built the process models and scenarios on top of it.
+I built the Camunda 8 client layer the platform uses for processes, messages,
+user tasks, incidents and deployments, and the user task framework: the handler
+pipeline, the worklist, the task stepper and the form renderer. I led the team
+that built the process models, the scenarios and the task pool on top of them.

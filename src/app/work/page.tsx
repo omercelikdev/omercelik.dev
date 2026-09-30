@@ -21,12 +21,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function WorkPage() {
   const t = await getTranslations("work");
   const work = await getAllWork();
-  // Featured cases lead the page; every other case is listed once, under its
-  // first theme. Empty themes are hidden.
+  // Featured cases lead the page; every case is also listed under its first
+  // theme, so no practice area looks empty. Empty themes are hidden.
   const featured = work.filter((w) => w.featured);
   const sections = THEMES.map((theme) => ({
     ...theme,
-    items: work.filter((w) => !w.featured && w.themes[0] === theme.slug),
+    items: work.filter((w) => w.themes[0] === theme.slug),
   })).filter((s) => s.items.length > 0);
 
   return (

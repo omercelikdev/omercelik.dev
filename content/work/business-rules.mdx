@@ -1,0 +1,44 @@
+---
+title: "Business rules as data, one engine for UI and backend"
+summary: "Hundreds of eligibility, compatibility and validation rules kept as data and evaluated by one engine, so the screen and the server always give the same answer."
+sector: "Telco"
+role: "Lead Developer"
+themes: ["domain-modeling-rules"]
+kind: "client"
+programme: "telco-service-orchestration"
+period: "2025 — now"
+date: "2025-10-01"
+stack: [".NET", "ASP.NET Core", "PostgreSQL", "Vue 3", "Vue Flow"]
+---
+
+## Context
+
+Whether a product can be added to a quote, combined with another, or changed
+on an existing order depends on hundreds of rules. When the UI checks one
+version of a rule and the backend another, users see one answer on screen and
+get a different one when they submit. And every rule written in code waits for
+a release when the business changes it.
+
+## How a rule works
+
+A rule is a row, not code. The engine reads it and runs it.
+
+<Flow
+  title="Anatomy of a rule"
+  steps="Scope: where it applies | Parameters: values it needs | Condition: when it fires | Result: block, warn or set"
+  notes="Each rule has a type (eligibility, compatibility, validation or confirmation), a stage, the item it applies to, and validity dates. | Parameters are read through small named commands, such as a quote attribute or a characteristic of a product. There are about two hundred of them. | The condition is an expression over those parameters. | A rule can stop the user with a message, ask for confirmation, or set a value. A rule that sets a value can feed another rule, and the editor shows these chains as a graph."
+/>
+
+## The decisions
+
+- **One engine.** The UI doesn't have its own copy of the rules. It calls the
+  same engine the backend uses, so the answer is the same everywhere.
+- **Rules are data.** A rule has a lifecycle and validity dates. A rule built
+  from existing commands is added or changed without a deployment.
+- **Commands are code.** When a rule needs something new to read or set, it
+  becomes a new command: written once, reviewed and tested like any other code,
+  then reusable by every rule.
+
+## My part
+
+I led the team that built it.
