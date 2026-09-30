@@ -1,0 +1,73 @@
+---
+title: "A mock server that is done only when it matches the reference"
+summary: "Mockifyr, a self-hosted API mocking and integration sandbox in .NET. Every behaviour it copies is checked against a running WireMock before it counts as done."
+sector: "Developer tools"
+role: "Author"
+themes: ["quality-test-strategy", "architecture-integration"]
+kind: "open-source"
+aiNative: true
+period: "2026 — now"
+date: "2026-07-01"
+stack: [".NET 10", "ASP.NET Core", "Testcontainers", "PostgreSQL", "Redis", "Kafka", "Docker", "Helm"]
+outcomes:
+  - { value: "63", label: "releases", countTo: 63 }
+  - { value: "1500+", label: "tests", countTo: 1500 }
+  - { value: "15", label: "architecture decisions", countTo: 15 }
+---
+
+## Context
+
+Enterprise systems depend on downstream systems you can't call from a test:
+billing, inventory, a partner's API, an SMS gateway. You mock them, and then
+you trust the mock. I wanted a mock server in .NET, with its own codebase, that
+speaks the protocols these systems actually use and can be handed to a partner
+as a sandbox. And I wanted a way to know it behaves correctly, not a feeling
+that it does.
+
+[mockifyr.qorpe.com](https://mockifyr.qorpe.com) ·
+[GitHub](https://github.com/qorpe/mockifyr)
+
+<SystemMap
+  title="One engine, many ways in"
+  legend="No I/O, no transport"
+  columns="Protocols: HTTP; gRPC; GraphQL; WebSocket; Email and SMS; Kafka and AMQP | Facades: In-process library; HTTP server; Admin API; Dashboard | Core: *Match the request; *Build the response; *Directives: delay, fault, proxy | Storage: In memory; PostgreSQL; Redis; LiteDB"
+/>
+
+## How "done" is decided
+
+A feature that copies WireMock's behaviour isn't done when it looks right. It
+is done when the same requests produce the same responses in both.
+
+<Flow
+  title="The differential check"
+  steps="Generate: many requests | Send: to both servers | Compare: responses | Done: when nothing differs"
+  notes="Inputs are generated, not hand-picked, so edge cases show up without anyone thinking of them. | The same requests go to Mockifyr and to a real WireMock running in a container. | Status, headers and body are compared, byte for byte or by meaning. | Any difference is a failing test. The work ends when the diff is empty."
+/>
+
+Where no reference exists, a real client drives the feature instead: a real
+mail client for SMTP, the official Twilio SDK for SMS, a real gRPC client for
+gRPC.
+
+## The decisions
+
+- **The core does no I/O.** Delay, fault and proxy are directives the core
+  returns; calls to the outside world happen at the edges. That is what makes
+  the differential check possible.
+- **Tenants are in the model from day one.** One process serves many teams or
+  partners, each with its own stubs, keys and quotas. Adding this later would
+  have meant rewriting the engine.
+- **Memory first, storage optional.** Requests are always served from memory.
+  PostgreSQL, Redis or LiteDB are written through when data has to survive a
+  restart or be shared between replicas.
+- **Every decision is written down.** Fifteen decision records and a parity
+  document for each area of behaviour, including what is deliberately left out.
+
+## How I built it
+
+I wrote it with AI. The AI never judged its own work: the architecture rule is
+that only the running reference decides whether a behaviour is correct.
+
+## Outcome
+
+Sixty-three releases, one container image for amd64 and arm64, a Helm chart
+that runs on OpenShift, and more than 1,500 tests.

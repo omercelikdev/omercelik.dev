@@ -3,6 +3,7 @@ import { getAllWork } from "./work";
 import { getAllLabs } from "./labs";
 import { THEME_SLUGS } from "@/config/themes";
 import { WORK_KINDS } from "./work";
+import { getAllWritings } from "./writings";
 
 describe("work", () => {
   it("every case study has the card fields and only known labs", async () => {
@@ -42,6 +43,17 @@ describe("work", () => {
         expect(slugs.has(w.programme), w.slug).toBe(true);
         expect(w.programme, w.slug).not.toBe(w.slug);
       }
+    }
+  });
+
+  it("uses only known themes on writing and labs", async () => {
+    const [writings, labs] = await Promise.all([
+      getAllWritings(),
+      getAllLabs(),
+    ]);
+    for (const item of [...writings, ...labs]) {
+      for (const t of item.themes ?? [])
+        expect(THEME_SLUGS, item.slug).toContain(t);
     }
   });
 });

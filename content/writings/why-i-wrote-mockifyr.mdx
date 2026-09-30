@@ -1,0 +1,74 @@
+---
+title: "Why I wrote Mockifyr: done means a green diff"
+description: "A mock server is only useful if it behaves like the thing it copies. So I stopped asking whether it looked right and started comparing it with the real one."
+date: "2026-09-30"
+lang: "en"
+tags: ["testing", "mocking", ".net"]
+series: "Test strategy that holds"
+seriesOrder: 1
+featured: true
+themes: ["quality-test-strategy"]
+---
+
+Every integration test that uses a mock makes a quiet assumption: the mock
+behaves like the real thing. When it doesn't, the test passes and production
+fails, and nobody finds out until a customer does.
+
+I wrote [Mockifyr](https://mockifyr.qorpe.com) because I needed a mock server
+in .NET, with its own codebase, that I could hand to a team or a partner as a
+sandbox. It copies the behaviour of WireMock, the most widely used mock server.
+The hard part wasn't writing it. The hard part was knowing it was right.
+
+## Looking right is not a test
+
+The usual way to build something like this is to read the reference
+documentation, write the feature, write a few tests for the cases you thought
+of, and move on. Every step of that depends on your own understanding. If you
+misread how the reference handles an empty array or a missing header, your code
+and your tests will agree with each other, and both will be wrong.
+
+It gets worse when code is cheap to write. With AI, I could produce a feature
+and its tests in minutes. Tests written by the same hand, human or not, from the
+same understanding, prove very little.
+
+## Ask the real one
+
+So the rule became: the only thing that decides whether Mockifyr is correct is a
+running WireMock.
+
+<Flow
+  title="The loop behind every feature"
+  steps="Generate: many requests | Send: to both servers | Compare: the responses | Keep: every failure as a test | Fix: until the diff is empty"
+  notes="Inputs come from a generator with a fixed seed: empty values, long values, unicode, missing and extra fields, different array orders. Nobody has to think of the edge cases. | The same stub is loaded into Mockifyr and into a real WireMock running in a container, and the same request goes to both. | Status, headers and body are compared. Any difference means Mockifyr is wrong. | A failing input is added to the regression suite, so the suite grows with every bug found. | The feature is done when the two servers give the same answers. Not before."
+/>
+
+That changes what "done" means. It isn't "I believe it works" or "the tests I
+wrote pass". It is "the reference and my code give the same answers to inputs
+I didn't choose".
+
+## What the loop needs from the design
+
+You can only compare two systems if you can drive one of them precisely. That
+shaped Mockifyr's core from the first commit: it does no I/O. Delays, faults and
+proxying are instructions the core returns, not things it does. Calls to the
+outside world happen at the edges. A pure core is easy to put side by side with
+anything.
+
+## Where the loop stops
+
+A byte diff only catches what it can compare. Timing, socket-level faults, TLS
+handshakes and concurrency don't show up in it, so they are tested separately.
+Some features have no WireMock equivalent at all, such as SMTP, SMS or gRPC.
+For those, a real client drives the feature instead: a real mail client, the
+official Twilio SDK, a real gRPC client. When there is no oracle, the next best
+thing is the software people actually use.
+
+## The general point
+
+This isn't about mock servers. Whenever you rebuild something that already
+exists, whether it's a legacy system, a library or a service, you already have
+the best test you'll ever get: the old one. Run both, compare the answers, and
+let the difference tell you when you are done.
+
+With AI writing more of the code, this matters more, not less. The model can
+write the feature. It shouldn't be the one who decides it works.

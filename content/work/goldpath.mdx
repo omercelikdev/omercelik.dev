@@ -1,0 +1,69 @@
+---
+title: "A golden path for enterprise .NET, not another framework"
+summary: "Goldpath: composable packages, templates and checks that give .NET teams the plumbing every enterprise system needs, with one manifest as the source of truth."
+sector: "Developer tools"
+role: "Author"
+themes: ["architecture-integration", "quality-test-strategy"]
+kind: "open-source"
+aiNative: true
+period: "2026 — now"
+date: "2026-07-12"
+stack: [".NET 10", ".NET Aspire", "PostgreSQL", "Quartz", "Stryker", "OpenAPI", "AsyncAPI"]
+outcomes:
+  - { value: "23", label: "packages", countTo: 23 }
+  - { value: "13", label: "architecture decisions", countTo: 13 }
+  - { value: "1100+", label: "tests", countTo: 1100 }
+---
+
+## Context
+
+Every enterprise .NET team builds the same things again: idempotency, locking,
+an audit trail, background jobs, messaging, bulk processing. Each version has
+its own bugs. And the spec, the contracts and the code drift apart the moment
+the first deadline arrives.
+
+Goldpath is a paved road for that. It is not a framework: it configures
+Microsoft's own building blocks instead of wrapping them, so a team can leave
+the road at any point.
+
+[GitHub](https://github.com/qorpe/goldpath)
+
+<LayerStack title="How the pieces fit">
+  <Layer label="Manifest" detail="source of truth" note="What the service is and what it must guarantee, with its OpenAPI and AsyncAPI contracts." />
+  <Layer label="Packages" detail="23 NuGet packages" note="Idempotency, locking, audit, jobs, messaging, bulk, approvals and more. Take only what you need." />
+  <Layer label="Checks" detail="SpecDrift" note="A deterministic check that the manifest and the repository still agree. No model involved." />
+  <Layer label="Reference app" detail="nightly" note="A sample finance app built every night against the published packages." />
+</LayerStack>
+
+## The decisions
+
+- **The manifest is the single source of truth.** Contracts, checks and
+  generated docs all follow from it.
+- **Configure Microsoft, never wrap it.** Less to learn, nothing to unlearn.
+- **AI stays in the development layer.** It helps write and change code. The
+  runtime libraries contain no AI; that is an opt-in module.
+- **Standards are executable.** A rule that isn't checked by a tool is a
+  suggestion. The docs are generated, so they can't go stale.
+- **Three approvals no tool can skip.** The spec is approved by the business,
+  the merge request by a developer, the cut-over by operations. Everything an
+  agent produces arrives as a merge request.
+
+## One proof, in detail
+
+The question every payments architect asks first: what happens when a node dies
+in the middle of a batch? A test in CI answers it on every pull request, with
+two real executor processes and a real PostgreSQL.
+
+<Flow
+  title="kill -9 in the middle of a payment batch"
+  steps="Claim: row marked before it runs | Kill: the executor dies | Detect: the other node notices | Resume: from the last checkpoint | Repair: interrupted rows are held"
+  notes="Every row in a chunk is marked as claimed in the database before its handler runs. | The test finds the node that is actually paying and kills its whole process tree. | The scheduler's cluster check-in marks the dead node, and the job fires again on the survivor. | The run continues. Completed chunks never run twice. | A row that was claimed but never confirmed isn't sent again. It goes to a repair queue with instructions: check the downstream state, then replay."
+/>
+
+No payment goes out twice. The test proves it; nobody has to believe it.
+
+## How I built it
+
+I wrote it with AI, inside the same rules it gives to its users: a manifest
+first, deterministic checks, tests that must fail before the change, and
+mutation testing to show the tests actually catch mistakes.

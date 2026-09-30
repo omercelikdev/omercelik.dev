@@ -6,6 +6,7 @@ import {
   newestFirst,
   readMdx,
 } from "./content";
+import type { ThemeSlug } from "@/config/themes";
 
 export const LABS_DIR = path.join(CONTENT_DIR, "labs");
 
@@ -14,6 +15,7 @@ export const LABS_DIR = path.join(CONTENT_DIR, "labs");
  *  the folder is all it takes — `npm run gen` (run before dev and build)
  *  registers the demo so the Labs page, the home page and <Demo id="…" />
  *  in any essay can find it. */
+
 export interface LabFrontmatter {
   title: string;
   /** One sentence: what you can try. */
@@ -26,6 +28,8 @@ export interface LabFrontmatter {
   preview?: "flow" | "bars" | "process" | "gate";
   /** The essay that explains it, by slug. */
   writing?: string;
+  /** Practice areas (see src/config/themes.ts). */
+  themes?: ThemeSlug[];
   draft?: boolean;
 }
 
@@ -49,6 +53,7 @@ async function readAll(): Promise<Lab[]> {
       const lab: Lab = {
         ...parsed.data,
         tags: parsed.data.tags ?? [],
+        themes: parsed.data.themes ?? [],
         draft: parsed.data.draft ?? false,
         slug,
         content: parsed.content,

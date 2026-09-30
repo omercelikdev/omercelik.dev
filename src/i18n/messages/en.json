@@ -68,8 +68,8 @@
       {
         "title": "Quality & test strategy",
         "desc": "Tests strong enough to decide what reaches production.",
-        "href": "/labs/test-pyramid",
-        "proof": "test pyramid"
+        "href": "/work/mockifyr",
+        "proof": "green diff"
       },
       {
         "title": "Delivery & operations",
@@ -110,7 +110,8 @@
     "themes": "Practice areas",
     "partOf": "Part of",
     "parts": "The parts",
-    "featured": "Featured work"
+    "featured": "Featured work",
+    "relatedWriting": "Writing in this area"
   },
   "labs": {
     "title": "Labs",
@@ -139,7 +140,8 @@
     "older": "Older",
     "copy": "Copy code",
     "copied": "Copied",
-    "writtenBy": "Written by"
+    "writtenBy": "Written by",
+    "inPractice": "In practice"
   },
   "openSource": {
     "title": "Open source",

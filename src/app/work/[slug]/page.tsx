@@ -13,6 +13,8 @@ import { Toc } from "@/components/writings/toc";
 import { renderMdx } from "@/lib/mdx";
 import { extractHeadings } from "@/lib/writings";
 import { getLabsBySlugs } from "@/lib/labs";
+import { getAllWritings } from "@/lib/writings";
+import { PostRow } from "@/components/writings/post-row";
 import { getProgrammeParts, getWorkBySlug, getWorkSlugs } from "@/lib/work";
 import { pageMetadata } from "@/lib/seo";
 
@@ -54,6 +56,9 @@ export default async function WorkStudyPage({
     work.programme ? getWorkBySlug(work.programme) : null,
   ]);
   const themes = work.themes.map(getTheme).filter((x) => x !== undefined);
+  const writings = (await getAllWritings()).filter((w) =>
+    (w.themes ?? []).some((t) => work.themes.includes(t)),
+  );
   const headings = extractHeadings(work.content);
 
   return (
@@ -159,6 +164,17 @@ export default async function WorkStudyPage({
           <div className="grid gap-4 sm:grid-cols-2">
             {parts.map((part) => (
               <WorkCard key={part.slug} work={part} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {writings.length > 0 && (
+        <section className="mt-14">
+          <h2 className="mb-2 text-h3 font-medium">{t("relatedWriting")}</h2>
+          <div className="flex flex-col">
+            {writings.map((post) => (
+              <PostRow key={post.slug} post={post} />
             ))}
           </div>
         </section>

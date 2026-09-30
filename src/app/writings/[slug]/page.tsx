@@ -20,6 +20,8 @@ import {
   type WritingMeta,
 } from "@/lib/writings";
 import { articleJsonLd, articleMetadata } from "@/lib/seo";
+import { getWorkInThemes } from "@/lib/work";
+import { WorkCard } from "@/components/work/work-card";
 
 /** A table of contents earns its space from three sections up. */
 const TOC_MIN_HEADINGS = 3;
@@ -56,9 +58,10 @@ export default async function WritingPage({
     day: "numeric",
   }).format(new Date(post.date));
 
-  const [seriesPosts, adjacent] = await Promise.all([
+  const [seriesPosts, adjacent, practice] = await Promise.all([
     post.series ? getSeriesPosts(post.series) : Promise.resolve([]),
     getAdjacentWritings(slug),
+    getWorkInThemes(post.themes ?? []),
   ]);
   const headings = extractHeadings(post.content);
   const showToc = headings.length >= TOC_MIN_HEADINGS;
@@ -163,6 +166,17 @@ export default async function WritingPage({
       <div lang={post.lang} dir="auto" className="mt-2">
         {content}
       </div>
+
+      {practice.length > 0 && (
+        <section className="mt-14">
+          <h2 className="mb-4 text-h3 font-medium">{t("inPractice")}</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {practice.map((item) => (
+              <WorkCard key={item.slug} work={item} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <AuthorCard />
       <NewsletterBox />

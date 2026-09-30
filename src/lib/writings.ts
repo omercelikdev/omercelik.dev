@@ -4,6 +4,7 @@ import GithubSlugger from "github-slugger";
 import matter from "gray-matter";
 import readingTime from "reading-time";
 import { tagSlug } from "./slug";
+import type { ThemeSlug } from "@/config/themes";
 
 export { tagSlug };
 
@@ -26,6 +27,9 @@ export interface WritingFrontmatter {
   featured?: boolean;
   /** Date of the last meaningful revision (ISO), if revised after `date`. */
   updated?: string;
+  /** Practice areas (see src/config/themes.ts); links the piece to case
+   *  studies in the same area. */
+  themes?: ThemeSlug[];
 }
 
 export interface WritingMeta extends WritingFrontmatter {
@@ -61,6 +65,7 @@ function parse(fileName: string, raw: string): Writing {
     seriesOrder: fm.seriesOrder,
     featured: fm.featured ?? false,
     updated: fm.updated,
+    themes: fm.themes ?? [],
     readingMinutes: Math.max(1, Math.round(readingTime(content).minutes)),
     content,
   };
