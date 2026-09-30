@@ -1,0 +1,56 @@
+---
+title: "A developer portal for a bank's partner APIs"
+summary: "The approach for opening a bank's APIs to business partners: onboarding, sandbox, go-live approval and fees, and a review of the bank's own high-level design."
+sector: "Banking"
+role: "Solution architect"
+themes: ["architecture-integration", "domain-modeling-rules"]
+kind: "solution-design"
+period: "2026"
+date: "2026-08-10"
+stack: [".NET", "React", "Keycloak", "API gateway", "PostgreSQL"]
+---
+
+## Context
+
+A bank wanted to open its APIs to business partners through a developer
+portal: partners sign up, try the APIs in a sandbox, get certified, go live and
+are charged for use. Behind it sat an existing API gateway and the core banking
+system.
+
+I worked through the bank's requirements, about 165 of them, mapped each to a
+part of the solution, proposed the approach and the target architecture, and
+reviewed the bank's own high-level design against them.
+
+<Flow
+  title="A partner's journey"
+  steps="Register: company and people | Sandbox: try the APIs | Build: keys and test data | Certify: go-live checks | Live: production access | Operate: usage, fees, changes"
+  notes="The partner company and its users are registered and approved by the bank. | The partner tries the APIs in a sandbox before any production access. | The partner gets credentials and builds against the sandbox. | Going live is an approval, not a checkbox: the partner passes defined checks, and a person at the bank signs off. | Access is provisioned to the bank's existing API gateway. | Usage is reported, fees are charged, and changes go through approval again."
+/>
+
+## What I proposed
+
+- **One approval component.** Partner sign-up, product access, go-live and
+  changes all need approval by someone other than the requester, sometimes in
+  several stages. One shared maker-checker component instead of an approval
+  flow per screen.
+- **Provisioning that survives a failing gateway.** Changes to the gateway go
+  through an outbox with retries, and a nightly job reconciles what the portal
+  thinks is live with what the gateway actually has.
+- **Protect the core.** Calls to the core banking system go through a circuit
+  breaker and a cache, so a slow core doesn't take the portal down.
+- **Scheduled jobs that run once.** A single-run scheduler with idempotent jobs,
+  so a job never runs twice when the portal runs on more than one node.
+
+## What the design review found
+
+The review was about questions the design left open, the ones that turn into
+incidents later:
+
+- The session scope of the one-time-password step-up was not defined.
+- The sandbox topology was not decided.
+- Where fee collection ends and the bank's systems begin was not documented.
+- The non-functional requirements had no numbers.
+- Reports would run against the live database.
+
+Each finding came with a recommendation, so the review could be acted on, not
+just read.
