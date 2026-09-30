@@ -105,6 +105,21 @@ export async function getProgrammeParts(slug: string): Promise<WorkMeta[]> {
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
+/** Case studies that share a practice area with `themes`: those whose main
+ *  theme matches first, then featured ones, then the newest. */
+export async function getWorkInThemes(
+  themes: readonly string[],
+  limit = 2,
+): Promise<WorkMeta[]> {
+  if (themes.length === 0) return [];
+  const score = (w: WorkMeta) =>
+    (themes.includes(w.themes[0]) ? 2 : 0) + (w.featured ? 1 : 0);
+  return (await getAllWork())
+    .filter((w) => w.themes.some((t) => themes.includes(t)))
+    .sort((a, b) => score(b) - score(a))
+    .slice(0, limit);
+}
+
 export async function getWorkSlugs(): Promise<string[]> {
   return (await getAllWork()).map((w) => w.slug);
 }
