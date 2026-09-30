@@ -1,13 +1,13 @@
 ---
-title: "Order management transformation in the telco domain"
-summary: "A legacy B2B ordering stack rebuilt as .NET microservices, one service line at a time, with both systems running side by side and live orders never disrupted."
+title: "Replacing a telco's order management while it keeps taking orders"
+summary: "I lead the teams replacing a legacy B2B ordering system with .NET microservices, one service line at a time, while the old system keeps running."
 sector: "Telco"
 role: "Lead Developer"
 themes: ["legacy-modernization", "architecture-integration"]
 kind: "client"
 period: "2024 — now"
 date: "2026-09-01"
-stack: [".NET", "ASP.NET Core", ".NET Aspire", "Camunda", "Kafka", "PostgreSQL", "Vue 3", "OpenShift", "Conceptwave (legacy)"]
+stack: [".NET", "ASP.NET Core", ".NET Aspire", "Camunda 8", "Kafka", "PostgreSQL", "Vue 3", "OpenShift", "Conceptwave (legacy)"]
 outcomes:
   - { value: "2", label: "teams led, new platform and legacy", countTo: 2 }
   - { value: "10+", label: "engineers", countTo: 10 }
@@ -18,57 +18,60 @@ featured: true
 
 ## Context
 
-A telecom operator runs its B2B ordering on a legacy Conceptwave-based stack.
-The order flow crosses many downstream systems, change windows are regulated,
-and the business can't stop taking orders while the platform underneath it is
-replaced. The move happens one service line at a time, over several years,
-until Conceptwave can be retired.
+A telecom operator takes its business orders on a legacy Conceptwave system.
+An order crosses many downstream systems, change windows are regulated, and
+the business can't stop selling while the platform under it is replaced. So
+the move happens one service line at a time, over several years, until the old
+system can be switched off.
 
-I lead both teams: the transformation team building the new platform, and the
-Conceptwave team that keeps the legacy system running through the transition.
+I lead both teams: the one building the new platform, and the one keeping the
+legacy system running until then.
 
 ## The path of an order
 
-The new platform covers the full order flow, modeled on TM Forum Open APIs and
-integrated with the operator's downstream systems.
+The new platform covers the whole flow, modeled on TM Forum's Open APIs.
 
 <Flow
   title="An order, end to end"
-  steps="Catalog: product offerings | Quote: priced, validated, submitted | Product orders: decomposed from the quote | Process: one Camunda process per order | Service orders: created by the process | Fulfil: downstream callbacks and user tasks"
-  notes="The product catalog defines what can be sold, aligned with TM Forum. | A quote is built from the catalog and validated; submitting it is the commitment to the customer. | The submitted quote is decomposed into product orders, one per product being delivered. | Each product order runs as its own Camunda process, so every order has a state, a history and a trace. | The process creates the service orders that deliver the product and waits for them. | Downstream systems answer asynchronously through callbacks; the steps that need a person become user tasks."
+  steps="Catalog: what can be sold | Quote: priced and validated | Product orders: split from the quote | Process: one per product order | Service orders: created by the process | Fulfil: callbacks and user tasks"
+  notes="The catalog defines offerings, their options and prices, aligned with TM Forum. | A quote is built from the catalog and checked by the business rules. Submitting it is the commitment to the customer. | The quote is split into product orders, one for each product being delivered. | Each product order runs as its own Camunda process, so it has its own state and history. | The process creates the service orders that deliver the product and waits for them. | Downstream systems answer later through callbacks. Steps that need a person become user tasks."
 />
 
+## The platform
 
-## What I built
+<SystemMap
+  title="The new platform and what sits around it"
+  legend="Built by me; the rest by the teams I lead"
+  columns="People: Order entry; *User tasks; Catalog screens; Operations screens | Entry: *API gateway | Services: *Shared foundation; Order management; Product catalog; Business rules; Utility | Engines: *Camunda 8 client; Kafka; PostgreSQL | Around it: Legacy system, synced both ways; Downstream systems, answering by callback"
+/>
 
-**The foundation.** I set up the platform the team builds on: the repository
-and the structure of every service, the implementation templates, the shared
-building blocks for logging, caching, migrations and API clients, the API
-gateway, and the .NET Aspire environment the whole team develops and runs the
-system in.
+## What I built myself
 
-**The modules on top of it.** I contribute across all of them: order
-management (quote, decomposition into product orders, discounts), the order
-entry UI and the task framework its screens run on, the product catalog and
-the utility services.
+- **The foundation.** The repository, the layout every service follows, the
+  shared library for logging, cache invalidation and background jobs, the API
+  gateway, and the .NET Aspire setup that runs the whole system on a laptop
+  with one command.
+- **Logging that doesn't slow requests down.** Logs go to Kafka and are written
+  to the database in batches.
+- **Cache invalidation as an event.** When a service changes cached data, every
+  pod drops its copy.
+- **A thin gateway.** It routes to modules and nothing else. Authentication
+  stayed where it was during the transition, so we didn't have to rebuild
+  security before shipping anything.
+- **The Camunda 8 client layer** the platform uses for processes, messages,
+  user tasks, incidents and deployments.
+- **The user task framework**: one pipeline and one form renderer for hundreds
+  of human steps.
 
-## Decisions
+## How we work
 
-**Build on reusable assets.** Catalog, ordering, workflow and integration
-components are shared, so each new service line builds on the same foundation
-instead of starting over.
-
-**Move in phases, side by side.** Each service line is cut over on its own.
-Both systems run in parallel, and the new platform has to show it behaves like
-the old one before the switch, inside the regulated change window.
-
-**One way of working for both teams.** Implementation templates, code review,
-unit testing and quality standards are the same on the new platform and on the
-legacy side, and I mentor the developers on both teams.
+Both teams follow the same templates, code review, unit testing and quality
+standards, on the new platform and on the legacy side. I review the work and
+mentor the developers on both teams.
 
 ## Outcome
 
-Cut-overs ship on schedule without disrupting live order flows. Each new
-service line starts from the shared assets rather than from scratch, and the
-legacy system stays stable for the business until its last service line moves
-over.
+Each service line moves on its own, with both systems running side by side
+until it does. Cut-overs have shipped on schedule without disrupting live
+orders, and every new service line starts from the same foundation instead of
+from scratch.

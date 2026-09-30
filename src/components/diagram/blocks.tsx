@@ -138,3 +138,83 @@ export function Timeline({ items }: { items: string }) {
     </div>
   );
 }
+
+/** A system at a glance: columns left to right (top to bottom on phones),
+ *  each "Title: item; item; item". Items starting with "*" are highlighted,
+ *  and `legend` says what the highlight means.
+ *  <SystemMap title="The platform" legend="Built by me"
+ *    columns="People: Order entry; Catalog screens | Entry: *Gateway | Services: Orders; Catalog; Rules" /> */
+export function SystemMap({
+  title,
+  columns,
+  legend,
+}: {
+  title?: string;
+  columns: string;
+  legend?: string;
+}) {
+  const cols = split(columns).map((col) => {
+    const [head, ...rest] = col.split(":");
+    const items = rest
+      .join(":")
+      .split(";")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((s) =>
+        s.startsWith("*")
+          ? { label: s.slice(1).trim(), hot: true }
+          : { label: s, hot: false },
+      );
+    return { head: head.trim(), items };
+  });
+  return (
+    <figure className="my-8 rounded-[var(--radius-xl)] border border-border p-4">
+      <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
+        {cols.map((col, i) => (
+          <div key={col.head} className="contents">
+            {i > 0 && (
+              <span
+                aria-hidden
+                className="mono self-center text-caption text-faint sm:px-0.5"
+              >
+                <span className="sm:hidden">↓</span>
+                <span className="hidden sm:inline">→</span>
+              </span>
+            )}
+            <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+              <p className="mono text-caption text-muted-foreground">
+                {col.head}
+              </p>
+              {col.items.map((item) => (
+                <p
+                  key={item.label}
+                  className={`rounded-[var(--radius-md)] border px-2.5 py-1.5 text-ui ${
+                    item.hot
+                      ? "border-brand-accent bg-brand-accent-soft text-foreground"
+                      : "border-border text-muted-foreground"
+                  }`}
+                >
+                  {item.label}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      {(title || legend) && (
+        <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-2 text-caption text-muted-foreground">
+          <span>{title}</span>
+          {legend && (
+            <span className="inline-flex items-center gap-1.5">
+              <span
+                aria-hidden
+                className="size-2.5 rounded-sm border border-brand-accent bg-brand-accent-soft"
+              />
+              {legend}
+            </span>
+          )}
+        </figcaption>
+      )}
+    </figure>
+  );
+}

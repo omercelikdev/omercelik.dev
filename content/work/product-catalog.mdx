@@ -1,0 +1,57 @@
+---
+title: "A product catalog on TM Forum's model"
+summary: "What can be sold, how it is priced and when it goes on sale is defined in one catalog aligned with TM Forum, with a lifecycle from design to retirement."
+sector: "Telco"
+role: "Lead Developer"
+themes: ["domain-modeling-rules", "architecture-integration"]
+kind: "client"
+programme: "telco-service-orchestration"
+period: "2025 — now"
+date: "2025-09-01"
+stack: [".NET", "ASP.NET Core", "EF Core", "PostgreSQL", "Vue 3"]
+---
+
+## Context
+
+Every quote starts from the catalog. It decides what can be sold, with which
+options, at what price and under which terms. In telecom it is also the part
+that changes most often: new speeds, new bundles, new discounts. If those live
+in code, every commercial change waits for a release.
+
+## How it is modeled
+
+We followed TM Forum's product and service catalog model (TMF620, TMF633,
+TMF634), so the catalog speaks the same language as the rest of the industry.
+
+<LayerStack title="From what is sold to what delivers it">
+  <Layer label="Offering" detail="what is sold" note="Bundles, validity dates, versions, sales channels." />
+  <Layer label="Product" detail="what it is" note="Characteristics, their allowed values and how they depend on each other." />
+  <Layer label="Service & resource" detail="what delivers it" note="The services and resources behind the product." />
+  <Layer label="Price" detail="what it costs" note="Prices, taxes, tiered discounts, penalties and contract terms." />
+</LayerStack>
+
+Nothing goes on sale half-finished. Every catalog item moves through the same
+lifecycle, and the allowed moves between states are kept in one map. Changing
+the flow means changing that map, not the services that use it.
+
+<Flow
+  title="The lifecycle of a catalog item"
+  steps="In study | In design | In test | Launched | Active | Retired | Obsolete"
+  notes="Where an idea starts. | The item is defined. It can go back to study. | Checked before release. A failed test sends it back to design. | Released. It can still go back to test. | Live. | Withdrawn. It can be made live again. | Final. Nothing moves out of it."
+/>
+
+## What it gives the business
+
+- Options, prices, discounts and validity dates are data, maintained from the
+  catalog screens.
+- The lifecycle keeps unfinished items from going live.
+- The TM Forum model makes the catalog easier to connect to other systems,
+  because the terms are shared.
+
+A new kind of product can still need new logic when the order is split into
+its parts. The catalog covers what changes most often, and that is where the
+time was going.
+
+## My part
+
+I led the team that built it and contributed to the catalog module.

@@ -1,6 +1,6 @@
 ---
 title: "One engineer, every layer, three months to production"
-summary: "An internal training platform built AI-natively: backend, frontend, database, DevOps and operations owned by one engineer, delivered in a governed cycle."
+summary: "An internal training platform I built alone with AI: backend, frontend, database, DevOps and operations, live in three months and running without trouble since."
 sector: "Corporate learning"
 role: "Founder & engineering lead"
 themes: ["delivery-operations", "quality-test-strategy"]
@@ -18,56 +18,74 @@ featured: true
 
 ## Context
 
-An organization needed one place for its training: a programme catalogue,
-sessions, requests, approvals, attendance and certificates, replacing an older
-system whose data was migrated in. A product owner shaped the requirements and
-the screen mockups. Every engineering role was mine.
+The organization needed one place for its training: a programme catalogue,
+sessions, requests, a two-step approval, attendance and certificates, replacing
+an older system whose data we migrated. A product owner shaped the requirements
+and the screen mockups. All the engineering was mine.
 
 <Compare
   beforeTitle="What this usually takes"
   before="Backend developer | Frontend developer | Database administrator | DevOps engineer | Someone to run it after go-live"
-  afterTitle="How it was delivered"
-  after="One engineer owning every layer | A product owner for requirements and mockups | A governed cycle where AI writes and the cycle decides what is done"
+  afterTitle="What it took"
+  after="Me, with AI doing most of the typing | A product owner for requirements and mockups | Written rules that every change has to pass"
 />
 
-## The system
-
-- **Application:** .NET 10 Clean Architecture with CQRS on PostgreSQL, a
-  separate worker for scheduled jobs, and a Next.js front end behind a BFF, so
-  tokens never reach the browser.
-- **Integration:** single sign-on with Entra ID, user sync from the HR system,
-  an email queue with retries.
-- **Delivery:** a self-hosted GitLab with its own runner, CI/CD to separate
-  development, test and production environments, tagged releases with
-  generated notes.
-- **Operations:** structured logs kept in the database and archived on a
-  schedule; tiered backups with a stated recovery point and restores that are
-  rehearsed; a daily read-only health check of production.
-- **Rules:** every domain rule written as a numbered invariant, each tied to a
-  test, with the reasoning recorded as a decision record.
-
-## How a task moves
-
-Speed came from the cycle, not from skipping steps. Every change passes the
-same gates, with a review between each.
-
-<Flow
-  title="One task, end to end"
-  steps="Issue: read from the tracker | Decide: approach and trade-off | Red: a failing test first | Docs: updated with the code | Green: built until suites pass | Edges: integration tests, real database | Browser: E2E in a real browser | Ship: MR with evidence"
-  notes="The agent reads the issue from the tracker through MCP, so the work starts from the ticket itself. | A bug starts by proving the cause; a feature starts by agreeing the approach before any code. | The failing test is the bug or the acceptance criterion, written as code. A test that passes without the change is rewritten. | Domain docs, the feature map and decision records change in the same commit, so documentation never drifts from the code. | The change is built until unit, integration and end-to-end suites are green. | Integration tests run against a real PostgreSQL in a container and cover the edge cases, not only the happy path. | Because the rules are written down, the agent can drive the feature in a browser with Playwright and check it against them. | The merge request carries the proof, then moves through development, test and production."
+<SystemMap
+  title="What I built and run"
+  columns="People: Employees; Coaches; Managers; Admins | Front end: Next.js app; BFF, tokens stay on the server | Back end: .NET API; Worker with scheduled jobs | Data: PostgreSQL; Logs and audit in the database | Around it: Entra ID sign-in; HR user sync; Email queue"
 />
 
-<Timeline items="Month 1: Foundation, single sign-on, CI/CD, first environments | Month 2: Domain modules, approval chain, notifications | Month 3: Load and security testing, migration, go-live | Since: in daily use, changes limited to fixes and polish" />
+## Who does what
 
-## Proof before go-live
+AI writes most of the code. It doesn't decide what the code should do, and it
+doesn't decide when a change is done.
 
-Load- and stress-tested up to 300 concurrent users with no server errors and a
-95th percentile under 400 ms. Scanned with SonarQube, OWASP ZAP and a
-dependency audit.
+| Step | The agent | Me | Checked by |
+|---|---|---|---|
+| Start | Reads the issue, the logs and the data, and writes down the cause | I agree with the cause, or with the approach for a feature | |
+| Test | Writes a test that fails without the change | I check it tests the right thing | The test must fail before the fix |
+| Build | Writes the code and updates the docs in the same commit | I review the change | Unit and integration tests on a real PostgreSQL |
+| Verify | Drives the feature in a browser with Playwright | I compare it with the rules | End-to-end tests |
+| Ship | Opens a merge request with the evidence | I review and merge | CI, then development, test and production |
+
+## How the repository keeps it honest
+
+- **A start file for any agent or new developer.** It says what not to break
+  and in which order to read: the business rules, a generated map from each
+  feature to its code and docs, the delivery cycle, the decision records, and
+  only then the code.
+- **Numbered rules.** The core business rules are written as invariants, such
+  as "the waitlist is filled by an admin, never by the system". Each has a
+  test, and a rule and its test can only change together.
+- **The cycle is checked in.** A skill in the repository walks every change
+  through the same steps. It has no rules of its own; it only enforces the
+  order. A step counts only when it was actually run.
+- **Production is read-only.** The agent can read logs and query data. It
+  can't write anything.
+
+When a waitlist bug reached production, the fix went through the same steps
+and left three things behind: a decision record, a numbered rule and a test.
+That bug can't come back without a test failing first.
+
+## Running it
+
+- A self-hosted GitLab with its own runner, and CI/CD to separate development,
+  test and production environments.
+- Tagged releases with generated release notes.
+- Structured logs in the database, archived on a schedule.
+- Backups in tiers with a stated recovery point, and a weekly restore of
+  production data into development, so restores are practised, not assumed.
+- A daily read-only health check of production.
+
+<Timeline items="January: The base: sign-in, BFF, HR user sync, CI/CD | February: Training flows, calendar, the domain model written down | March: Domain clean-up and the test suites | April: Four languages, the remaining features, security and performance testing, go-live" />
+
+## Before go-live
+
+Load- and stress-tested up to 300 concurrent users: no server errors, 95th
+percentile under 400 ms. Scanned with SonarQube, OWASP ZAP and a dependency
+audit.
 
 ## Outcome
 
-In production since the third month and used by around 400 people, with
-nothing since go-live beyond bug fixes and cosmetic changes. More than 2,000
-automated tests guard it, and when something does go wrong it ends as a rule, a
-test and a decision record.
+Live since the third month and used by around 400 people. Since go-live the
+changes have been bug fixes and cosmetic polish, nothing more.

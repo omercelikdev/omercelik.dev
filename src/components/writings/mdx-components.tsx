@@ -3,7 +3,12 @@ import type { MDXComponents } from "mdx/types";
 import { CopyButton } from "./copy-button";
 import { Callout, Figure, Layer, LayerStack, PullQuote } from "./mdx-blocks";
 import { Flow } from "@/components/diagram/flow";
-import { Compare, Matrix, Timeline } from "@/components/diagram/blocks";
+import {
+  Compare,
+  Matrix,
+  Timeline,
+  SystemMap,
+} from "@/components/diagram/blocks";
 import { Demo } from "@/components/labs/demo";
 
 /** Styled elements for rendered MDX articles. Code blocks are highlighted by
@@ -98,5 +103,6 @@ export const mdxComponents: MDXComponents = {
   Compare,
   Matrix,
   Timeline,
+  SystemMap,
   Demo,
 };
