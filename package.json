@@ -38,16 +38,16 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/mdx": "^2.0.14",
-    "@types/node": "^24.13.4",
+    "@types/node": "^24.19.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^16.3.5",
-    "prettier": "^3.9.6",
+    "eslint-config-next": "^16.3.7",
+    "prettier": "^3.9.9",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^5.0.0",
-    "wrangler": "^4.131.1"
+    "vitest": "^5.0.2",
+    "wrangler": "^4.143.1"
   },
   "engines": {
     "node": ">=22.12"
